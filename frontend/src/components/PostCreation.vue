@@ -8,11 +8,11 @@
                     <label for="title">Titre du Post</label>
                     <input id="title" type="text" class="form-control" v-model="formData.titre" />
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label for="txt">Votre texte</label>
-                    <textarea id="txt" type="text" class="form-control" v-model="formData.texte" />
+                    <textarea id="txt" type="text" class="form-control" v-model="formData.texte" placeholder="Que souhaitez-vous partager aujourd'hui ?"></textarea>
                 </div>
-                <button>Publier</button>
+                <button class="btn btn-primary my-3">Publier</button>
             </form>
         </div>
     </div>      

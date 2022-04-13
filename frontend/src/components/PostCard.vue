@@ -1,6 +1,7 @@
 <template>
     <div class="container mt-5">
         <h2>Une carte "Post"</h2>
+        
         <div class="card" style="width: 18rem;">
             <img src="" class="card-img-top" alt="">
             <div class="card-body">
@@ -12,6 +13,7 @@
                 <a href="#" class="card-link">N commentaires</a>
             </div>
         </div>
+        
     </div>  
 </template>
 
