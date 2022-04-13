@@ -1,4 +1,5 @@
 const http = require("http");
+const app = require("./app");
 
 
 // Function that returns a valid port, whether supplied as a number or as a string.
@@ -14,6 +15,9 @@ const normalizePort = val => {
 };
 
 const port = normalizePort(process.env.PORT || "3000");
+
+// App listening port configuration
+app.set('port', port);
 
 
 // Function that looks for different errors and handles them appropriatly. It is then saved in the server.
@@ -39,9 +43,7 @@ const errorHandler = error => {
 
 
 // Creation of the server with the native HTTP package of Node
-const server = http.createServer((req, res) => {
-    res.end('Suite à votre requête, voici la réponse du serveur !');
-});
+const server = http.createServer(app);
 
 // An event listener is registered on the server, logging in the console the port or named pipe on which the server is running.
 server.on("error", errorHandler);
