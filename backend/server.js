@@ -1,5 +1,6 @@
 const http = require("http");
 const app = require("./app");
+const logger = require("./src/utils/logger");
 
 
 // Function that returns a valid port, whether supplied as a number or as a string.
@@ -54,4 +55,6 @@ server.on("listening", () => {
 });
 
 // Server listening port configuration
-server.listen(port);
+server.listen(port, () => {
+  logger.info(`Server is running on port ${port}`)
+});
