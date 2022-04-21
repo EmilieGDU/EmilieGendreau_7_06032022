@@ -1,6 +1,6 @@
 const http = require("http");
 const app = require("./app");
-const logger = require("./src/utils/logger");
+const logger = require("./src/utils/logger"); // Winston = logging library for Node.js
 
 
 // Function that returns a valid port, whether supplied as a number or as a string.

@@ -1,5 +1,5 @@
-const morgan = require("morgan"); // HTTP request logger
-const logger = require("../utils/logger");
+const morgan = require("morgan"); // Morgan = HTTP request logger
+const logger = require("../utils/logger"); // Winston = logging library for Node.js
 
 // Override the stream method by telling
 // Morgan to use our custom logger instead of the console.log

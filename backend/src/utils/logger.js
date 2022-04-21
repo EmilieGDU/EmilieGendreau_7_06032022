@@ -36,7 +36,7 @@ const colors = {
 // defined above to the severity levels.
 winston.addColors(colors);
 
-// Chose the aspect of your log customizing the log format.
+// Choose the aspect of your log customizing the log format.
 const format = winston.format.combine(
   // Add the message timestamp with the preferred format
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
@@ -59,7 +59,7 @@ const transports = [
     level: 'error',
   }),
   // Allow to print all the error message inside the all.log file
-  // (also the error log that are also printed inside the error.log(
+  // (also the error log that are also printed inside the error.log)
   new winston.transports.File({ filename: 'logs/all.log' })
 ];
 
