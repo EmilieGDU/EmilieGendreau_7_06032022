@@ -3,17 +3,18 @@ const helmet = require("helmet");
 const morganMiddleware = require("./src/middlewares/morgan.middleware");
 const logger = require("./src/utils/logger"); // Winston = logging library for Node.js. 
 
-// Creation of the Express app
+// Creation of the Express application
 const app = express();
 
-// #########################
-// Securing the Express app
-// #########################
+// #########################################################
+//             Securing the Express application
+//  General middlewares applying to all routes (use method)
+// #########################################################
 
 // Setting security-related HTTP headers to protect the app from some web vulnerabilities
 app.use(helmet());
 
-// CORS error prevention (use method to apply to all routes)
+// CORS error prevention
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization");
@@ -21,9 +22,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// ######################
-// Adding logging system
-// ######################
+// #########################################################
+//                 Adding logging system
+// #########################################################
 
 // Add of the Morgan middleware
 app.use(morganMiddleware);
@@ -37,5 +38,13 @@ app.use((req, res) => {
         message: "The API is up and running."
     });
 });
+
+// #########################################################
+//                Configuring the application
+// #########################################################
+
+// Allowing access to the body of the request contained in req.body (when content-type = application/json)
+app.use(express.json());
+
 
 module.exports = app;
