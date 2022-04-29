@@ -1,10 +1,19 @@
 const express = require("express");
-const helmet = require("helmet");
 const morganMiddleware = require("./src/middlewares/morgan.middleware");
-const logger = require("./src/utils/logger"); // Winston = logging library for Node.js. 
+const logger = require("./src/utils/logger"); // Winston = logging library for Node.js.
+const helmet = require("helmet");
+const sequelize = require("./config/db.config");
 
 // Creation of the Express application
 const app = express();
+
+// #########################################################
+//      Connecting to the database with ORM Sequelize
+// #########################################################
+
+sequelize.authenticate()
+    .then(() => console.log("La connexion à MySQL est établie."))
+    .catch((error) => console.log(`La connexion à MySQL a échoué => ${error}`));
 
 // #########################################################
 //             Securing the Express application
