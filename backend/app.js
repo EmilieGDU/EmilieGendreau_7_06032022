@@ -8,7 +8,7 @@ const sequelize = require("./config/db.config");
 const app = express();
 
 // #########################################################
-//      Connecting to the database with ORM Sequelize
+//         Testing the connection to the database
 // #########################################################
 
 sequelize.authenticate()
