@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize"); // Import the built-in data types
 const sequelize = require("../config/db.config");
-const User = require("./user");
+const User = require("./User");
 
 const Post = sequelize.define(
     "Post", 
@@ -12,13 +12,13 @@ const Post = sequelize.define(
             autoIncrement: true
         },
         // Creation of the foreign key
-        user_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: User, // This is a reference to another model
-                key: "id"  // This is the column name of the referenced model 
-            }
-        },
+        // user_id: {
+        //     type: DataTypes.INTEGER,
+        //     references: {
+        //         model: User, // This is a reference to another model
+        //         key: "id"  // This is the column name of the referenced model 
+        //     }
+        // },
         // Customization of timestamp data
         createdAt: {
             type: "TIMESTAMP",
