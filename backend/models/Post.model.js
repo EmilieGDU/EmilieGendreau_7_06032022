@@ -1,19 +1,17 @@
 const { DataTypes } = require("sequelize"); // Import the built-in data types
 const sequelize = require("../config/db.config");
-const Post = require("./Post");
-const User = require("./User");
+// const User = require("./User.model");
 
-const Like = sequelize.define(
-    "Like", 
+const Post = sequelize.define(
+    "Post", 
     {
-        // Creation of the foreign keys
-        // post_id: {
-        //     type: DataTypes.INTEGER,
-        //     references: {
-        //         model: Post, // This is a reference to another model
-        //         key: "id"  // This is the column name of the referenced model 
-        //     }
-        // },
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        // Creation of the foreign key
         // user_id: {
         //     type: DataTypes.INTEGER,
         //     references: {
@@ -32,7 +30,20 @@ const Like = sequelize.define(
             type: "TIMESTAMP",
             defaultValue: sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
             allowNull: false
-        }, 
+        },
+        title: {
+            type: DataTypes.STRING(255)
+        },
+        body: {
+            type: DataTypes.TEXT
+        },
+        attachment: {
+            type: DataTypes.STRING(255)
+        },
+        likes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        }
     },
     // By default, Sequelize automatically adds the fields createdAt and updatedAt to every model.
     // Below, this behavior is disabled for the model with the "timestamps: false" option 
@@ -42,4 +53,4 @@ const Like = sequelize.define(
     }
 );
 
-module.exports = Like;
+module.exports = Post;

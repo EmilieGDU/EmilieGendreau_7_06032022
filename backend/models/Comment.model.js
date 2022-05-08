@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize"); // Import the built-in data types
 const sequelize = require("../config/db.config");
-const Post = require("./Post");
-const User = require("./User");
+// const Post = require("./Post.model");
+// const User = require("./User.model");
 
 const Comment = sequelize.define(
     "Comment", 

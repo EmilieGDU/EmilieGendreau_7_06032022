@@ -1,8 +1,4 @@
 const Sequelize = require("sequelize");
-const dotenv = require("dotenv");
-
-// Loading environment variables (from .env file into process.env)
-dotenv.config();
 
 // Connecting to the database with ORM Sequelize
 const sequelize = new Sequelize(
