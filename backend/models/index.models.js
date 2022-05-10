@@ -1,13 +1,18 @@
 const { DataTypes } = require("sequelize"); // Import the built-in data types
 const sequelize = require("../config/db.config");
 
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") }); // Loading environment variables (from .env file into process.env)
+
 const User = require("./User.model");
 const Post = require("./Post.model");
 const Comment = require("./Comment.model");
 const Like = require("./Like.model");
+const { ServerResponse } = require("http");
+
 
 // #########################################################
-//           Creating and visualizing the database
+//                  Creating the database
 // #########################################################
 
 const db = {
@@ -20,7 +25,7 @@ const db = {
 };
 
 // #########################################################
-//           Creating the Sequelize associations
+//            Adding the Sequelize associations
 // #########################################################
 
 // ONE-TO-MANY RELATIONSHIPS
@@ -50,4 +55,33 @@ db.comment.belongsTo(db.post);
 db.user.belongsToMany(db.post, { through: db.like });
 db.post.belongsToMany(db.user, { through: db.like });
 
-module.exports = db;
+// #########################################################
+//     Synchronizing all models at once in the database
+// #########################################################
+
+// !!! Beware !!!
+// .sync({force: true}) can be destructive operation.
+// Therefore, it is not recommended for production-level software.
+// Instead, synchronization should be done with advanced concept of Migrations, with the help of the Sequelize CLI.
+
+const initDb = () => {
+return db.sequelize.sync({force: true})
+    //.then((result) => console.log(result))
+    .then(() => {
+        console.log("La base de données a été synchronisée.");
+        
+        db.user.create({
+            lastName: process.env.DB_ADMIN_NAME,
+            email: process.env.DB_ADMIN_EMAIL,
+            password: process.env.DB_ADMIN_PASSWORD,
+            about: process.env.DB_ADMIN_ABOUT,
+            imageUrl: process.env.DB_ADMIN_AVATAR_URL,
+            isAdmin: Boolean(process.env.DB_ADMIN_STATUS)
+        })
+        .then((superAdmin) => console.log(superAdmin.toJSON()))
+        .catch((error) => console.log(`Erreur lors de la création du Super Admin => ${error}`));
+    })
+    .catch((error) => console.log(`La synchronisation de la base de données a échoué => ${error}`));
+};
+
+module.exports = {db, initDb};

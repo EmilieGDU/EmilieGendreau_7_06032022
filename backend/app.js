@@ -3,30 +3,24 @@ const morganMiddleware = require("./src/middlewares/morgan.middleware");
 const logger = require("./src/utils/logger"); // Winston = logging library for Node.js.
 const helmet = require("helmet");
 const path = require("path");
-require('dotenv').config({ path: path.join(__dirname, '.env') }); // Loading environment variables (from .env file into process.env)
+
+require("dotenv").config({ path: path.join(__dirname, ".env") }); // Loading environment variables (from .env file into process.env)
 const db = require("./models/index.models");
 
 
 // #########################################################
-//           Creation of the Express application
+//            Creating the Express application
 // #########################################################
 
 const app = express();
 
 
 // #########################################################
-//     Synchronizing all models at once in the database
+//                Initializing the database
 // #########################################################
 
-// !!! Beware !!!
-// .sync({force: true}) can be destructive operation.
-// Therefore, it is not recommended for production-level software.
-// Instead, synchronization should be done with advanced concept of Migrations, with the help of the Sequelize CLI.
+db.initDb();
 
-db.sequelize.sync({force: true})
-    //.then((result) => console.log(result))
-    .then(() => console.log("La base de données a été synchronisée."))
-    .catch((error) => console.log(`La synchronisation de la base de données a échoué => ${error}`));
 
 // #########################################################
 //             Securing the Express application
@@ -43,6 +37,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
     next();
 });
+
 
 // #########################################################
 //                 Adding logging system
@@ -61,12 +56,18 @@ app.use((req, res) => {
     });
 });
 
+
 // #########################################################
 //                Configuring the application
 // #########################################################
 
 // Allowing access to the body of the request contained in req.body (when content-type = application/json)
 app.use(express.json());
+
+// Registering the main routes of the application
+// app.use("/api/auth");
+// app.use("/api/posts");
+// app.use("/api/comments");
 
 
 module.exports = app;
