@@ -17,6 +17,7 @@ Rename the *.env-deploy* file to *.env*.
 Then :
 - open the *.env* file,
 - enter your MySQL connection credentials,
+- set the informations about your MySQL Super Admin account,
 - set an encryption key for the token,
 - save and close the file.
 

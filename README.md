@@ -31,7 +31,11 @@ Pour le stockage des données, le client souhaite utiliser une base de données 
 3. Exécuter la commande `npm install` pour installer les dépendances ;
 4. Exécuter la commande `npm run serve` pour lancer le serveur et cliquer sur le lien correspondant à l'emplacement *Local*.  
 #### Côté backend ####
-1. Dans le dossier backend, renommer le fichier *.env-deploy* en *.env*, l'ouvrir et renseigner vos identifiants de connexion à MySQL ainsi que la clé de chiffrement du token ;
+1. Dans le dossier backend :
+   - renommer le fichier *.env-deploy* en *.env* et l'ouvrir,
+   - renseigner vos identifiants de connexion à MySQL,
+   - renseigner vos informations de compte Super Admin (champs EMAIL et PASSWORD au minimum),
+   - renseigner la clé de chiffrement du token ;
 2. Ouvrir un second terminal dans le dossier de travail ;
 3. Se positionner dans le dossier backend avec la commande `cd backend` ;
 4. Exécuter la commande `npm install` pour installer les dépendances ;
