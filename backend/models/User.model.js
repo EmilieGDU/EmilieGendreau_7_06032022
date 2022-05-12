@@ -31,7 +31,7 @@ const User = sequelize.define(
         },
         imageUrl: {
             type: DataTypes.STRING(255),
-            // defaultValue: "../images/default_img.png" --> Image à retailler au préalable
+            defaultValue: "../images/default_img.png"
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,

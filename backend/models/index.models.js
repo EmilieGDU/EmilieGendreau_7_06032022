@@ -8,6 +8,8 @@ const User = require("./User.model");
 const Post = require("./Post.model");
 const Comment = require("./Comment.model");
 const Like = require("./Like.model");
+
+const initialDb = require("./initial.database");
 const { ServerResponse } = require("http");
 
 
@@ -70,6 +72,7 @@ return db.sequelize.sync({force: true})
     .then(() => {
         console.log("La base de données a été synchronisée.");
         
+        // Creating Super Admin
         db.user.create({
             lastName: process.env.DB_ADMIN_NAME,
             email: process.env.DB_ADMIN_EMAIL,
@@ -80,6 +83,46 @@ return db.sequelize.sync({force: true})
         })
         .then((superAdmin) => console.log(superAdmin.toJSON()))
         .catch((error) => console.log(`Erreur lors de la création du Super Admin => ${error}`));
+
+        // Populating tables
+        // USERS
+        initialDb.users.map((user) => {
+            db.user.create({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                password: user.password,
+                about: user.about,
+                imageUrl: user.imageUrl,
+                isAdmin: user.isAdmin
+            })
+            .then((user) => console.log(user.toJSON()))
+            .catch((error) => console.log(`Erreur lors de la création de l'utilisateur => ${error}`));
+        });
+
+        // POSTS
+        initialDb.posts.map((post) => {
+            db.post.create({
+                UserId: post.UserId,
+                title: post.title,
+                body: post.body,
+                attachment: post.attachment,
+                likes: post.likes
+            })
+            .then((post) => console.log(post.toJSON()))
+            .catch((error) => console.log(`Erreur lors de la création du post => ${error}`));
+        });
+
+        //COMMENTS
+        initialDb.comments.map((comment) => {
+            db.comment.create({
+                PostId: comment.PostId,
+                UserId: comment.UserId,
+                comment: comment.comment
+            })
+            .then((comment) => console.log(comment.toJSON()))
+            .catch((error) => console.log(`Erreur lors de la création du commentaire => ${error}`));
+        });
     })
     .catch((error) => console.log(`La synchronisation de la base de données a échoué => ${error}`));
 };
