@@ -10,7 +10,6 @@ const Comment = require("./Comment.model");
 const Like = require("./Like.model");
 
 const initialDb = require("./initial.database");
-const { ServerResponse } = require("http");
 
 
 // #########################################################
@@ -66,65 +65,81 @@ db.post.belongsToMany(db.user, { through: db.like });
 // Therefore, it is not recommended for production-level software.
 // Instead, synchronization should be done with advanced concept of Migrations, with the help of the Sequelize CLI.
 
-const initDb = () => {
-return db.sequelize.sync({force: true})
-    //.then((result) => console.log(result))
-    .then(() => {
-        console.log("La base de données a été synchronisée.");
-        
-        // Creating Super Admin
-        db.user.create({
-            lastName: process.env.DB_ADMIN_NAME,
-            email: process.env.DB_ADMIN_EMAIL,
-            password: process.env.DB_ADMIN_PASSWORD,
-            about: process.env.DB_ADMIN_ABOUT,
-            imageUrl: process.env.DB_ADMIN_AVATAR_URL,
-            isAdmin: Boolean(process.env.DB_ADMIN_STATUS)
-        })
-        .then((superAdmin) => console.log(superAdmin.toJSON()))
-        .catch((error) => console.log(`Erreur lors de la création du Super Admin => ${error}`));
+const initDb = async function() {
+    try {
+        const syncDb = await db.sequelize.sync({force: true});
+        if(syncDb) {
+            console.log("La base de données a été synchronisée.");
+        };
+
+        const superAdminIsExisting = await db.user.findOne({where: {email: process.env.DB_ADMIN_EMAIL}});
+        if(!superAdminIsExisting) {
+            // Creating Super Admin
+            const superAdmin = await db.user.create({
+                lastName: process.env.DB_ADMIN_NAME,
+                email: process.env.DB_ADMIN_EMAIL,
+                password: process.env.DB_ADMIN_PASSWORD,
+                about: process.env.DB_ADMIN_ABOUT,
+                imageUrl: process.env.DB_ADMIN_AVATAR_URL,
+                isAdmin: Boolean(process.env.DB_ADMIN_STATUS)
+            });
+            if(superAdmin) {
+                console.log(superAdmin.toJSON());
+            };
+        };
 
         // Populating tables
         // USERS
-        initialDb.users.map((user) => {
-            db.user.create({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                password: user.password,
-                about: user.about,
-                imageUrl: user.imageUrl,
-                isAdmin: user.isAdmin
-            })
-            .then((user) => console.log(user.toJSON()))
-            .catch((error) => console.log(`Erreur lors de la création de l'utilisateur => ${error}`));
-        });
+        const users = await Promise.all(initialDb.users.map(async function(user) {
+            return db.user.create(user);            
+            // The previous instruction is the same as :
+            // return db.user.create({
+            //     firstName: user.firstName,
+            //     lastName: user.lastName,
+            //     email: user.email,
+            //     password: user.password,
+            //     about: user.about,
+            //     imageUrl: user.imageUrl,
+            //     isAdmin: user.isAdmin
+            // })       
+        }));
+        if(users) {
+            console.log(users);
+        };
 
         // POSTS
-        initialDb.posts.map((post) => {
-            db.post.create({
-                UserId: post.UserId,
-                title: post.title,
-                body: post.body,
-                attachment: post.attachment,
-                likes: post.likes
-            })
-            .then((post) => console.log(post.toJSON()))
-            .catch((error) => console.log(`Erreur lors de la création du post => ${error}`));
-        });
+        const posts = await Promise.all(initialDb.posts.map(async function(post) {
+            return db.post.create(post); 
+            // The previous instruction is the same as :
+            // return db.post.create({
+            //     UserId: post.UserId,
+            //     title: post.title,
+            //     body: post.body,
+            //     attachment: post.attachment,
+            //     likes: post.likes
+            // })
+        }));
+        if(posts) {
+            console.log(posts);
+        };
 
-        //COMMENTS
-        initialDb.comments.map((comment) => {
-            db.comment.create({
-                PostId: comment.PostId,
-                UserId: comment.UserId,
-                comment: comment.comment
-            })
-            .then((comment) => console.log(comment.toJSON()))
-            .catch((error) => console.log(`Erreur lors de la création du commentaire => ${error}`));
-        });
-    })
-    .catch((error) => console.log(`La synchronisation de la base de données a échoué => ${error}`));
+        // COMMENTS
+        const comments = await Promise.all(initialDb.comments.map(async function(comment) {
+            return db.comment.create(comment);
+            // The previous instruction is the same as :
+            // return db.comment.create({
+            //     PostId: comment.PostId,
+            //     UserId: comment.UserId,
+            //     comment: comment.comment
+            // })
+        }));  
+        if(comments) {
+            console.log(comments);
+        };  
+    } 
+    catch(error) {
+        console.log(error.message);
+    };
 };
 
 module.exports = {db, initDb};
