@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize"); // Import the built-in data types
-const sequelize = require("../config/db.config");
+const sequelize = require("../config/db.config"); // Connection to the database
 
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") }); // Loading environment variables (from .env file into process.env)
@@ -104,7 +104,10 @@ const initDb = async function() {
             // })       
         }));
         if(users) {
-            console.log(users);
+            const usersJSON = users.map(function(user) {
+                return user.toJSON();
+            });
+            console.log(usersJSON);
         };
 
         // POSTS
@@ -120,7 +123,10 @@ const initDb = async function() {
             // })
         }));
         if(posts) {
-            console.log(posts);
+            const postsJSON = posts.map(function(post) {
+                return post.toJSON();
+            });
+            console.log(postsJSON);
         };
 
         // COMMENTS
@@ -134,8 +140,11 @@ const initDb = async function() {
             // })
         }));  
         if(comments) {
-            console.log(comments);
-        };  
+            const commentsJSON = comments.map(function(comment) {
+                return comment.toJSON();
+            });
+            console.log(commentsJSON);
+        }; 
     } 
     catch(error) {
         console.log(error.message);
