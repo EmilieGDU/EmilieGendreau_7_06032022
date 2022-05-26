@@ -90,10 +90,10 @@ const initDb = async function() {
 
         // Populating tables
         // USERS
-        const users = await Promise.all(initialDb.users.map(async function(user) {
-            return db.user.create(user);            
+        await Promise.all(initialDb.users.map(async function(user) {
+            const dbUser = await db.user.create(user);
             // The previous instruction is the same as :
-            // return db.user.create({
+            // const dbUser = await db.user.create({
             //     firstName: user.firstName,
             //     lastName: user.lastName,
             //     email: user.email,
@@ -101,50 +101,30 @@ const initDb = async function() {
             //     about: user.about,
             //     imageUrl: user.imageUrl,
             //     isAdmin: user.isAdmin
-            // })       
+            // }); 
+            if(dbUser) {
+                console.log(dbUser.toJSON());
+            };
+            return dbUser;                  
         }));
-        if(users) {
-            const usersJSON = users.map(function(user) {
-                return user.toJSON();
-            });
-            console.log(usersJSON);
-        };
 
         // POSTS
-        const posts = await Promise.all(initialDb.posts.map(async function(post) {
-            return db.post.create(post); 
-            // The previous instruction is the same as :
-            // return db.post.create({
-            //     UserId: post.UserId,
-            //     title: post.title,
-            //     body: post.body,
-            //     attachment: post.attachment,
-            //     likes: post.likes
-            // })
+        await Promise.all(initialDb.posts.map(async function(post) {
+            const dbPost = await db.post.create(post);
+            if(dbPost) {
+                console.log(dbPost.toJSON());
+            };
+            return dbPost;
         }));
-        if(posts) {
-            const postsJSON = posts.map(function(post) {
-                return post.toJSON();
-            });
-            console.log(postsJSON);
-        };
 
         // COMMENTS
-        const comments = await Promise.all(initialDb.comments.map(async function(comment) {
-            return db.comment.create(comment);
-            // The previous instruction is the same as :
-            // return db.comment.create({
-            //     PostId: comment.PostId,
-            //     UserId: comment.UserId,
-            //     comment: comment.comment
-            // })
-        }));  
-        if(comments) {
-            const commentsJSON = comments.map(function(comment) {
-                return comment.toJSON();
-            });
-            console.log(commentsJSON);
-        }; 
+        await Promise.all(initialDb.comments.map(async function(comment) {
+            const dbComment = await db.comment.create(comment);
+            if(dbComment) {
+                console.log(dbComment.toJSON());
+            }
+            return dbComment;
+        }));
     } 
     catch(error) {
         console.log(error.message);

@@ -1,4 +1,12 @@
+# Ignore these
 node_modules
 .env
-/images/*
 /logs/*
+/images/*
+
+# Don't ignore these
+!/images/.gitkeep
+!/images/admin.png
+!/images/break_room.png
+!/images/default_img.png
+!/images/qigong.png
