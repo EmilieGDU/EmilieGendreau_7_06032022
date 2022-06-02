@@ -5,7 +5,10 @@ const helmet = require("helmet");
 const path = require("path");
 
 require("dotenv").config({ path: path.join(__dirname, ".env") }); // Loading environment variables (from .env file into process.env)
+
 const db = require("./models/index.models");
+const Post = require("./models/Post.model");
+const Comment = require("./models/Comment.model");
 
 
 // #########################################################
@@ -48,7 +51,7 @@ app.use(morganMiddleware);
 
 // Use of Winston.
 // The Morgan middleware does not need this. This is for a manual log.
-app.use((req, res) => {
+app.get("/api/status", (req, res) => {
     logger.info("Checking the API status --> everything is OK");
     res.status(200).send({
         status:"UP",
@@ -64,10 +67,59 @@ app.use((req, res) => {
 // Allowing access to the body of the request contained in req.body (when content-type = application/json)
 app.use(express.json());
 
+
 // Registering the main routes of the application
+
 // app.use("/api/auth");
-// app.use("/api/posts");
-// app.use("/api/comments");
+
+// CREATE
+app.post("/api/posts", (req, res, next) => {
+    Post.create(req.body)
+        .then((post) => {
+            const message = `Le post intitulé "${ req.body.title }" a été enregistré.`;
+            res.status(201).json({ message, data: post })
+        })
+        .catch((error) => res.status(400).json({ error }));
+});
+
+app.post("/api/posts/:id/comments", (req, res, next) => {
+    Comment.create(req.body)
+        .then(() => res.status(201).json({ message: "Commentaire enregistré." }))
+        .catch((error) => res.status(400).json({ error }));
+});
+
+// READ
+app.get("/api/posts", (req, res, next) => {
+    Post.findAll()
+        .then((posts) => {
+            const message = "L'ensemble des posts a été récupéré.";
+            res.status(200).json({ message, data: posts })
+        })
+        .catch((error) => res.status(400).json({ error }));
+});
+
+app.get("/api/posts/:id", (req, res, next) => {
+    Post.findByPk(req.params.id)
+        .then((post) => {
+            const message = "Un post a été récupéré.";
+            res.status(200).json({ message, data: post })
+        })
+        .catch((error) => res.status(400).json({ error }));
+});
+
+app.get("/api/posts/:id/comments", (req, res, next) => {
+    Comment.findAll({where: {PostId: req.params.id}})
+        .then((comments) => {
+            const message = "L'ensemble des commentaires a été récupéré.";
+            res.status(200).json({ message, data: comments })
+        })
+        .catch((error) => res.status(400).json({ error }));
+});
+
+// UPDATE
+
+// DELETE
+
 
 
 module.exports = app;

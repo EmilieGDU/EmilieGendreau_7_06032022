@@ -52,7 +52,7 @@ const posts = [
         // id: provided automatically by the database
         UserId: 4,
         title: "Méditation chinoise",
-        body: "L'été dernier, j'ai découvert une technique de méditation chinoise : le Qigong. Idéal pour se ressourcer ! Nous pourrions demander à Bénédicte de réserver une séance d'initiation avec un coach spacialisé. Qui est partant ?",
+        body: "L'été dernier, j'ai découvert une technique de méditation chinoise : le Qigong. Idéal pour se ressourcer ! Nous pourrions demander à Bénédicte de réserver une séance d'initiation avec un coach spécialisé. Qui est partant ?",
         attachment: "../images/qigong.png",
         likes: 0
     },     
