@@ -7,6 +7,7 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") }); // Loading environment variables (from .env file into process.env)
 
 const db = require("./models/index.models");
+const User = require("./models/User.model");
 const Post = require("./models/Post.model");
 const Comment = require("./models/Comment.model");
 
@@ -73,11 +74,20 @@ app.use(express.json());
 // app.use("/api/auth");
 
 // CREATE
+app.post("/api/users", (req, res, next) => {
+    User.create(req.body)
+        .then((user) => {
+            const message = `L'utilisateur '${ req.body.firstName } ${ req.body.lastName }' a été enregistré.`;
+            res.status(201).json({ message, data: user });
+        })
+        .catch((error) => res.status(400).json({ error }));
+});
+
 app.post("/api/posts", (req, res, next) => {
     Post.create(req.body)
         .then((post) => {
-            const message = `Le post intitulé "${ req.body.title }" a été enregistré.`;
-            res.status(201).json({ message, data: post })
+            const message = `Le post intitulé '${ req.body.title }' a été enregistré.`;
+            res.status(201).json({ message, data: post });
         })
         .catch((error) => res.status(400).json({ error }));
 });
@@ -93,7 +103,7 @@ app.get("/api/posts", (req, res, next) => {
     Post.findAll()
         .then((posts) => {
             const message = "L'ensemble des posts a été récupéré.";
-            res.status(200).json({ message, data: posts })
+            res.status(200).json({ message, data: posts });
         })
         .catch((error) => res.status(400).json({ error }));
 });
@@ -101,17 +111,27 @@ app.get("/api/posts", (req, res, next) => {
 app.get("/api/posts/:id", (req, res, next) => {
     Post.findByPk(req.params.id)
         .then((post) => {
-            const message = "Un post a été récupéré.";
-            res.status(200).json({ message, data: post })
+            if (post === null) {
+                const message = "Post non trouvé.";
+                res.status(400).json({ message });
+            } else {
+                const message = "Un post a été récupéré.";
+                res.status(200).json({ message, data: post });
+            };
         })
         .catch((error) => res.status(400).json({ error }));
 });
 
 app.get("/api/posts/:id/comments", (req, res, next) => {
-    Comment.findAll({where: {PostId: req.params.id}})
+    Comment.findAll({ where: { PostId: req.params.id} })
         .then((comments) => {
-            const message = "L'ensemble des commentaires a été récupéré.";
-            res.status(200).json({ message, data: comments })
+            if (comments.length === 0) {
+                const message = "Post non trouvé.";
+                res.status(400).json({ message });
+            } else {
+                const message = "L'ensemble des commentaires a été récupéré.";
+                res.status(200).json({ message, data: comments });
+            }
         })
         .catch((error) => res.status(400).json({ error }));
 });

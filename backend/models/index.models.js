@@ -67,12 +67,12 @@ db.post.belongsToMany(db.user, { through: db.like });
 
 const initDb = async function() {
     try {
-        const syncDb = await db.sequelize.sync({force: true});
+        const syncDb = await db.sequelize.sync({ force: true });
         if(syncDb) {
             console.log("La base de données a été synchronisée.");
         };
 
-        const superAdminIsExisting = await db.user.findOne({where: {email: process.env.DB_ADMIN_EMAIL}});
+        const superAdminIsExisting = await db.user.findOne({ where: {email: process.env.DB_ADMIN_EMAIL} });
         if(!superAdminIsExisting) {
             // Creating Super Admin
             const superAdmin = await db.user.create({
