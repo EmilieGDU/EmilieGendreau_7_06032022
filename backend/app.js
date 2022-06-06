@@ -65,15 +65,15 @@ app.get("/api/status", (req, res) => {
 //                Configuring the application
 // #########################################################
 
-// Allowing access to the body of the request contained in req.body (when content-type = application/json)
+// Parsing requests of content-type = application/json
+// Allowing access to the body of the request contained in req.body
 app.use(express.json());
 
 
 // Registering the main routes of the application
 
-// app.use("/api/auth");
-
 // CREATE
+
 app.post("/api/users", (req, res, next) => {
     User.create(req.body)
     .then((user) => {
@@ -93,12 +93,50 @@ app.post("/api/posts", (req, res, next) => {
 });
 
 app.post("/api/posts/:id/comments", (req, res, next) => {
-    Comment.create(req.body)
-    .then(() => res.status(201).json({ message: "Commentaire enregistré." }))
+    Post.findByPk(req.params.id)
+    .then((post) => {
+        if (post === null) {
+            const message = "Post non trouvé.";
+            res.status(404).json({ message });
+        } 
+        else {
+            Comment.create(req.body)
+            .then((comment) => {
+                const message = "Commentaire enregistré.";
+                res.status(201).json({ message, data: comment })
+            })
+            .catch((error) => res.status(400).json({ error }));
+        };
+    })
     .catch((error) => res.status(400).json({ error }));
 });
 
 // READ
+
+app.get("/api/users", (req, res, next) => {
+    User.findAll()
+    .then((users) => {
+        const message = "L'ensemble des utilisateurs a été récupéré.";
+        res.status(200).json({ message, data: users });
+    })
+    .catch((error) => res.status(404).json({ error }));
+});
+
+app.get("/api/users/:id", (req, res, next) => {
+    User.findByPk(req.params.id)
+    .then((user) => {
+        if (user === null) {
+            const message = "Utilisateur non trouvé.";
+            res.status(404).json({ message });
+        } 
+        else {
+            const message = "Un utilisateur a été récupéré.";
+            res.status(200).json({ message, data: user });
+        };
+    })
+    .catch((error) => res.status(404).json({ error }));
+});
+
 app.get("/api/posts", (req, res, next) => {
     Post.findAll()
     .then((posts) => {
@@ -140,7 +178,7 @@ app.get("/api/posts/:id/comments", (req, res, next) => {
 
 // UPDATE
 
-app.put("/api/users/:id", (req,res, next) => {
+app.put("/api/users/:id", (req, res, next) => {
     const userId = req.params.id;
     User.findByPk(userId)
     .then((user) => {
@@ -163,7 +201,7 @@ app.put("/api/users/:id", (req,res, next) => {
     .catch((error) => res.status(400).json({ error }));
 });
 
-app.put("/api/posts/:id", (req,res, next) => {
+app.put("/api/posts/:id", (req, res, next) => {
     const postId = req.params.id;
     Post.findByPk(postId)
     .then((post) => {
@@ -186,22 +224,114 @@ app.put("/api/posts/:id", (req,res, next) => {
     .catch((error) => res.status(400).json({ error }));
 });
 
-app.put("/api/posts/:id/comments/:id", (req,res, next) => {
-
+app.put("/api/posts/:postId/comments/:commentId", (req, res, next) => {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+    Post.findByPk(postId)
+    .then((post) => {
+        if (post === null) {
+            const message = "Post non trouvé.";
+            res.status(404).json({ message });
+        }
+        else {
+            Comment.findByPk(commentId)
+            .then((comment) => {
+                if (comment === null) {
+                    const message = "Commentaire non trouvé.";
+                    res.status(404).json({ message });
+                }
+                else {
+                    Comment.update(req.body, { where: {id: commentId} })
+                    .then(() => {
+                        Comment.findByPk(commentId)
+                        .then((updatedComment) => {
+                            const message = "Le commentaire a été modifié.";
+                            res.status(200).json({ message, data: updatedComment });
+                        })
+                    })
+                    .catch((error) => res.status(400).json({ error }));
+                };
+            })
+            .catch((error) => res.status(400).json({ error }));
+        };
+    })
+    .catch((error) => res.status(400).json({ error }));
 });
 
 // DELETE
 
-app.delete("/api/users/:id", (req,res, next) => {
-
+app.delete("/api/users/:id", (req, res, next) => {
+    const userId = req.params.id;
+    User.findByPk(userId)
+    .then((user) => {
+        if (user === null) {
+            const message = "Utilisateur non trouvé.";
+            res.status(404).json({ message });
+        } 
+        else {
+            const deletedUser = user;
+            User.destroy({ where: {id: userId} })
+            .then(() => {
+                const message = `L'utilisateur avec l'identifiant '${ deletedUser.id }' a été supprimé.`;
+                res.status(200).json({ message, deletedData: deletedUser });
+            })
+            .catch((error) => res.status(400).json({ error })); 
+        };
+    })
+    .catch((error) => res.status(400).json({ error }));
 });
 
-app.delete("/api/posts/:id", (req,res, next) => {
-
+app.delete("/api/posts/:id", (req, res, next) => {
+    const postId = req.params.id;
+    Post.findByPk(postId)
+    .then((post) => {
+        if (post === null) {
+            const message = "Post non trouvé.";
+            res.status(404).json({ message });
+        } 
+        else {
+            const deletedPost = post;
+            Post.destroy({ where: {id: postId} })
+            .then(() => {
+                const message = `Le post avec l'identifiant '${ deletedPost.id }' a été supprimé.`;
+                res.status(200).json({ message, deletedData: deletedPost });
+            })
+            .catch((error) => res.status(400).json({ error })); 
+        };
+    })
+    .catch((error) => res.status(400).json({ error }));
 });
 
-app.delete("/api/comments/:id", (req,res, next) => {
-
+app.delete("/api/posts/:postId/comments/:commentId", (req, res, next) => {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+    Post.findByPk(postId)
+    .then((post) => {
+        if (post === null) {
+            const message = "Post non trouvé.";
+            res.status(404).json({ message });
+        }
+        else {
+            Comment.findByPk(commentId)
+            .then((comment) => {
+                if (comment === null) {
+                    const message = "Commentaire non trouvé.";
+                    res.status(404).json({ message });
+                }
+                else {
+                    const deletedComment = comment;
+                    Comment.destroy({ where: {id: commentId} })
+                    .then(() => {
+                        const message = `Le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
+                        res.status(200).json({ message, deletedData: deletedComment });
+                    })
+                    .catch((error) => res.status(400).json({ error }));
+                };
+            })
+            .catch((error) => res.status(400).json({ error }));
+        };
+    })
+    .catch((error) => res.status(400).json({ error }));
 });
 
 
