@@ -20,14 +20,14 @@ const postsCtrl = require("../controllers/posts");
 // router.get("/api/posts", auth, postCtrl.getAllPosts);
 // router.get("/api/posts/:id", auth, postCtrl.getOnePost);
 
-// Routes related to posts management
+// Routes related to posts management (main segment = "/api/posts")
 router.post("/", postsCtrl.createPost);
 router.get("/", postsCtrl.getAllPosts);
 router.get("/:id", postsCtrl.getOnePost);
 router.put("/:id", postsCtrl.modifyPost);
 router.delete("/:id", postsCtrl.deletePost);
 
-// Routes related to comments management
+// Routes related to comments management (main segment = "/api/posts")
 router.post("/:postId/comments", postsCtrl.createComment);
 router.get("/:postId/comments", postsCtrl.getAllComments);
 router.put("/:postId/comments/:commentId", postsCtrl.modifyComment);

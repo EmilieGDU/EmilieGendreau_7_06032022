@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
 
@@ -7,6 +9,28 @@ const User = require("../models/User.model");
 // #################################################################
 
 // C like CREATE
+exports.signup = (req, res, next) => {
+    bcrypt.hash(req.body.password, 10)
+    .then((hash) => {
+        User.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: hash
+        })
+        .then((user) => {
+            const message = `Le nouvel utilisateur '${ user.firstName } ${ user.lastName }' a été créé.`;
+            res.status(201).json({ message, data: user });
+        })
+        .catch((error) => res.status(400).json({ error }));
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
+
+exports.login = (req, res, next) => {
+
+};
+
 exports.createUser = (req, res, next) => {
     User.create(req.body)
     .then((user) => {

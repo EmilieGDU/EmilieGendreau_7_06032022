@@ -100,6 +100,8 @@ exports.deletePost = (req, res, next) => {
 // C like CREATE
 exports.createComment = (req, res, next) => {
     // console.log(`ReqParamspostId : ${typeof(req.params.postId)} || ReqBodypostId : ${typeof(req.body.PostId)}`);
+    // console.log(req.params.postId);
+    // console.log(req.body.PostId);
     Post.findByPk(req.params.postId)
     .then((post) => {
         if (post === null) {
