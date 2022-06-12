@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize"); // Import the built-in data types
 const sequelize = require("../config/db.config"); // Connection to the database
+const bcrypt = require("bcrypt");
 
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") }); // Loading environment variables (from .env file into process.env)
@@ -75,10 +76,11 @@ const initDb = async function() {
         const superAdminIsExisting = await db.user.findOne({ where: {email: process.env.DB_ADMIN_EMAIL} });
         if(!superAdminIsExisting) {
             // Creating Super Admin
+            const hash = await bcrypt.hash(process.env.DB_ADMIN_PASSWORD, 10);
             const superAdmin = await db.user.create({
                 lastName: process.env.DB_ADMIN_NAME,
                 email: process.env.DB_ADMIN_EMAIL,
-                password: process.env.DB_ADMIN_PASSWORD,
+                password: hash,
                 about: process.env.DB_ADMIN_ABOUT,
                 imageUrl: process.env.DB_ADMIN_AVATAR_URL,
                 isAdmin: Boolean(process.env.DB_ADMIN_STATUS)
@@ -91,17 +93,16 @@ const initDb = async function() {
         // Populating tables
         // USERS
         await Promise.all(initialDb.users.map(async function(user) {
-            const dbUser = await db.user.create(user);
-            // The previous instruction is the same as :
-            // const dbUser = await db.user.create({
-            //     firstName: user.firstName,
-            //     lastName: user.lastName,
-            //     email: user.email,
-            //     password: user.password,
-            //     about: user.about,
-            //     imageUrl: user.imageUrl,
-            //     isAdmin: user.isAdmin
-            // }); 
+            const hash = await bcrypt.hash(user.password, 10);
+            const dbUser = await db.user.create({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                password: hash,
+                about: user.about,
+                imageUrl: user.imageUrl,
+                isAdmin: user.isAdmin
+            }); 
             if(dbUser) {
                 console.log(dbUser.toJSON());
             };

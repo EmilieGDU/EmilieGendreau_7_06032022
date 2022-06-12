@@ -4,11 +4,10 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User.model");
 
 
-// #################################################################
-// CRUD Implementation with exploitation of the Sequelize data model
-// #################################################################
+// ################################################
+// Controllers related to authentication management
+// ################################################
 
-// C like CREATE
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then((hash) => {
@@ -28,9 +27,35 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-
+    User.findOne({ where: { email: req.body.email } })
+    .then((user) => {
+        if (!user) {
+            return res.status(401).json({ error : "Erreur d'authentification." }); // Generic error message to avoid directing a potential hacker
+        };
+        // Comparison of the hashed password with the password entered by the user
+        bcrypt.compare(req.body.password, user.password)
+        .then((valid) => {
+            if (!valid) {
+                return res.status(401).json({ error : "Erreur d'authentification." }); // Generic error message to avoid directing a potential hacker
+            };
+            res.status(200).json({ 
+                message: "Utilisateur authentifié.",
+                userId: user.id,
+                token: "TOKEN"
+            });
+        })
+        .catch((error) => res.status(500).json({ error }));
+    })
+    .catch((error) => res.status(500).json({ error }));
 };
 
+
+// #################################################################
+// CRUD Implementation with exploitation of the Sequelize data model
+// Controllers related to users management
+// #################################################################
+
+// C like CREATE
 exports.createUser = (req, res, next) => {
     User.create(req.body)
     .then((user) => {
@@ -77,7 +102,7 @@ exports.modifyUser = (req, res, next) => {
             res.status(404).json({ message });
         } 
         else {
-            User.update(req.body, { where: {id: userId} })
+            User.update(req.body, { where: { id: userId } })
             .then(() => {
                 User.findByPk(userId)
                 .then((updatedUser) => {
