@@ -70,6 +70,7 @@ app.use(express.json());
 
 
 // Registering the main routes of the application
+// and assigning the corresponding routers
 app.use("/api/auth", usersRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/posts", postsRoutes); 

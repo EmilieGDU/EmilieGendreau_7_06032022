@@ -4,8 +4,10 @@ const express = require("express");
 const router = express.Router();
 
 // Importing middlewares
+const auth = require("../middleware/auth");
 // const passwordValidator = require("../middleware/password_validator");
 // const rateLimit = require("../middleware/rate_limit");
+
 
 // Importing users controller
 const usersCtrl = require("../controllers/users");
@@ -21,11 +23,11 @@ router.post("/signup", usersCtrl.signup);
 router.post("/login", usersCtrl.login);
 
 // Routes related to users management (main segment = "/api/users")
-router.post("/", usersCtrl.createUser);
-router.get("/", usersCtrl.getAllUsers);
-router.get("/:id", usersCtrl.getOneUser);
-router.put("/:id", usersCtrl.modifyUser);
-router.delete("/:id", usersCtrl.deleteUser);
+router.post("/", auth, usersCtrl.createUser);
+router.get("/", auth, usersCtrl.getAllUsers);
+router.get("/:id", auth, usersCtrl.getOneUser);
+router.put("/:id", auth, usersCtrl.modifyUser);
+router.delete("/:id", auth, usersCtrl.deleteUser);
 
 
 module.exports = router;

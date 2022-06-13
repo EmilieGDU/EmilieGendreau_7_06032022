@@ -1,4 +1,5 @@
 // Importing Sequelize model (to facilitate interactions with the database)
+const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Comment = require("../models/Comment.model"); 
 
@@ -33,11 +34,11 @@ exports.getOnePost = (req, res, next) => {
     .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         } 
         else {
             const message = "Un post a été récupéré.";
-            res.status(200).json({ message, data: post });
+            return res.status(200).json({ message, data: post });
         };
     })
     .catch((error) => res.status(404).json({ error }));
@@ -51,19 +52,21 @@ exports.modifyPost = (req, res, next) => {
     .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         } 
-        else {
-            Post.update(req.body, { where: {id: postId} })
-            .then(() => {
-                Post.findByPk(postId)
-                .then((updatedPost) => {
-                    const message = `Le post intitulé '${ updatedPost.title }' a été modifié.`;
-                    res.status(200).json({ message, data: updatedPost });
-                })
+        if (post.UserId != req.auth.userId) {
+            const message = "Requête non autorisée.";
+            return res.status(401).json({ message });
+        }
+        Post.update(req.body, { where: {id: postId} })
+        .then(() => {
+            Post.findByPk(postId)
+            .then((updatedPost) => {
+                const message = `Le post intitulé '${ updatedPost.title }' a été modifié.`;
+                res.status(200).json({ message, data: updatedPost });
             })
-            .catch((error) => res.status(400).json({ error })); 
-        };
+        })
+        .catch((error) => res.status(400).json({ error })); 
     })
     .catch((error) => res.status(400).json({ error }));
 };
@@ -76,17 +79,36 @@ exports.deletePost = (req, res, next) => {
     .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         } 
-        else {
+        if (post.UserId != req.auth.userId) {
+            User.findByPk(req.auth.userId)
+            .then((user) => {
+                if (user.isAdmin == true) {
+                    const deletedPost = post;
+                    Post.destroy({ where: { id: postId } })
+                    .then(() => {
+                        const message = `Administrateur : vous avez supprimé le post avec l'identifiant '${ deletedPost.id }'.`;
+                        return res.status(200).json({ message, deletedData: deletedPost });
+                    })
+                    .catch((error) => res.status(400).json({ error }));
+                }
+                else {
+                    const message = "Requête non autorisée.";
+                    return res.status(401).json({ message });
+                }
+            })
+            .catch((error) => res.status(400).json({ error }));            
+        }
+        if (post.UserId == req.auth.userId) {
             const deletedPost = post;
             Post.destroy({ where: {id: postId} })
             .then(() => {
                 const message = `Le post avec l'identifiant '${ deletedPost.id }' a été supprimé.`;
-                res.status(200).json({ message, deletedData: deletedPost });
+                return res.status(200).json({ message, deletedData: deletedPost });
             })
             .catch((error) => res.status(400).json({ error })); 
-        };
+        }
     })
     .catch((error) => res.status(400).json({ error }));
 };
@@ -106,11 +128,11 @@ exports.createComment = (req, res, next) => {
     .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         }
         else if (req.params.postId != req.body.PostId) {
             const message = "Vous ne pouvez pas commenter ce post.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         }
         else {
             Comment.create(req.body)
@@ -131,11 +153,11 @@ exports.getAllComments = (req, res, next) => {
     .then((comments) => {
         if (comments.length === 0) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         } 
         else {
             const message = "L'ensemble des commentaires a été récupéré.";
-            res.status(200).json({ message, data: comments });
+            return res.status(200).json({ message, data: comments });
         }
     })
     .catch((error) => res.status(404).json({ error }));
@@ -150,26 +172,28 @@ exports.modifyComment = (req, res, next) => {
     .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         }
         else {
             Comment.findByPk(commentId)
             .then((comment) => {
                 if (comment === null) {
                     const message = "Commentaire non trouvé.";
-                    res.status(404).json({ message });
+                    return res.status(404).json({ message });
                 }
-                else {
-                    Comment.update(req.body, { where: {id: commentId} })
-                    .then(() => {
-                        Comment.findByPk(commentId)
-                        .then((updatedComment) => {
-                            const message = "Le commentaire a été modifié.";
-                            res.status(200).json({ message, data: updatedComment });
-                        })
+                if (comment.UserId != req.auth.userId) {
+                    const message = "Requête non autorisée.";
+                    return res.status(401).json({ message });
+                }
+                Comment.update(req.body, { where: {id: commentId} })
+                .then(() => {
+                    Comment.findByPk(commentId)
+                    .then((updatedComment) => {
+                        const message = "Le commentaire a été modifié.";
+                        res.status(200).json({ message, data: updatedComment });
                     })
-                    .catch((error) => res.status(400).json({ error }));
-                };
+                })
+                .catch((error) => res.status(400).json({ error }));
             })
             .catch((error) => res.status(400).json({ error }));
         };
@@ -186,27 +210,44 @@ exports.deleteComment = (req, res, next) => {
     .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         }
-        else {
-            Comment.findByPk(commentId)
-            .then((comment) => {
-                if (comment === null) {
-                    const message = "Commentaire non trouvé.";
-                    res.status(404).json({ message });
-                }
-                else {
-                    const deletedComment = comment;
-                    Comment.destroy({ where: {id: commentId} })
-                    .then(() => {
-                        const message = `Le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
-                        res.status(200).json({ message, deletedData: deletedComment });
-                    })
-                    .catch((error) => res.status(400).json({ error }));
-                };
-            })
-            .catch((error) => res.status(400).json({ error }));
-        };
+        Comment.findByPk(commentId)
+        .then((comment) => {
+            if (comment === null) {
+                const message = "Commentaire non trouvé.";
+                return res.status(404).json({ message });
+            }
+            if (comment.UserId != req.auth.userId) {
+                User.findByPk(req.auth.userId)
+                .then((user) => {
+                    if (user.isAdmin == true) {
+                        const deletedComment = comment;
+                        Comment.destroy({ where: { id: commentId } })
+                        .then(() => {
+                            const message = `Administrateur : le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
+                            return res.status(200).json({ message, deletedData: deletedComment });
+                        })
+                        .catch((error) => res.status(400).json({ error }));
+                    }
+                    else {
+                        const message = "Requête non autorisée.";
+                        return res.status(401).json({ message });
+                    }
+                })
+                .catch((error) => res.status(400).json({ error }));            
+            }
+            if (comment.UserId == req.auth.userId) {
+                const deletedComment = comment;
+                Comment.destroy({ where: {id: commentId} })
+                .then(() => {
+                    const message = `Le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
+                    return res.status(200).json({ message, deletedData: deletedComment });
+                })
+                .catch((error) => res.status(400).json({ error })); 
+            }
+        })
+        .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(400).json({ error }));
 };

@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
@@ -9,13 +10,14 @@ const User = require("../models/User.model");
 // ################################################
 
 exports.signup = (req, res, next) => {
+    // Password encryption with salting over 10 turns
     bcrypt.hash(req.body.password, 10)
     .then((hash) => {
         User.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            password: hash
+            password: hash // Storing the hashed password
         })
         .then((user) => {
             const message = `Le nouvel utilisateur '${ user.firstName } ${ user.lastName }' a été créé.`;
@@ -41,7 +43,12 @@ exports.login = (req, res, next) => {
             res.status(200).json({ 
                 message: "Utilisateur authentifié.",
                 userId: user.id,
-                token: "TOKEN"
+                // Encoding a new token
+                token: jwt.sign(
+                    { userId: user.id },
+                    process.env.tokenKey,
+                    { expiresIn: "24h" }
+                )
             });
         })
         .catch((error) => res.status(500).json({ error }));
@@ -81,11 +88,11 @@ exports.getOneUser = (req, res, next) => {
     .then((user) => {
         if (user === null) {
             const message = "Utilisateur non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
         } 
         else {
             const message = "Un utilisateur a été récupéré.";
-            res.status(200).json({ message, data: user });
+            return res.status(200).json({ message, data: user });
         };
     })
     .catch((error) => res.status(404).json({ error }));
@@ -99,19 +106,21 @@ exports.modifyUser = (req, res, next) => {
     .then((user) => {
         if (user === null) {
             const message = "Utilisateur non trouvé.";
-            res.status(404).json({ message });
+            return res.status(404).json({ message });
+        }
+        if (user.id != req.auth.userId) {
+            const message = "Requête non autorisée.";
+            return res.status(401).json({ message });
         } 
-        else {
-            User.update(req.body, { where: { id: userId } })
-            .then(() => {
-                User.findByPk(userId)
-                .then((updatedUser) => {
-                    const message = `L'utilisateur '${ updatedUser.firstName } ${ updatedUser.lastName }' a été modifié.`;
-                    res.status(200).json({ message, data: updatedUser });
-                })
+        User.update(req.body, { where: { id: userId } })
+        .then(() => {
+            User.findByPk(userId)
+            .then((updatedUser) => {
+                const message = `L'utilisateur '${ updatedUser.firstName } ${ updatedUser.lastName }' a été modifié.`;
+                res.status(200).json({ message, data: updatedUser });
             })
-            .catch((error) => res.status(400).json({ error })); 
-        };
+        })
+        .catch((error) => res.status(400).json({ error })); 
     })
     .catch((error) => res.status(400).json({ error }));
 };
@@ -124,17 +133,21 @@ exports.deleteUser = (req, res, next) => {
     .then((user) => {
         if (user === null) {
             const message = "Utilisateur non trouvé.";
-            res.status(404).json({ message });
-        } 
-        else {
+            return res.status(404).json({ message });
+        }
+        if (user.id != req.auth.userId) {
+            const message = "Requête non autorisée.";
+            return res.status(401).json({ message });
+        }
+        if ((user.isAdmin = true) || (user.id = req.auth.userId)) { 
             const deletedUser = user;
             User.destroy({ where: {id: userId} })
             .then(() => {
                 const message = `L'utilisateur avec l'identifiant '${ deletedUser.id }' a été supprimé.`;
                 res.status(200).json({ message, deletedData: deletedUser });
             })
-            .catch((error) => res.status(400).json({ error })); 
-        };
+            .catch((error) => res.status(400).json({ error }));
+        } 
     })
     .catch((error) => res.status(400).json({ error }));
 };

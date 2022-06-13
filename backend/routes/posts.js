@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 // Importing middlewares
-// const auth = require("../middleware/auth");
+const auth = require("../middleware/auth");
 // const multer = require("../middleware/multer-config");
 
 // Importing posts controller
@@ -21,17 +21,17 @@ const postsCtrl = require("../controllers/posts");
 // router.get("/api/posts/:id", auth, postCtrl.getOnePost);
 
 // Routes related to posts management (main segment = "/api/posts")
-router.post("/", postsCtrl.createPost);
-router.get("/", postsCtrl.getAllPosts);
-router.get("/:id", postsCtrl.getOnePost);
-router.put("/:id", postsCtrl.modifyPost);
-router.delete("/:id", postsCtrl.deletePost);
+router.post("/", auth, postsCtrl.createPost);
+router.get("/", auth, postsCtrl.getAllPosts);
+router.get("/:id", auth, postsCtrl.getOnePost);
+router.put("/:id", auth, postsCtrl.modifyPost);
+router.delete("/:id", auth, postsCtrl.deletePost);
 
 // Routes related to comments management (main segment = "/api/posts")
-router.post("/:postId/comments", postsCtrl.createComment);
-router.get("/:postId/comments", postsCtrl.getAllComments);
-router.put("/:postId/comments/:commentId", postsCtrl.modifyComment);
-router.delete("/:postId/comments/:commentId", postsCtrl.deleteComment);
+router.post("/:postId/comments", auth, postsCtrl.createComment);
+router.get("/:postId/comments", auth, postsCtrl.getAllComments);
+router.put("/:postId/comments/:commentId", auth, postsCtrl.modifyComment);
+router.delete("/:postId/comments/:commentId", auth, postsCtrl.deleteComment);
 
 
 module.exports = router; 
