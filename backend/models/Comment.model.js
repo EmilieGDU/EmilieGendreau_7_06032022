@@ -40,7 +40,12 @@ const Comment = sequelize.define(
             allowNull: false
         },
         comment: {
-            type: DataTypes.STRING(510)
+            type: DataTypes.STRING(510),
+            allowNull: false,
+            validate: {
+                notEmpty: { msg: "Vous ne pouvez pas publier de commentaire vide." },
+                notNull: { msg: "Le commentaire est une propriété requise." }
+            }
         }  
     },
     // By default, Sequelize automatically adds the fields createdAt and updatedAt to every model.

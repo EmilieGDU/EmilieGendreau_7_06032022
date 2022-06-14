@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { ValidationError } = require("sequelize");
+
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
 
@@ -23,7 +25,13 @@ exports.signup = (req, res, next) => {
             const message = `Le nouvel utilisateur '${ user.firstName } ${ user.lastName }' a été créé.`;
             res.status(201).json({ message, data: user });
         })
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => {
+            if (error instanceof ValidationError) {
+                return res.status(400).json({ message: error.message, data: error })
+            }
+            const message = "L'utilisateur n'a pas pu être créé. Réessayez dans quelques instants.";
+            res.status(500).json({ message, data: error });
+        });
     })
     .catch((error) => res.status(500).json({ error }));
 };
@@ -69,7 +77,13 @@ exports.createUser = (req, res, next) => {
         const message = `L'utilisateur '${ user.firstName } ${ user.lastName }' a été enregistré.`;
         res.status(201).json({ message, data: user });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => {
+        if (error instanceof ValidationError) {
+            return res.status(400).json({ message: error.message, data: error })
+        }
+        const message = "L'utilisateur n'a pas pu être créé. Réessayez dans quelques instants.";
+        res.status(500).json({ message, data: error });
+    });
 };
 
 
@@ -80,7 +94,7 @@ exports.getAllUsers = (req, res, next) => {
         const message = "L'ensemble des utilisateurs a été récupéré.";
         res.status(200).json({ message, data: users });
     })
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 exports.getOneUser = (req, res, next) => {
@@ -95,7 +109,7 @@ exports.getOneUser = (req, res, next) => {
             return res.status(200).json({ message, data: user });
         };
     })
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
@@ -119,10 +133,17 @@ exports.modifyUser = (req, res, next) => {
                 const message = `L'utilisateur '${ updatedUser.firstName } ${ updatedUser.lastName }' a été modifié.`;
                 res.status(200).json({ message, data: updatedUser });
             })
+            .catch((error) => res.status(500).json({ error }));
         })
-        .catch((error) => res.status(400).json({ error })); 
+        .catch((error) => {
+            if (error instanceof ValidationError) {
+                return res.status(400).json({ message: error.message, data: error })
+            }
+            const message = "L'utilisateur n'a pas pu être modifié. Réessayez dans quelques instants.";
+            res.status(500).json({ message, data: error });
+        }); 
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
@@ -146,8 +167,8 @@ exports.deleteUser = (req, res, next) => {
                 const message = `L'utilisateur avec l'identifiant '${ deletedUser.id }' a été supprimé.`;
                 res.status(200).json({ message, deletedData: deletedUser });
             })
-            .catch((error) => res.status(400).json({ error }));
+            .catch((error) => res.status(500).json({ error }));
         } 
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };

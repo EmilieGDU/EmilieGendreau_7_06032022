@@ -38,7 +38,10 @@ const Post = sequelize.define(
             type: DataTypes.TEXT
         },
         attachment: {
-            type: DataTypes.STRING(255)
+            type: DataTypes.STRING(255),
+            // validate: {
+            //     isUrl: { msg: "Renseignez une URL valide pour la pièce-jointe." }
+            // }
         },
         likes: {
             type: DataTypes.INTEGER,
@@ -49,7 +52,15 @@ const Post = sequelize.define(
     // Below, this behavior is disabled for the model with the "timestamps: false" option 
     // since the timestamp datas were customized in the model description.
     {
-        timestamps: false
+        timestamps: false,
+        // Model validator method
+        validate: {
+            isPostValid() {
+                if ((this.body === "") && (this.attachment === "")) {
+                    throw new Error("Le Post à publier doit contenir au minimum un texte ou une pièce-jointe.");
+                };
+            }
+        }
     }
 );
 

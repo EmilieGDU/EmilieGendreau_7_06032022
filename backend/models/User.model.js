@@ -15,23 +15,39 @@ const User = sequelize.define(
         },
         lastName: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: { msg: "Le nom doit être renseigné." },
+                notNull: { msg: "Le nom est une propriété requise." }
+            }
         },
         email: {
             type: DataTypes.STRING(255),
             allowNull: false,
-            unique: true
+            unique: true,
+            validate: {
+                isEmail: { msg: "L'adresse email doit être valide." },
+                notEmpty: { msg: "L'adresse email doit être renseignée." },
+                notNull: { msg: "L'adresse email est une propriété requise." }
+            }
         },
         password: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: { msg: "Le mot de passe doit être renseigné." },
+                notNull: { msg: "Le mot de passe est une propriété requise." }
+            }
         },
         about: {
             type: DataTypes.STRING(255)
         },
         imageUrl: {
             type: DataTypes.STRING(255),
-            defaultValue: "../images/default_img.png"
+            defaultValue: "../images/default_img.png",
+            // validate: {
+            //     isUrl: { msg: "Renseignez une URL valide pour l'image." }
+            // }
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,

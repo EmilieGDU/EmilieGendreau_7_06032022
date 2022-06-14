@@ -1,3 +1,5 @@
+const { ValidationError } = require("sequelize");
+
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
 const Post = require("../models/Post.model");
@@ -12,10 +14,16 @@ const Comment = require("../models/Comment.model");
 exports.createPost = (req, res, next) => {
     Post.create(req.body)
     .then((post) => {
-        const message = `Le post intitulé '${ post.title }' a été enregistré.`;
+        const message = `Le post a été enregistré.`;
         res.status(201).json({ message, data: post });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => {
+        if (error instanceof ValidationError) {
+            return res.status(400).json({ message: error.message, data: error });
+        }
+        const message = "Le post n'a pas pu être créé. Réessayez dans quelques instants.";
+        res.status(500).json({ message, data: error });
+    });
 };
 
 
@@ -26,7 +34,7 @@ exports.getAllPosts = (req, res, next) => {
         const message = "L'ensemble des posts a été récupéré.";
         res.status(200).json({ message, data: posts });
     })
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 exports.getOnePost = (req, res, next) => {
@@ -41,7 +49,7 @@ exports.getOnePost = (req, res, next) => {
             return res.status(200).json({ message, data: post });
         };
     })
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
@@ -58,17 +66,24 @@ exports.modifyPost = (req, res, next) => {
             const message = "Requête non autorisée.";
             return res.status(401).json({ message });
         }
-        Post.update(req.body, { where: {id: postId} })
+        Post.update(req.body, { where: { id: postId } })
         .then(() => {
             Post.findByPk(postId)
             .then((updatedPost) => {
                 const message = `Le post intitulé '${ updatedPost.title }' a été modifié.`;
                 res.status(200).json({ message, data: updatedPost });
             })
+            .catch((error) => res.status(500).json({ error }));
         })
-        .catch((error) => res.status(400).json({ error })); 
+        .catch((error) => {
+            if (error instanceof ValidationError) {
+                return res.status(400).json({ message: error.message, data: error })
+            }
+            const message = "Le post n'a pas pu être modifié. Réessayez dans quelques instants.";
+            res.status(500).json({ message, data: error });
+        });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
@@ -132,7 +147,7 @@ exports.createComment = (req, res, next) => {
         }
         else if (req.params.postId != req.body.PostId) {
             const message = "Vous ne pouvez pas commenter ce post.";
-            return res.status(404).json({ message });
+            return res.status(400).json({ message });
         }
         else {
             Comment.create(req.body)
@@ -140,10 +155,16 @@ exports.createComment = (req, res, next) => {
                 const message = "Commentaire enregistré.";
                 res.status(201).json({ message, data: comment })
             })
-            .catch((error) => res.status(400).json({ error }));
+            .catch((error) => {
+                if (error instanceof ValidationError) {
+                    return res.status(400).json({ message: error.message, data: error })
+                }
+                const message = "Le commentaire n'a pas pu être créé. Réessayez dans quelques instants.";
+                res.status(500).json({ message, data: error });
+            });
         };
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
@@ -160,7 +181,7 @@ exports.getAllComments = (req, res, next) => {
             return res.status(200).json({ message, data: comments });
         }
     })
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
@@ -185,20 +206,27 @@ exports.modifyComment = (req, res, next) => {
                     const message = "Requête non autorisée.";
                     return res.status(401).json({ message });
                 }
-                Comment.update(req.body, { where: {id: commentId} })
+                Comment.update(req.body, { where: { id: commentId } })
                 .then(() => {
                     Comment.findByPk(commentId)
                     .then((updatedComment) => {
                         const message = "Le commentaire a été modifié.";
                         res.status(200).json({ message, data: updatedComment });
                     })
+                    .catch((error) => res.status(500).json({ error }));
                 })
-                .catch((error) => res.status(400).json({ error }));
+                .catch((error) => {
+                    if (error instanceof ValidationError) {
+                        return res.status(400).json({ message: error.message, data: error })
+                    }
+                    const message = "Le commentaire n'a pas pu être modifié. Réessayez dans quelques instants.";
+                    res.status(500).json({ message, data: error });
+                });    
             })
-            .catch((error) => res.status(400).json({ error }));
+            .catch((error) => res.status(500).json({ error }));
         };
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 
