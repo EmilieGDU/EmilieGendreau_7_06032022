@@ -9,7 +9,7 @@
                     <input id="email" type="email" class="form-control" v-model="formData.email" />
                 </div>
                 <div class="form-group mt-2">
-                    <label for="password">Mot de passe (Contraintes retenues pour MDP, ex : 6 caractères minimum)</label>
+                    <label for="password">Mot de passe (Le mot de passe doit contenir entre 8 et 20 caractères, au minimum 1 majuscule et 2 chiffres, et ne comporter aucun espace.)</label>
                     <input id="password" type="password" class="form-control" v-model="formData.password" />
                 </div>
                 <p class="text-muted mt-2">En cliquant sur Accepter et s'inscrire, vous acceptez les <a href="#">Conditions d'utilisation</a> et la <a href="#">Politique de confidentialité</a> de Groupomania.</p>
