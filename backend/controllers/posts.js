@@ -1,4 +1,5 @@
 const { ValidationError } = require("sequelize");
+const { Op } = require("sequelize");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
@@ -29,7 +30,7 @@ exports.createPost = (req, res, next) => {
 
 // R like READ
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll()
+    Post.findAll({ order: [ ["updatedAt", "DESC"] ] })
     .then((posts) => {
         const message = "L'ensemble des posts a été récupéré.";
         res.status(200).json({ message, data: posts });

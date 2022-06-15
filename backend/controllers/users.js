@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { ValidationError } = require("sequelize");
+const { Op } = require("sequelize");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
@@ -89,12 +90,51 @@ exports.createUser = (req, res, next) => {
 
 // R like READ
 exports.getAllUsers = (req, res, next) => {
-    User.findAll()
-    .then((users) => {
-        const message = "L'ensemble des utilisateurs a été récupéré.";
-        res.status(200).json({ message, data: users });
-    })
-    .catch((error) => res.status(500).json({ error }));
+    // Search with query parameters
+    if (req.query.lastName) {
+        const lastName = req.query.lastName;
+        const limit = parseInt(req.query.limit) || 10;
+
+        if (lastName.length < 2) {
+            const message = "Le paramètre de recherche doit contenir au minimum 2 caractères.";
+            return res.status(400).json({ message });
+        }
+
+        // To allow paging of results (if needed)
+        User.findAndCountAll({ 
+            where: { 
+                lastName: { // "lastName" is the property of the User model
+                    [Op.like]: `%${lastName}%` // "lastName" is the search criterion
+                } 
+            },
+            order: ["lastName"],
+            limit: limit 
+        })
+        .then(({count, rows}) => {
+            if (count == 0) {
+                const message = `Aucun utilisateur ne correspond au terme de recherche '${ lastName }'.`;
+                return res.status(200).json({ message });
+            }
+            else if (count == 1) {
+                const message = `${count} utilisateur correspond au terme de recherche '${ lastName }'.`;
+                return res.status(200).json({ message, data: rows});
+            }
+            else {
+                const message = `${count} utilisateurs correspondent au terme de recherche '${ lastName }'.`;
+                return res.status(200).json({ message, data: rows});
+            };            
+        })        
+        .catch((error) => res.status(500).json({ error }));
+    }
+    // General search
+    else {
+        User.findAll({ order: ["lastName"] })
+        .then((users) => {
+            const message = "L'ensemble des utilisateurs a été récupéré.";
+            res.status(200).json({ message, data: users });
+        })
+        .catch((error) => res.status(500).json({ error }));
+    };
 };
 
 exports.getOneUser = (req, res, next) => {
