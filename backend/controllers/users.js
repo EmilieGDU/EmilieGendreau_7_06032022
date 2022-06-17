@@ -41,13 +41,13 @@ exports.login = (req, res, next) => {
     User.findOne({ where: { email: req.body.email } })
     .then((user) => {
         if (!user) {
-            return res.status(401).json({ error : "Erreur d'authentification." }); // Generic error message to avoid directing a potential hacker
+            return res.status(404).json({ error : "L'utilisateur demandé n'existe pas." });
         };
         // Comparison of the hashed password with the password entered by the user
         bcrypt.compare(req.body.password, user.password)
         .then((valid) => {
             if (!valid) {
-                return res.status(401).json({ error : "Erreur d'authentification." }); // Generic error message to avoid directing a potential hacker
+                return res.status(401).json({ error : "Le mot de passe est incorrect." });
             };
             res.status(200).json({ 
                 message: "Utilisateur authentifié.",
@@ -60,7 +60,10 @@ exports.login = (req, res, next) => {
                 )
             });
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch((error) => {
+            const message = "L'utilisateur n'a pas pu être connecté. Réessayez dans quelques instants.";
+            res.status(500).json({ message, data: error });
+        });
     })
     .catch((error) => res.status(500).json({ error }));
 };

@@ -24,7 +24,8 @@ const User = sequelize.define(
         email: {
             type: DataTypes.STRING(255),
             allowNull: false,
-            unique: true,
+            //unique: true,
+            unique: { msg: "Cette adresse email est déjà utilisée." },
             validate: {
                 isEmail: { msg: "L'adresse email doit être valide." },
                 notEmpty: { msg: "L'adresse email doit être renseignée." },
