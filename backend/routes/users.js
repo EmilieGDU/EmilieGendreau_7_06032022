@@ -7,7 +7,7 @@ const router = express.Router();
 const passwordValidator = require("../middleware/password_validator");
 const rateLimit = require("../middleware/rate_limit");
 const auth = require("../middleware/auth");
-
+const multer = require("../middleware/multer_config");
 
 // Importing users controller
 const usersCtrl = require("../controllers/users");
@@ -21,10 +21,10 @@ router.post("/signup", passwordValidator, usersCtrl.signup);
 router.post("/login", rateLimit, usersCtrl.login);
 // ========================================================================
 // Routes related to users management (main segment = "/api/users")
-router.post("/", auth, usersCtrl.createUser);
+router.post("/", auth, multer, usersCtrl.createUser);
 router.get("/", auth, usersCtrl.getAllUsers);
 router.get("/:id", auth, usersCtrl.getOneUser);
-router.put("/:id", auth, usersCtrl.modifyUser);
+router.put("/:id", auth, multer, usersCtrl.modifyUser);
 router.delete("/:id", auth, usersCtrl.deleteUser);
 
 

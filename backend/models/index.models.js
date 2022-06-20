@@ -35,7 +35,7 @@ const db = {
 // The main way to do a one-to-many relationship is to use a pair of Sequelize associations 
 // ("hasMany" and "belongsTo") in order to make sure that the relationship is mandatory.
 
-// Various options can be passed as a second parameter of the association call, like "onDelete" and ""onUpdate".
+// Various options can be passed as a second parameter of the association call, like "onDelete" and "onUpdate".
 // Their defaults values are "SET NULL" for "ON DELETE" and "CASCADE" for "ON UPDATE".
 
 db.user.hasMany(db.post);

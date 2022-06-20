@@ -1,5 +1,5 @@
 const { ValidationError } = require("sequelize");
-const { Op } = require("sequelize");
+//const { Op } = require("sequelize");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
@@ -13,7 +13,17 @@ const Comment = require("../models/Comment.model");
 
 // C like CREATE 
 exports.createPost = (req, res, next) => {
-    Post.create(req.body)
+    const postObject = req.file ?
+        {
+            //...(req.body.post),
+            ...(req.body),
+            attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+        } : { ...req.body };
+        console.log("=====================================================================");
+        console.log("Contenu du postObject :", postObject);
+        console.log("=====================================================================");
+    
+    Post.create(postObject)
     .then((post) => {
         const message = `Le post a été enregistré.`;
         res.status(201).json({ message, data: post });
@@ -67,7 +77,18 @@ exports.modifyPost = (req, res, next) => {
             const message = "Requête non autorisée.";
             return res.status(401).json({ message });
         }
-        Post.update(req.body, { where: { id: postId } })
+        
+        const postObject = req.file ?
+        {
+            //...(req.body.post),
+            ...(req.body),
+            attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+        } : { ...req.body };
+        console.log("=====================================================================")
+        console.log("Contenu du postObject :", postObject);
+        console.log("=====================================================================")
+        
+        Post.update(postObject, { where: { id: postId } })
         .then(() => {
             Post.findByPk(postId)
             .then((updatedPost) => {

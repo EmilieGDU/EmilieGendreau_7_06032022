@@ -67,7 +67,11 @@ app.get("/api/status", (req, res) => {
 // Parsing requests of content-type = application/json
 // Allowing access to the body of the request contained in req.body
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// express.static() inbuilt method to serve the files contained into the images directory for each request to the "/images" route.
+// path.join(__dirname, "images") to serve the absolute path (because the path provided must relate to the directory from which the Node process is started).
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Registering the main routes of the application
 // and assigning the corresponding routers

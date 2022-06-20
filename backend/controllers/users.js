@@ -76,7 +76,17 @@ exports.login = (req, res, next) => {
 
 // C like CREATE
 exports.createUser = (req, res, next) => {
-    User.create(req.body)
+    const userObject = req.file ? 
+        {
+            // ...(req.body.user),
+            ...(req.body),
+            imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        } : { ...req.body };
+        console.log("=====================================================================");
+        console.log("Contenu du userObject :", userObject);
+        console.log("=====================================================================");
+    
+    User.create(userObject)
     .then((user) => {
         const message = `L'utilisateur '${ user.firstName } ${ user.lastName }' a été enregistré.`;
         res.status(201).json({ message, data: user });
@@ -169,7 +179,18 @@ exports.modifyUser = (req, res, next) => {
             const message = "Requête non autorisée.";
             return res.status(401).json({ message });
         } 
-        User.update(req.body, { where: { id: userId } })
+
+        const userObject = req.file ? 
+        {
+            // ...(req.body.user),
+            ...(req.body),
+            imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        } : { ...req.body };
+        console.log("=====================================================================");
+        console.log("Contenu du userObject :", userObject);
+        console.log("=====================================================================");
+
+        User.update(userObject, { where: { id: userId } })
         .then(() => {
             User.findByPk(userId)
             .then((updatedUser) => {

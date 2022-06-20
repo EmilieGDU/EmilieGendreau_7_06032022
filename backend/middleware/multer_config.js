@@ -19,5 +19,6 @@ const storage = multer.diskStorage({
     }
 });
 
-// Exporting the package, configured to only accept single files
+// Exporting the package, configured to only accept single files 
+// with HTML attribute name = attachment
 module.exports = multer({ storage: storage }).single("image");
