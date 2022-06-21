@@ -6,6 +6,9 @@ const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Comment = require("../models/Comment.model"); 
 
+// Importing the NodeJS fs module (to access and interact with the file system)
+const fs = require("fs"); 
+
 // #################################################################
 // CRUD Implementation with exploitation of the Sequelize data model
 // Controllers related to posts management
@@ -15,7 +18,7 @@ const Comment = require("../models/Comment.model");
 exports.createPost = (req, res, next) => {
     const postObject = req.file ?
         {
-            //...(req.body.post),
+            //...JSON.parse(req.body.post),
             ...(req.body),
             attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
         } : { ...req.body };
@@ -26,14 +29,14 @@ exports.createPost = (req, res, next) => {
     Post.create(postObject)
     .then((post) => {
         const message = `Le post a été enregistré.`;
-        res.status(201).json({ message, data: post });
+        return res.status(201).json({ message, data: post });
     })
     .catch((error) => {
         if (error instanceof ValidationError) {
             return res.status(400).json({ message: error.message, data: error });
         }
         const message = "Le post n'a pas pu être créé. Réessayez dans quelques instants.";
-        res.status(500).json({ message, data: error });
+        return res.status(500).json({ message, data: error });
     });
 };
 
@@ -43,9 +46,9 @@ exports.getAllPosts = (req, res, next) => {
     Post.findAll({ order: [ ["updatedAt", "DESC"] ] })
     .then((posts) => {
         const message = "L'ensemble des posts a été récupéré.";
-        res.status(200).json({ message, data: posts });
+        return res.status(200).json({ message, data: posts });
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 exports.getOnePost = (req, res, next) => {
@@ -60,7 +63,7 @@ exports.getOnePost = (req, res, next) => {
             return res.status(200).json({ message, data: post });
         };
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => { return res.status(400).json({ error }); });
 };
 
 
@@ -80,7 +83,7 @@ exports.modifyPost = (req, res, next) => {
         
         const postObject = req.file ?
         {
-            //...(req.body.post),
+            //...JSON.parse(req.body.post),
             ...(req.body),
             attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
         } : { ...req.body };
@@ -93,19 +96,19 @@ exports.modifyPost = (req, res, next) => {
             Post.findByPk(postId)
             .then((updatedPost) => {
                 const message = `Le post intitulé '${ updatedPost.title }' a été modifié.`;
-                res.status(200).json({ message, data: updatedPost });
+                return res.status(200).json({ message, data: updatedPost });
             })
-            .catch((error) => res.status(500).json({ error }));
+            .catch((error) => { return res.status(400).json({ error }); });
         })
         .catch((error) => {
             if (error instanceof ValidationError) {
                 return res.status(400).json({ message: error.message, data: error })
             }
             const message = "Le post n'a pas pu être modifié. Réessayez dans quelques instants.";
-            res.status(500).json({ message, data: error });
+            return res.status(500).json({ message, data: error });
         });
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => { return res.status(400).json({ error }); });
 };
 
 
@@ -123,31 +126,37 @@ exports.deletePost = (req, res, next) => {
             .then((user) => {
                 if (user.isAdmin == true) {
                     const deletedPost = post;
-                    Post.destroy({ where: { id: postId } })
-                    .then(() => {
-                        const message = `Administrateur : vous avez supprimé le post avec l'identifiant '${ deletedPost.id }'.`;
-                        return res.status(200).json({ message, deletedData: deletedPost });
-                    })
-                    .catch((error) => res.status(400).json({ error }));
+                    const filename = post.attachment.split("/images/")[1];
+                    fs.unlink(`images/${filename}`, () => {
+                        Post.destroy({ where: { id: postId } })
+                        .then(() => {
+                            const message = `Administrateur : vous avez supprimé le post avec l'identifiant '${ deletedPost.id }'.`;
+                            return res.status(200).json({ message, deletedData: deletedPost });
+                        })
+                        .catch((error) => { return res.status(500).json({ error }); });
+                    });                    
                 }
                 else {
                     const message = "Requête non autorisée.";
                     return res.status(401).json({ message });
                 }
             })
-            .catch((error) => res.status(400).json({ error }));            
+            .catch((error) => { return res.status(400).json({ error }); });            
         }
         if (post.UserId == req.auth.userId) {
             const deletedPost = post;
-            Post.destroy({ where: {id: postId} })
-            .then(() => {
-                const message = `Le post avec l'identifiant '${ deletedPost.id }' a été supprimé.`;
-                return res.status(200).json({ message, deletedData: deletedPost });
-            })
-            .catch((error) => res.status(400).json({ error })); 
+            const filename = post.attachment.split("/images/")[1];
+            fs.unlink(`images/${filename}`, () => {
+                Post.destroy({ where: {id: postId} })
+                .then(() => {
+                    const message = `Le post avec l'identifiant '${ deletedPost.id }' a été supprimé.`;
+                    return res.status(200).json({ message, deletedData: deletedPost });
+                })
+                .catch((error) => { return res.status(500).json({ error }); }); 
+            });
         }
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => { return res.status(400).json({ error }); });
 };
 
 
@@ -175,18 +184,18 @@ exports.createComment = (req, res, next) => {
             Comment.create(req.body)
             .then((comment) => {
                 const message = "Commentaire enregistré.";
-                res.status(201).json({ message, data: comment })
+                return res.status(201).json({ message, data: comment })
             })
             .catch((error) => {
                 if (error instanceof ValidationError) {
                     return res.status(400).json({ message: error.message, data: error })
                 }
                 const message = "Le commentaire n'a pas pu être créé. Réessayez dans quelques instants.";
-                res.status(500).json({ message, data: error });
+                return res.status(500).json({ message, data: error });
             });
         };
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
@@ -203,7 +212,7 @@ exports.getAllComments = (req, res, next) => {
             return res.status(200).json({ message, data: comments });
         }
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
@@ -233,22 +242,22 @@ exports.modifyComment = (req, res, next) => {
                     Comment.findByPk(commentId)
                     .then((updatedComment) => {
                         const message = "Le commentaire a été modifié.";
-                        res.status(200).json({ message, data: updatedComment });
+                        return res.status(200).json({ message, data: updatedComment });
                     })
-                    .catch((error) => res.status(500).json({ error }));
+                    .catch((error) => { return res.status(500).json({ error }); });
                 })
                 .catch((error) => {
                     if (error instanceof ValidationError) {
                         return res.status(400).json({ message: error.message, data: error })
                     }
                     const message = "Le commentaire n'a pas pu être modifié. Réessayez dans quelques instants.";
-                    res.status(500).json({ message, data: error });
+                    return res.status(500).json({ message, data: error });
                 });    
             })
-            .catch((error) => res.status(500).json({ error }));
+            .catch((error) => { return res.status(500).json({ error }); });
         };
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
@@ -278,14 +287,14 @@ exports.deleteComment = (req, res, next) => {
                             const message = `Administrateur : le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
                             return res.status(200).json({ message, deletedData: deletedComment });
                         })
-                        .catch((error) => res.status(400).json({ error }));
+                        .catch((error) => { return res.status(400).json({ error }); });
                     }
                     else {
                         const message = "Requête non autorisée.";
                         return res.status(401).json({ message });
                     }
                 })
-                .catch((error) => res.status(400).json({ error }));            
+                .catch((error) => { return res.status(400).json({ error }); });            
             }
             if (comment.UserId == req.auth.userId) {
                 const deletedComment = comment;
@@ -294,12 +303,12 @@ exports.deleteComment = (req, res, next) => {
                     const message = `Le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
                     return res.status(200).json({ message, deletedData: deletedComment });
                 })
-                .catch((error) => res.status(400).json({ error })); 
+                .catch((error) => { return res.status(400).json({ error }); }); 
             }
         })
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => { return res.status(400).json({ error }); });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => { return res.status(400).json({ error }); });
 };
 
 
