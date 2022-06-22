@@ -63,7 +63,7 @@ exports.getOnePost = (req, res, next) => {
             return res.status(200).json({ message, data: post });
         };
     })
-    .catch((error) => { return res.status(400).json({ error }); });
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
@@ -98,7 +98,7 @@ exports.modifyPost = (req, res, next) => {
                 const message = `Le post intitulé '${ updatedPost.title }' a été modifié.`;
                 return res.status(200).json({ message, data: updatedPost });
             })
-            .catch((error) => { return res.status(400).json({ error }); });
+            .catch((error) => { return res.status(500).json({ error }); });
         })
         .catch((error) => {
             if (error instanceof ValidationError) {
@@ -108,7 +108,7 @@ exports.modifyPost = (req, res, next) => {
             return res.status(500).json({ message, data: error });
         });
     })
-    .catch((error) => { return res.status(400).json({ error }); });
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
@@ -141,7 +141,7 @@ exports.deletePost = (req, res, next) => {
                     return res.status(401).json({ message });
                 }
             })
-            .catch((error) => { return res.status(400).json({ error }); });            
+            .catch((error) => { return res.status(500).json({ error }); });            
         }
         if (post.UserId == req.auth.userId) {
             const deletedPost = post;
@@ -156,7 +156,7 @@ exports.deletePost = (req, res, next) => {
             });
         }
     })
-    .catch((error) => { return res.status(400).json({ error }); });
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
@@ -287,14 +287,14 @@ exports.deleteComment = (req, res, next) => {
                             const message = `Administrateur : le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
                             return res.status(200).json({ message, deletedData: deletedComment });
                         })
-                        .catch((error) => { return res.status(400).json({ error }); });
+                        .catch((error) => { return res.status(500).json({ error }); });
                     }
                     else {
                         const message = "Requête non autorisée.";
                         return res.status(401).json({ message });
                     }
                 })
-                .catch((error) => { return res.status(400).json({ error }); });            
+                .catch((error) => { return res.status(500).json({ error }); });            
             }
             if (comment.UserId == req.auth.userId) {
                 const deletedComment = comment;
@@ -303,12 +303,12 @@ exports.deleteComment = (req, res, next) => {
                     const message = `Le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
                     return res.status(200).json({ message, deletedData: deletedComment });
                 })
-                .catch((error) => { return res.status(400).json({ error }); }); 
+                .catch((error) => { return res.status(500).json({ error }); }); 
             }
         })
-        .catch((error) => { return res.status(400).json({ error }); });
+        .catch((error) => { return res.status(500).json({ error }); });
     })
-    .catch((error) => { return res.status(400).json({ error }); });
+    .catch((error) => { return res.status(500).json({ error }); });
 };
 
 
