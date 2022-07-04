@@ -40,7 +40,7 @@ const Post = sequelize.define(
         attachment: {
             type: DataTypes.STRING(255),
             // validate: {
-            //     isUrl: { msg: "Renseignez une URL valide pour la pièce-jointe." }
+            //     isUrl: { msg: "Renseignez une URL valide pour la pièce-jointe." } // Checks for URL format (https://foo.com)
             // }
         },
         likes: {
@@ -56,7 +56,7 @@ const Post = sequelize.define(
         // Model validator method
         validate: {
             isPostValid() {
-                if ((this.body === "") && (this.attachment === "")) {
+                if ((this.body == "") && (this.attachment == "")) {
                     throw new Error("Le Post à publier doit contenir au minimum un texte ou une pièce-jointe.");
                 };
             }

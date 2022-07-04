@@ -233,6 +233,10 @@ exports.modifyComment = (req, res, next) => {
                     const message = "Commentaire non trouvé.";
                     return res.status(404).json({ message });
                 }
+                if (comment.PostId != postId) {
+                    const message = "Vous ne pouvez pas modifier ce commentaire.";
+                    return res.status(400).json({ message });
+                }
                 if (comment.UserId != req.auth.userId) {
                     const message = "Requête non autorisée.";
                     return res.status(401).json({ message });

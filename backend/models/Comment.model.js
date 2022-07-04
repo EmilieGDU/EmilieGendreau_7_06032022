@@ -43,8 +43,8 @@ const Comment = sequelize.define(
             type: DataTypes.STRING(510),
             allowNull: false,
             validate: {
-                notEmpty: { msg: "Vous ne pouvez pas publier de commentaire vide." },
-                notNull: { msg: "Le commentaire est une propriété requise." }
+                notEmpty: { msg: "Vous ne pouvez pas publier de commentaire vide." }, // Don't allow empty strings
+                notNull: { msg: "Le commentaire est une propriété requise." } // Don't allow null (= no value)
             }
         }  
     },

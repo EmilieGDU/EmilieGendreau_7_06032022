@@ -17,8 +17,8 @@ const User = sequelize.define(
             type: DataTypes.STRING(100),
             allowNull: false,
             validate: {
-                notEmpty: { msg: "Le nom doit être renseigné." },
-                notNull: { msg: "Le nom est une propriété requise." }
+                notEmpty: { msg: "Le nom doit être renseigné." }, // Don't allow empty strings
+                notNull: { msg: "Le nom est une propriété requise." } // Don't allow null (= no value)
             }
         },
         email: {
@@ -27,17 +27,17 @@ const User = sequelize.define(
             //unique: true,
             unique: { msg: "Cette adresse email est déjà utilisée." },
             validate: {
-                isEmail: { msg: "L'adresse email doit être valide." },
-                notEmpty: { msg: "L'adresse email doit être renseignée." },
-                notNull: { msg: "L'adresse email est une propriété requise." }
+                isEmail: { msg: "L'adresse email doit être valide." }, // Checks for email format (foo@bar.com)
+                notEmpty: { msg: "L'adresse email doit être renseignée." }, // Don't allow empty strings
+                notNull: { msg: "L'adresse email est une propriété requise." } // Don't allow null (= no value)
             }
         },
         password: {
             type: DataTypes.STRING(255),
             allowNull: false,
             validate: {
-                notEmpty: { msg: "Le mot de passe doit être renseigné." },
-                notNull: { msg: "Le mot de passe est une propriété requise." }
+                notEmpty: { msg: "Le mot de passe doit être renseigné." }, // Don't allow empty strings
+                notNull: { msg: "Le mot de passe est une propriété requise." } // Don't allow null (= no value)
             }
         },
         about: {
@@ -47,7 +47,7 @@ const User = sequelize.define(
             type: DataTypes.STRING(255),
             defaultValue: "../images/default_img.png",
             // validate: {
-            //     isUrl: { msg: "Renseignez une URL valide pour l'image." }
+            //     isUrl: { msg: "Renseignez une URL valide pour l'image." } // Checks for URL format (https://foo.com)
             // }
         },
         isAdmin: {
