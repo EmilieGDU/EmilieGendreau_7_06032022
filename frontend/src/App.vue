@@ -1,28 +1,37 @@
 <template>
   <div>
+    <HeaderBlock />
+    <NavBar />
     <LoginBlock />
     <SignupBlock />
     <PostList />
     <PostCard />
     <PostCreation />
+    <FooterBlock />
   </div>
 </template>
 
 <script>
+import HeaderBlock from "./components/HeaderBlock.vue"
+import NavBar from "./components/NavBar.vue"
 import LoginBlock from "./components/LoginBlock.vue"
 import SignupBlock from "./components/SignupBlock.vue"
 import PostList from "./components/PostList.vue"
 import PostCard from "./components/PostCard.vue"
 import PostCreation from "./components/PostCreation.vue"
+import FooterBlock from "./components/FooterBlock.vue"
 
 export default {
   name: 'App',
   components: {
+    HeaderBlock,
+    NavBar,
     LoginBlock,
     SignupBlock,
     PostList,
     PostCard,
-    PostCreation
+    PostCreation,
+    FooterBlock
   }
 }
 </script>
