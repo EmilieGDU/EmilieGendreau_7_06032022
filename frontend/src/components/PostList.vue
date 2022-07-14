@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container col-12 col-md-9 col-xl-6 mt-5">
         <h2>La liste des posts</h2>
         <ul>
             <li v-for="(post, index) in posts" v-bind:key="index"> {{ post }} </li>

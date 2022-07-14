@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container col-12 col-md-9 col-xl-6 mt-5">
         <h1>LOGIN : {{ citation }}</h1>
         <div>
             <h2>S'identifier</h2>
@@ -13,7 +13,7 @@
                     <label for="password">Mot de passe</label>
                     <input id="password" type="password" class="form-control" v-model="formData.password" />
                 </div>
-                <button class="btn btn-primary my-3">S'identifier</button>                
+                <button class="btn btn-primary my-3" type="submit">S'identifier</button>                
             </form>
         </div>
         <p>

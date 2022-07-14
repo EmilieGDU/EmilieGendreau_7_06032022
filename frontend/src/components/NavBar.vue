@@ -2,7 +2,7 @@
     <!-- Navbar -->
     <!-- Adding a role="navigation" to the div to explicitly identify it as a landmark region for users of assistive technologies -->
     <div class="navbar navbar-expand-sm navbar-dark bg-dark" role="navigation">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="../assets/icon-left-font-resized-removebg-159x35.png" alt="Logo de l'entreprise Groupomania" />
             </a>
@@ -11,9 +11,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav">
-                    <li class="nav-item me-3">
-                        <a class="nav-link text-light" href="#">S'inscrire</a>
+                <ul class="navbar-nav nav-pills">
+                    <li class="nav-item mt-3 mt-sm-0 me-3">
+                        <a class="nav-link active text-light" aria-current="page" href="#">S'inscrire</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" href="#">S'identifier</a>

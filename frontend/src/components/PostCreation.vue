@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container col-12 col-md-9 col-xl-6 mt-5">
         <h1>CREATION NOUVEAU POST</h1>
         <div>
             <h2>Créer un Post</h2>
@@ -12,7 +12,7 @@
                     <label for="txt">Votre texte</label>
                     <textarea id="txt" type="text" class="form-control" v-model="formData.texte" placeholder="Que souhaitez-vous partager aujourd'hui ?"></textarea>
                 </div>
-                <button class="btn btn-primary my-3">Publier</button>
+                <button class="btn btn-primary my-3" type="submit">Publier</button>
             </form>
         </div>
     </div>      
