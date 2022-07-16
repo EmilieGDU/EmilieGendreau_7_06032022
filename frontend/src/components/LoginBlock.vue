@@ -5,15 +5,15 @@
             <h2>S'identifier</h2>
             <p class="lead">Prenez connaissance des dernières publications de votre entourage professionnel</p>
             <form method="" action="">
-                <div class="form-group">
-                    <label for="email">E-mail</label>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
                     <input id="email" type="email" class="form-control" v-model="formData.email" />
                 </div>
-                <div class="form-group mt-2">
-                    <label for="password">Mot de passe</label>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
                     <input id="password" type="password" class="form-control" v-model="formData.password" />
                 </div>
-                <button class="btn btn-primary my-3" type="submit">S'identifier</button>                
+                <button type="submit" class="btn btn-primary my-3">S'identifier</button>                
             </form>
         </div>
         <p>

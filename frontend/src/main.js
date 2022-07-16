@@ -11,12 +11,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* Import specific icon(s) from Font Awesome icon(s) set(s) */
-import { faHeart as fasFaHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farFaHeart} from '@fortawesome/free-regular-svg-icons'
+import { faThumbsUp as fasFaThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp as farFaThumbsUp} from '@fortawesome/free-regular-svg-icons'
 
 
 /* Add icons to the library */
-library.add(fasFaHeart, farFaHeart)
+library.add(fasFaThumbsUp, farFaThumbsUp)
 
 
 createApp(App)
