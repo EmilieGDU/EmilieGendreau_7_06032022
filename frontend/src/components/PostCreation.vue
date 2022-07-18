@@ -10,7 +10,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="txt" class="form-label">Votre texte</label>
-                    <textarea id="txt" type="text" class="form-control" v-model="formData.texte" placeholder="Que souhaitez-vous partager aujourd'hui ?"></textarea>
+                    <textarea id="txt" class="form-control" rows="3" v-model="formData.texte" placeholder="Que souhaitez-vous partager aujourd'hui ?"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Votre fichier</label>
