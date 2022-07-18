@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <p class="text-muted">En cliquant sur Accepter et s'inscrire, vous acceptez les <a href="#">Conditions d'utilisation</a> et la <a href="#">Politique de confidentialité</a> de Groupomania.</p>
+                    <p class="text-muted">En cliquant sur Accepter et s'inscrire, vous acceptez les <a href="#" data-bs-toggle="modal" data-bs-target="#termsOfService">Conditions d'utilisation</a> et la <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicy">Politique de confidentialité</a> de Groupomania.</p>
                 </div>
                 <button type="submit" class="btn btn-primary my-3">Accepter et s'inscrire</button>
             </form>
@@ -25,6 +25,36 @@
             Déjà inscrit(e) ? 
             <a href="#">S'identifier</a>
         </p>
+        
+        <!-- Modals -->
+        <div class="modal fade" id="termsOfService" tabindex="-1" aria-labelledby="termsOfServiceLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="termsOfServiceLabel">Conditions générales d'utilisation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non dapibus urna. Sed sed neque elementum, convallis elit ut, malesuada eros. Suspendisse feugiat dolor ac ultrices lobortis. Donec malesuada urna vel tincidunt dapibus. Integer condimentum ante augue, quis euismod nisi condimentum non. In vitae eleifend elit. Maecenas varius viverra ante in porttitor.</p>
+                        <p>Suspendisse sed tempor erat, ut luctus tellus. Cras quis placerat metus, nec interdum nunc. Phasellus a tellus malesuada odio auctor faucibus. Suspendisse auctor hendrerit congue. In id lorem ipsum. Sed tincidunt luctus leo, eget sagittis sapien aliquam nec. Pellentesque vitae risus non enim consectetur gravida et at diam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="privacyPolicy" tabindex="-1" aria-labelledby="privacyPolicyLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="privacyPolicyLabel">Politique de confidentialité</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Integer quis enim a neque hendrerit efficitur. Morbi vitae massa nisi. Vivamus congue semper odio, sed cursus ante dignissim non. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque commodo nec tortor sit amet placerat.</p>
+                        <p>Aenean eu lorem in nunc scelerisque faucibus. Integer ultrices libero quis consequat cursus. Duis placerat urna vel lectus euismod, et tincidunt erat lacinia. Ut efficitur felis eget cursus aliquet. Vestibulum quam dolor, ultrices a dui a, ornare consequat justo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>    
 </template>
 

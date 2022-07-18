@@ -11,6 +11,7 @@
                 <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#privacyPolicy">Politique de confidentialité</a></li>
             </ul>
         </div>
+        
         <!-- Modals -->
         <div class="modal fade" id="termsOfService" tabindex="-1" aria-labelledby="termsOfServiceLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
