@@ -6,9 +6,9 @@
                 &copy; 2022
             </p>
             <ul class="col-12 text-center list-unstyled list-inline"> 
-                <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#termsOfService">Conditions générales d'utilisation</a></li>
-                <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#legalNotice">Mentions légales</a></li>
-                <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light text-decoration-none" data-bs-toggle="modal" data-bs-target="#privacyPolicy">Politique de confidentialité</a></li>
+                <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light" data-bs-toggle="modal" data-bs-target="#termsOfService">Conditions générales d'utilisation</a></li>
+                <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light" data-bs-toggle="modal" data-bs-target="#legalNotice">Mentions légales</a></li>
+                <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light" data-bs-toggle="modal" data-bs-target="#privacyPolicy">Politique de confidentialité</a></li>
             </ul>
         </div>
         

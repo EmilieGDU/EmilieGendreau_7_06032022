@@ -1,0 +1,49 @@
+/* Defining variables overrides (in accordance with the graphic charter) */
+
+// Variables
+// Color system
+// theme-color-variables
+$primary:  #FD2D01;
+$secondary:  #FFD7D7;
+$dark: #000000;
+
+// Options
+$enable-shadows: true;
+
+// Body
+$body-color: $dark;
+
+// Links
+$link-decoration: none;
+
+// Components
+// box-shadow-variables
+$box-shadow: .5rem .5rem .75rem rgba($secondary, .75);
+
+// Buttons + Forms
+// input-btn-variables
+$input-btn-focus-width: .15rem;
+
+// Forms
+// form-input-variables
+$input-focus-bg: rgba($secondary, .25);
+// form-file-variables
+$form-file-button-bg: rgba($secondary, .75);
+
+// Navbar
+// navbar-theme-variables
+$navbar-dark-color: $secondary;
+$navbar-dark-hover-color: rgba($secondary, .5);
+$navbar-dark-toggler-border-color: rgba($secondary, .25);
+
+// Modals
+// modal-variables
+$modal-content-box-shadow-xs: 0 .125rem .25rem rgba(#000000, .075);
+$modal-content-box-shadow-sm-up: 0 .5rem 1rem rgba(#000000, .15);
+
+/* Including Bootstrap SCSS files */
+@import 'bootstrap/scss/bootstrap.scss';
+
+
+/* Adding additional custom code */
+$tertiary: #4E5166;

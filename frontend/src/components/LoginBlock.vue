@@ -13,10 +13,13 @@
                     <label for="password" class="form-label">Mot de passe</label>
                     <input id="password" type="password" class="form-control" v-model="formData.password" />
                 </div>
-                <button type="submit" class="btn btn-primary my-3">S'identifier</button>                
+                <button type="submit" class="btn btn-primary fw-bold my-3 w-100">S'identifier</button>                
             </form>
         </div>
-        <p>
+
+        <hr />
+
+        <p class="text-center">
             Vous débutez sur Groupomania ? 
             <a href="#">S'inscrire</a>
         </p>

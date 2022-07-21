@@ -16,12 +16,15 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <p class="text-muted">En cliquant sur Accepter et s'inscrire, vous acceptez les <a href="#" data-bs-toggle="modal" data-bs-target="#termsOfService">Conditions d'utilisation</a> et la <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicy">Politique de confidentialité</a> de Groupomania.</p>
+                    <p class="text-muted text-center">En cliquant sur Accepter et s'inscrire, vous acceptez les <a href="#" data-bs-toggle="modal" data-bs-target="#termsOfService">Conditions d'utilisation</a> et la <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicy">Politique de confidentialité</a> de Groupomania.</p>
                 </div>
-                <button type="submit" class="btn btn-primary my-3">Accepter et s'inscrire</button>
+                <button type="submit" class="btn btn-primary fw-bold my-3 w-100">Accepter et s'inscrire</button>
             </form>
         </div>
-        <p>
+
+        <hr />
+
+        <p class="text-center">
             Déjà inscrit(e) ? 
             <a href="#">S'identifier</a>
         </p>

@@ -16,7 +16,7 @@
                     <label for="formFile" class="form-label">Votre fichier</label>
                     <input id="formFile" type="file" class="form-control" />
                 </div>
-                <button type="submit" class="btn btn-primary my-3">Publier</button>
+                <button type="submit" class="btn btn-primary fw-bold my-3 w-100">Publier</button>
             </form>
         </div>
     </div>      

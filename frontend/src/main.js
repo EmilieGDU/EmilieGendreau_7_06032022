@@ -1,6 +1,10 @@
+/* Set up Bootstrap 5 for the Vue 3 application */
 import "bootstrap/dist/css/bootstrap.min.css"
 
-/* Set up using Vue 3*/
+/* Customize Bootstrap 5 in Vue 3 */
+import "./custom.scss"
+
+/* Set up using Vue 3 */
 import { createApp } from 'vue'
 import App from './App.vue'
 
@@ -23,4 +27,6 @@ createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
     .mount('#app')
 
+
+/* Set up Bootstrap 5 for the Vue 3 application */
 import "bootstrap/dist/js/bootstrap.js"
