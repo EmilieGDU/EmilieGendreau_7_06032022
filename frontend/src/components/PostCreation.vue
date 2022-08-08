@@ -3,14 +3,14 @@
         <h1>CREATION NOUVEAU POST</h1>
         <div>
             <h2>Créer un Post</h2>
-            <form method="" action="">
+            <form method="" action="" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label">Titre du Post</label>
-                    <input id="title" type="text" class="form-control" v-model="formData.titre" />
+                    <input id="title" type="text" class="form-control" v-model="formData.title" />
                 </div>
                 <div class="mb-3">
-                    <label for="txt" class="form-label">Votre texte</label>
-                    <textarea id="txt" class="form-control" rows="3" v-model="formData.texte" placeholder="Que souhaitez-vous partager aujourd'hui ?"></textarea>
+                    <label for="text" class="form-label">Votre texte</label>
+                    <textarea id="text" class="form-control" rows="3" v-model="formData.text" placeholder="Que souhaitez-vous partager aujourd'hui ?"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Votre fichier</label>
@@ -29,8 +29,8 @@
         data() {
             return {
                 formData: {
-                    titre: "",
-                    texte: "" 
+                    title: "",
+                    text: ""
                 }
             }
         }

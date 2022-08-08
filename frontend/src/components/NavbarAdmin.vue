@@ -13,10 +13,10 @@
             <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav nav-pills">
                     <li class="nav-item mt-3 mt-sm-0 me-sm-3">
-                        <a class="nav-link text-light active px-3" aria-current="page" href="#">S'inscrire</a>
+                        <a class="nav-link text-light active px-3" aria-current="page" href="#">Administrer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="#">S'identifier</a>
+                        <a class="nav-link text-light" href="#">Se déconnecter</a>
                     </li>
                 </ul>
             </div>
@@ -27,7 +27,7 @@
 
 <script>
     export default {
-        name: "NavBar",
+        name: "NavbarAdmin",
         data() {
             return {
                 

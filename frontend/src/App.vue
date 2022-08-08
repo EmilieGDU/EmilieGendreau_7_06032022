@@ -1,36 +1,62 @@
 <template>
   <div>
     <HeaderBlock />
-    <NavBar />
-    <LoginBlock />
+    <NavbarLogin />
+    <br />
+    <NavbarUser />
+    <br />
+    <NavbarAdmin />
     <SignupBlock />
+    <LoginUser />
+    <LoginAdmin />
+    <UserList />
+    <UserUpdate />
+    <UserCard />
+    <AdminCard />
     <PostList />
-    <PostCard />
     <PostCreation />
+    <PostCard />
+    <NotFoundBlock />
     <FooterBlock />
   </div>
 </template>
 
 <script>
 import HeaderBlock from "./components/HeaderBlock.vue"
-import NavBar from "./components/NavBar.vue"
-import LoginBlock from "./components/LoginBlock.vue"
+import NavbarLogin from "./components/NavbarLogin.vue"
+import NavbarUser from "./components/NavbarUser.vue"
+import NavbarAdmin from "./components/NavbarAdmin.vue"
 import SignupBlock from "./components/SignupBlock.vue"
+import LoginUser from "./components/LoginUser.vue"
+import LoginAdmin from "./components/LoginAdmin.vue"
+import UserList from "./components/UserList.vue"
+import UserUpdate from "./components/UserUpdate.vue"
+import UserCard from "./components/UserCard.vue"
+import AdminCard from "./components/AdminCard.vue"
 import PostList from "./components/PostList.vue"
-import PostCard from "./components/PostCard.vue"
 import PostCreation from "./components/PostCreation.vue"
+import PostCard from "./components/PostCard.vue"
+import NotFoundBlock from "./components/NotFoundBlock.vue"
 import FooterBlock from "./components/FooterBlock.vue"
 
 export default {
   name: 'App',
   components: {
     HeaderBlock,
-    NavBar,
-    LoginBlock,
+    NavbarLogin,
+    NavbarUser,
+    NavbarAdmin,
     SignupBlock,
+    LoginUser,
+    LoginAdmin,
+    UserList,
+    UserUpdate,
+    UserCard,
+    AdminCard,
     PostList,
-    PostCard,
     PostCreation,
+    PostCard,
+    NotFoundBlock,
     FooterBlock
   }
 }
