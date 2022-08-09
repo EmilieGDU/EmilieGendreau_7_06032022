@@ -1,5 +1,12 @@
 <template>
   <div>
+    <p class="mt-3 text-center">=====================================================================</p>
+    <br />
+    <p class="text-uppercase text-center text-muted">Affichage du router-view</p>
+    <router-view class="col-11 mx-auto p-5 text-center border border-primary"></router-view>
+    <br />
+    <p class="mb-3 text-center">=====================================================================</p>
+    <br />
     <HeaderBlock />
     <NavbarLogin />
     <br />
@@ -40,25 +47,25 @@ import NotFoundBlock from "./components/NotFoundBlock.vue"
 import FooterBlock from "./components/FooterBlock.vue"
 
 export default {
-  name: 'App',
-  components: {
-    HeaderBlock,
-    NavbarLogin,
-    NavbarUser,
-    NavbarAdmin,
-    SignupBlock,
-    LoginUser,
-    LoginAdmin,
-    UserList,
-    UserUpdate,
-    UserCard,
-    AdminCard,
-    PostList,
-    PostCreation,
-    PostCard,
-    NotFoundBlock,
-    FooterBlock
-  }
+    name: 'App',
+    components: {
+        HeaderBlock,
+        NavbarLogin,
+        NavbarUser,
+        NavbarAdmin,
+        SignupBlock,
+        LoginUser,
+        LoginAdmin,
+        UserList,
+        UserUpdate,
+        UserCard,
+        AdminCard,
+        PostList,
+        PostCreation,
+        PostCard,
+        NotFoundBlock,
+        FooterBlock
+    }
 }
 </script>
 
