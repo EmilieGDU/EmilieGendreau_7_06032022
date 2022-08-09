@@ -1,11 +1,11 @@
 <template>
-    <h1>HOME</h1>
+    <h1>FEED</h1>
 </template>
 
 
 <script>
     export default {
-        name: "HomeView",
+        name: "FeedView",
         data() {
             return {
 

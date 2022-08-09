@@ -3,9 +3,12 @@
     <!-- Adding a role="navigation" to the div to explicitly identify it as a landmark region for users of assistive technologies -->
     <div class="navbar navbar-expand-sm navbar-dark bg-dark" role="navigation">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <router-link to="/" class="navbar-brand">
                 <img src="../assets/icon-left-font-resized-removebg-159x35.png" alt="Logo de l'entreprise Groupomania" />
-            </a>
+            </router-link>
+            <!-- <a class="navbar-brand" href="#">
+                <img src="../assets/icon-left-font-resized-removebg-159x35.png" alt="Logo de l'entreprise Groupomania" />
+            </a> -->
             <!-- Navigation toggle button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toogle navigation">
                 <span class="navbar-toggler-icon"></span>
