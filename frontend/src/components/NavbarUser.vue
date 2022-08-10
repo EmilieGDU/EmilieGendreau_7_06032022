@@ -11,12 +11,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav nav-pills">
+                <ul class="navbar-nav">
                     <li class="nav-item mt-3 mt-sm-0 me-sm-3">
-                        <router-link to="/profile" class="nav-link text-light active px-3" aria-current="page">Mon profil</router-link>
+                        <router-link to="/profile" class="nav-link text-light">Mon profil</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/" class="nav-link text-light">Se déconnecter</router-link>
+                        <router-link to="/logout" class="nav-link text-light">Se déconnecter</router-link>
                     </li>
                 </ul>
             </div>
@@ -38,5 +38,9 @@
 
 
 <style scoped>
-
+    /* .router-link-active {
+        color: #FD2D01 !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+    } */
 </style>

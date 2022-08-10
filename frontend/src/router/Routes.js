@@ -3,6 +3,8 @@ import SignupView from "../views/Signup";
 import LoginView from "../views/Login";
 import FeedView from "../views/Feed";
 import ProfileView from "../views/Profile";
+import LogoutView from "../views/Logout";
+import NotFoundView from "../views/NotFound";
 
 const routes = [
     {
@@ -49,7 +51,7 @@ const routes = [
         component: LoginView, 
         // Adding Route Meta Field (supported by vue-router)
         meta: {
-            title: "Se connecter",
+            title: "S'identifier",
             metaTags: [
                 {
                     name: "description",
@@ -96,6 +98,44 @@ const routes = [
                 {
                     name: "og:description",
                     content: "Bienvenue sur votre page de profil au sein du réseau social d'entreprise de Groupomania."
+                },
+            ]
+        }
+    },
+    {
+        name: "Logout",
+        path: "/logout",
+        component: LogoutView, 
+        // Adding Route Meta Field (supported by vue-router)
+        meta: {
+            title: "Déconnexion",
+            metaTags: [
+                {
+                    name: "description",
+                    content: "Vous êtes à présent déconnecté(e) de votre réseau social d'entreprise. A bientôt."
+                },
+                {
+                    name: "og:description",
+                    content: "Vous êtes à présent déconnecté(e) de votre réseau social d'entreprise. A bientôt."
+                },
+            ]
+        }
+    },
+    {
+        name: "NotFound",
+        path: "/:pathMatch(.*)",
+        component: NotFoundView, 
+        // Adding Route Meta Field (supported by vue-router)
+        meta: {
+            title: "404 Not Found",
+            metaTags: [
+                {
+                    name: "description",
+                    content: "L'adresse recherchée n'existe pas."
+                },
+                {
+                    name: "og:description",
+                    content: "L'adresse recherchée n'existe pas."
                 },
             ]
         }

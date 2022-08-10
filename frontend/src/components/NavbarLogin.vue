@@ -11,9 +11,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav nav-pills">
+                <ul class="navbar-nav">
                     <li class="nav-item mt-3 mt-sm-0 me-sm-3">
-                        <router-link to="/signup" class="nav-link text-light active px-3" aria-current="page">S'inscrire</router-link>
+                        <router-link to="/signup" class="nav-link text-light">S'inscrire</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/login" class="nav-link text-light">S'identifier</router-link>
@@ -38,5 +38,9 @@
 
 
 <style scoped>
-
+    /* .router-link-active {
+        color: #FD2D01 !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+    } */
 </style>

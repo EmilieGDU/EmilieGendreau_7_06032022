@@ -21,7 +21,7 @@
 
         <p class="text-center">
             Vous débutez sur Groupomania ? 
-            <a href="#">S'inscrire</a>
+            <router-link to="/signup">S'inscrire</router-link>
         </p>
     </div>    
 </template>
@@ -44,5 +44,8 @@
 
 
 <style scoped>
-
+    a:hover {
+        color: #FD2D01 !important;
+        text-decoration: underline;
+    }
 </style>

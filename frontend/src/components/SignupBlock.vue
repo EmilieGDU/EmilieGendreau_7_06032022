@@ -26,7 +26,7 @@
 
         <p class="text-center">
             Déjà inscrit(e) ? 
-            <a href="#">S'identifier</a>
+            <router-link to="/login">S'identifier</router-link>
         </p>
         
         <!-- Modals -->
@@ -80,5 +80,8 @@
 
 
 <style scoped>
-
+    a:hover {
+        color: #FD2D01 !important;
+        text-decoration: underline;
+    }
 </style>

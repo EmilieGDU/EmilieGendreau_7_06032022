@@ -70,15 +70,22 @@ export default {
 </script>
 
 <style lang="scss">
-  #app {
+#app {
     font-family: Lato, Arial, sans-serif;
-  //   -webkit-font-smoothing: antialiased;
-  //   -moz-osx-font-smoothing: grayscale;
-  //   text-align: center;
-  //   color: #2c3e50;
-  //   margin-top: 60px;
+    //-webkit-font-smoothing: antialiased;
+    //-moz-osx-font-smoothing: grayscale;
+    //text-align: center;
+    //color: #2c3e50;
+    //margin-top: 60px;
+
     h2 {
-      color: #FD2D01;
+        color: #FD2D01;
     }
-  }
+    
+    .router-link-active {
+        color: #FD2D01 !important;
+        font-weight: bold;
+        //font-size: 1.1rem;
+    }
+}
 </style>
