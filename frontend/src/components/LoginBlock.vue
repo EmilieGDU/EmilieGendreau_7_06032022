@@ -1,9 +1,8 @@
 <template>
     <div class="container col-12 col-md-9 col-xl-6 mt-5">
-        <h1>LOGIN USER : {{ citation }}</h1>
         <div>
-            <h2>S'identifier</h2>
-            <p class="lead">Prenez connaissance des dernières publications de votre entourage professionnel</p>
+            <h1>S'identifier</h1>
+            <p class="lead">{{ citation }}</p>
             <form method="" action="">
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
@@ -29,10 +28,10 @@
 
 <script>
     export default {
-        name: "LoginUser",
+        name: "LoginBlock",
         data() {
             return {
-                citation: "Bienvenue dans votre communauté d'entreprise",
+                citation: "Prenez connaissance des dernières publications de votre entourage professionnel",
                 formData: {
                     email: "",
                     password: ""

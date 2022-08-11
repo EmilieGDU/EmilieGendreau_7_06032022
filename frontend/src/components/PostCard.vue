@@ -1,13 +1,13 @@
 <template>
     <div class="container col-12 col-md-9 col-xl-6 mt-5">
-        <h2>Une carte "Post"</h2>
+        <h1>Une carte "Post"</h1>
         
         <div class="card shadow">
             <div class="card-body bg-dark mt-3 mx-3 rounded-2">
                 <img src="../assets/icon-left-font-monochrome-white-resized.png" class="card-img-top text-light w-100" alt="Image associée au Post">
             </div>
             <div class="card-body">
-                <h3 class="card-title">Card title</h3>
+                <h2 class="card-title">Card title</h2>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
             <div class="card-body d-flex">

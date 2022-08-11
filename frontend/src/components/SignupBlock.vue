@@ -1,8 +1,8 @@
 <template>
     <div class="container col-12 col-md-9 col-xl-6 mt-5">
-        <h1>SIGNUP : {{ citation }}</h1>
         <div>
-            <h2>S'inscrire</h2>
+            <h1>S'inscrire</h1>
+            <p class="lead">{{ citation }}</p>
             <form method="" action="">
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>

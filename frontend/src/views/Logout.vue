@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>LOGOUT</h1>
-        <!-- <p>{{ citation }}</p> -->
         <p v-html="citation"></p>
         <button v-on:click="goHome" type="button" class="btn btn-primary fw-bold my-3 w-100">Retour à l'accueil</button>
     </div>

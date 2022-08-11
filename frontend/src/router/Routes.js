@@ -3,8 +3,8 @@ import SignupView from "../views/Signup";
 import LoginView from "../views/Login";
 import FeedView from "../views/Feed";
 import ProfileView from "../views/Profile";
-import LogoutView from "../views/Logout";
 import NotFoundView from "../views/NotFound";
+import LogoutView from "../views/Logout";
 
 const routes = [
     {
@@ -93,30 +93,11 @@ const routes = [
             metaTags: [
                 {
                     name: "description",
-                    content: "Bienvenue sur votre page de profil au sein du réseau social d'entreprise de Groupomania."
+                    content: "Bienvenue sur votre page de profil au sein du réseau social d'entreprise de Groupomania. Cette page vous permet de gérer vos publications ainsi que vos commentaires (modification, suppression)."
                 },
                 {
                     name: "og:description",
-                    content: "Bienvenue sur votre page de profil au sein du réseau social d'entreprise de Groupomania."
-                },
-            ]
-        }
-    },
-    {
-        name: "Logout",
-        path: "/logout",
-        component: LogoutView, 
-        // Adding Route Meta Field (supported by vue-router)
-        meta: {
-            title: "Déconnexion",
-            metaTags: [
-                {
-                    name: "description",
-                    content: "Vous êtes à présent déconnecté(e) de votre réseau social d'entreprise. A bientôt."
-                },
-                {
-                    name: "og:description",
-                    content: "Vous êtes à présent déconnecté(e) de votre réseau social d'entreprise. A bientôt."
+                    content: "Bienvenue sur votre page de profil au sein du réseau social d'entreprise de Groupomania. Cette page vous permet de gérer vos publications ainsi que vos commentaires (modification, suppression)."
                 },
             ]
         }
@@ -140,6 +121,25 @@ const routes = [
             ]
         }
     },
+    {
+        name: "Logout",
+        path: "/logout",
+        component: LogoutView, 
+        // Adding Route Meta Field (supported by vue-router)
+        meta: {
+            title: "Déconnexion",
+            metaTags: [
+                {
+                    name: "description",
+                    content: "Vous êtes à présent déconnecté(e) de votre réseau social d'entreprise. A bientôt."
+                },
+                {
+                    name: "og:description",
+                    content: "Vous êtes à présent déconnecté(e) de votre réseau social d'entreprise. A bientôt."
+                },
+            ]
+        }
+    }
 ]
 
 export default routes;
