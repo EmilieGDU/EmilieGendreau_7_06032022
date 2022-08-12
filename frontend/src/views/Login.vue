@@ -1,8 +1,5 @@
 <template>
     <div>
-        <h1>LOGIN</h1>
-        <p class="text-muted">Page Login commune aux utilisateurs et à l'administrateur. Faire varier la citation suivant statut admin ou pas.</p>  
-         
         <header-not-logged></header-not-logged>
 
         <main>

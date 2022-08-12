@@ -1,28 +1,25 @@
 <template>
     <div>
-        <h1>LOGOUT</h1>
-        <p v-html="citation"></p>
-        <button v-on:click="goHome" type="button" class="btn btn-primary fw-bold my-3 w-100">Retour à l'accueil</button>
+        <header-logged-out></header-logged-out>
+
+        <logged-out-block></logged-out-block>
+        
+        <footer-block></footer-block>
     </div>
 </template>
 
 
 <script>
+    import HeaderLoggedOut from "../components/HeaderLoggedOut.vue"
+    import LogoutBlock from "../components/LogoutBlock.vue"
+    import FooterBlock from "../components/FooterBlock.vue"
+
     export default {
         name: "LogoutView",
-        data() {
-            return {
-                citation: "Vous êtes à présent déconnecté(e). <br /> A bientôt.",
-            }
-        },
         components: {
-            // "header-block": ,
-            // "footer-block":
-        },
-        methods: {
-            goHome: function() {
-                this.$router.push("/");
-            }
+            "header-logged-out": HeaderLoggedOut,
+            "logged-out-block": LogoutBlock,
+            "footer-block": FooterBlock,
         }
     }
 </script>
