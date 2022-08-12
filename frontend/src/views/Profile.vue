@@ -2,7 +2,7 @@
     <div>
         <header-logged></header-logged>
         
-        <main>
+        <main class="text-center">
             <h1>Votre activité</h1>
 
             <div class="mt-3 mb-5">
