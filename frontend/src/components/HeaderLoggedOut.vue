@@ -2,7 +2,7 @@
     <header class="mb-5">
         <!-- Navbar -->
         <!-- Adding a role="navigation" for assistive technology users -->
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark" role="navigation">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark py-3" role="navigation">
             <div class="container">
                 <router-link to="/" class="navbar-brand" href="#">
                     <img src="../assets/icon-left-font-resized-removebg-159x35.png" alt="Logo de l'entreprise Groupomania" />

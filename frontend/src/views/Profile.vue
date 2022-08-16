@@ -10,12 +10,12 @@
                 <a href="#comments" class="btn btn-outline-primary fw-bold">Commentaires</a>
             </div>
             
-            <h2 id="posts">Les articles que vous avez publié</h2>
+            <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
             <!-- <post-creation></post-creation> -->
             <post-list></post-list>
             <post-card></post-card>
             
-            <h2 id="comments">Les articles que vous avez commenté</h2>
+            <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
             <!-- <post-creation></post-creation> -->
             <post-list></post-list>
             <post-card></post-card>

@@ -11,12 +11,18 @@
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
             <div class="card-body d-flex">
-                <div class="fa-stack col-1">
-                    <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 me-3 text-tertiary"></font-awesome-icon> <!-- Bottom icon -->
-                    <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 me-3 text-tertiary"></font-awesome-icon> <!-- Top icon -->
-                </div>
-                <div class="col-5">
-                    <span class="ms-2 ms-sm-0 me-3">N likes</span>
+                
+
+                <div class="col-6 d-flex text-start">
+                    <div class="fa-stack">
+                        <!-- Bottom icon -->
+                        <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
+                        <!-- Top icon -->
+                        <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
+                    </div>
+                    <div class="">
+                        <span class="ms-2 ms-sm-0">N likes</span>
+                    </div>
                 </div>
                 <div class="col-6 text-end">
                     <a href="#" class="card-link">N commentaires</a>

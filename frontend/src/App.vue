@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view class="col-12 py-3"></router-view>
+    <router-view class="col-12"></router-view>
   </div>
 </template>
 
