@@ -63,7 +63,7 @@
     }        
 
 
-    @media screen and (min-width: 336px) {        
+    @media screen and (max-width: 361px) {        
         .app-router-view {
             min-height: calc(100vh - 220px);
         }
