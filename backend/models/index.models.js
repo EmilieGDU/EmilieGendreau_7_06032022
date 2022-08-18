@@ -75,7 +75,7 @@ const initDb = async function() {
 
         const superAdminIsExisting = await db.user.findOne({ where: {email: process.env.DB_ADMIN_EMAIL} });
         if(!superAdminIsExisting) {
-            // Creating Super Admin
+            // Creating SUPER ADMIN
             const hash = await bcrypt.hash(process.env.DB_ADMIN_PASSWORD, 10);
             const superAdmin = await db.user.create({
                 lastName: process.env.DB_ADMIN_NAME,

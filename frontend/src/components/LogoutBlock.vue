@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9 col-xl-6 mt-3 text-center">
+    <div class="container col-12 col-md-9 w-100 text-center">
         <img src="../assets/logged_out_resized_100px.png" class="rounded-2 mb-3" alt="404 Not Found">
         <h1>Déconnexion</h1>
         <p v-html="citation" class="lead fs-4 mt-3"></p>

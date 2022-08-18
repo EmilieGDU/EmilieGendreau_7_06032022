@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9 col-xl-6 mt-5">
+    <div class="container col-12 col-md-9 w-100">
         <div>
             <h1>S'inscrire</h1>
             <p class="lead">{{ citation }}</p>

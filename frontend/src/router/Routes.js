@@ -78,7 +78,7 @@ const routes = [
                 },
                 {
                     name: "og:description",
-                    content: "Bienvenue sur le fil d'actualité du réseau social d'entreprise de Groupomania. Cet espace convivial vous permet d'échanger et de faire plus ample connaissance avec vos collègues. A cet effet, vous avez la possibilité de publier des articles personnels et de commenter les publications des autres salariés de l'entreprise. Le respect de chacun est impératif. Tout manquement à ce principe de politesse élémentaire se verra sanctionné par l'administrateur, qui se réserve le droit de supprimer vos publications et/ou votre compte."
+                    content: "Bienvenue sur le fil d'actualité du réseau social d'entreprise de Groupomania. Cet espace convivial vous permet d'échanger et de faire plus ample connaissance avec vos collègues. A cet effet, vous avez la possibilité de publier des articles personnels et de commenter les publications des autres salariés de l'entreprise. Le respect de chacun est impératif. Tout manquement à ce principe de politesse élémentaire se verra sanctionné par l'administrateur, qui se réserve le droit de supprimer vos publications."
                 },
             ]
         }

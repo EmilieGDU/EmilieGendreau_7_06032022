@@ -12,7 +12,23 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
-                    <ul class="navbar-nav">
+                    <!-- Header displayed when logged out -->
+                    <ul v-if="isLoggedOut" class="navbar-nav">
+                        <li class="nav-item">
+                            <router-link to="/login" class="nav-link text-light">S'identifier</router-link>
+                        </li>
+                    </ul>
+                    <!-- Header displayed when not logged -->
+                    <ul v-else-if="!isLogged" class="navbar-nav">
+                        <li class="nav-item mt-3 mt-sm-0 me-sm-3">
+                            <router-link to="/signup" class="nav-link text-light">S'inscrire</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/login" class="nav-link text-light">S'identifier</router-link>
+                        </li>
+                    </ul>
+                    <!-- Header displayed when logged in -->
+                    <ul v-else-if="isLogged" class="navbar-nav">
                         <li class="nav-item mt-3 mt-sm-0 me-sm-3">
                             <router-link to="/feed" class="nav-link text-light">Fil d'actualité</router-link>
                         </li>
@@ -32,10 +48,11 @@
 
 <script>
     export default {
-        name: "HeaderLogged",
+        name: "HeaderBlock",
         data() {
             return {
-                
+                isLogged: false,
+                isLoggedOut: false
             }
         }
     }

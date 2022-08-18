@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9 col-xl-6 mt-5">
+    <div class="container col-12 col-md-9">
         <h1>La liste des posts</h1>
         <p class="text-muted"><em>Affichage anti-chronologique</em></p>
         <ul>

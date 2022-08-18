@@ -7,7 +7,7 @@ const users = [
         // id: provided automatically by the database
         firstName: "Bénédicte",
         lastName: "DURAND",
-        email: "b.durand-drh@groupomania.com",
+        email: "benedicte.durand.drh@groupomania.com",
         password: "P455W0rd",
         about: "DRH de l'entreprise, j'ai à coeur de vous accompagner dans votre épanouissement au travail.",
         imageUrl: "../images/default_img.png",
@@ -17,7 +17,7 @@ const users = [
         // id: provided automatically by the database
         firstName: "Pierre",
         lastName: "DUPONT",
-        email: "p.dupont-marketing@groupomania.com",
+        email: "pierre.dupont.marketing@groupomania.com",
         password: "P455W0rd2",
         about: "Responsable de l'équipe marketing.",
         imageUrl: "../images/default_img.png",
@@ -27,7 +27,7 @@ const users = [
         // id: provided automatically by the database
         firstName: "Isabelle",
         lastName: "MARTIN",
-        email: "i.martin-marketing@groupomania.com",
+        email: "isabelle.martin.marketing@groupomania.com",
         password: "P455W0rd3",
         about: "Parlant couramment l'anglais et le chinois, je suis chargée des négociations tarifaires à l'international.",
         imageUrl: "../images/default_img.png",

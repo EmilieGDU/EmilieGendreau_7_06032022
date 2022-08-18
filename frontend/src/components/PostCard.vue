@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9 col-xl-6 mt-5">
+    <div class="container col-12 col-md-9 my-3">
         <h1>Une carte "Post"</h1>
         
         <div class="card shadow">
