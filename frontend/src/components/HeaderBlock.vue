@@ -21,7 +21,8 @@
                     <!-- Header displayed when not logged -->
                     <ul v-else-if="!isLogged" class="navbar-nav">
                         <li class="nav-item mt-3 mt-sm-0 me-sm-3">
-                            <router-link to="/signup" class="nav-link text-light">S'inscrire</router-link>
+                            <!-- <router-link to="/signup" class="nav-link text-light">S'inscrire</router-link> is the same as the link below : -->
+                            <router-link v-bind:to="{ name: 'Signup' }" class="nav-link text-light">S'inscrire</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link to="/login" class="nav-link text-light">S'identifier</router-link>
