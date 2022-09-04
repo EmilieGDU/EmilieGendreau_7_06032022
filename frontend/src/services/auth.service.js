@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_URL = "http://localhost:8080/api/auth";
+const API_URL = "http://localhost:3000/api/auth";
 
 class AuthService {
     
@@ -31,6 +31,7 @@ class AuthService {
                 password: user.password
             });
     };
+
 };
 
 export default new AuthService();

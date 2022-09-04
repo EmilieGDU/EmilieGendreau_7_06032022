@@ -1,9 +1,9 @@
-// Data Service
+// Data Service for Users
 
 import axios from 'axios';
 // import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/";
+const API_URL = "http://localhost:3000/";
 
 class UserService {
 

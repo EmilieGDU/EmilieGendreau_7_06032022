@@ -12,10 +12,12 @@
 
 
 <script>
+    import PostService from "../services/post.service"    
+
     import PostCreation from "../components/PostCreation.vue"
     import PostList from "../components/PostList.vue"
     import PostCard from "../components/PostCard.vue"
-
+    
     export default {
         name: "FeedView",
         data() {
@@ -30,7 +32,16 @@
         },
         methods: {
 
-        }
+        },
+        created() {
+            PostService.getAllPosts()
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            });
+        },
     }
 </script>
 
