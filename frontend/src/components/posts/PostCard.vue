@@ -1,18 +1,14 @@
 <template>
-    <div class="container col-12 col-md-9 my-3">
-        <h1>Une carte "Post"</h1>
-        
+    <div class="my-5">
         <div class="card shadow">
-            <div class="card-body bg-dark mt-3 mx-3 rounded-2">
-                <img src="../assets/icon-left-font-monochrome-white-resized.png" class="card-img-top text-light w-100" alt="Image associée au Post">
+            <div class="card-body">
+                <img v-bind:src="post.attachment" class="card-img-top text-light w-100 rounded-3" alt="Image associée au Post">
             </div>
             <div class="card-body">
-                <h2 class="card-title">Card title</h2>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h2 class="card-title">{{ post.title }}</h2>
+                <p class="card-text">{{ post.body }}</p>
             </div>
-            <div class="card-body d-flex">
-                
-
+            <div class="card-body d-flex">         
                 <div class="col-6 d-flex text-start">
                     <div class="fa-stack">
                         <!-- Bottom icon -->
@@ -28,8 +24,7 @@
                     <a href="#" class="card-link">N commentaires</a>
                 </div>
             </div>
-        </div>
-        
+        </div>        
     </div>  
 </template>
 
@@ -37,11 +32,7 @@
 <script>
     export default {
         name: "PostCard",
-        data() {
-            return {
-
-            }
-        }        
+        props: [ "post" ]       
     }
 </script>
 

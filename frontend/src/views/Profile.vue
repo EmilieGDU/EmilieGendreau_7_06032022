@@ -26,8 +26,8 @@
 
 <script>
     // import PostCreation from "../components/PostCreation.vue"
-    import PostList from "../components/PostList.vue"
-    import PostCard from "../components/PostCard.vue"
+    import PostList from "../components/posts/PostList.vue"
+    import PostCard from "../components/posts/PostCard.vue"
 
     export default {
         name: "ProfileView",

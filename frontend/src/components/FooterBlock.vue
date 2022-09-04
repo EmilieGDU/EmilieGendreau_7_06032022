@@ -61,12 +61,7 @@
 
 <script>
     export default {
-        name: "FooterBlock",
-        data() {
-            return {
-                
-            }
-        }
+        name: "FooterBlock"
     }
 </script>
 

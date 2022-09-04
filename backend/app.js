@@ -31,7 +31,7 @@ db.initDb();
 // #########################################################
 
 // Setting security-related HTTP headers to protect the app from some web vulnerabilities
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 // CORS error prevention
 app.use((req, res, next) => {

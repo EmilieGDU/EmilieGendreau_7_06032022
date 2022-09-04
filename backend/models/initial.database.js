@@ -10,7 +10,7 @@ const users = [
         email: "benedicte.durand.drh@groupomania.com",
         password: "P455W0rd",
         about: "DRH de l'entreprise, j'ai à coeur de vous accompagner dans votre épanouissement au travail.",
-        imageUrl: "../images/default_img.png",
+        imageUrl: "http://localhost:3000/images/default_img.png",
         isAdmin: false
     },
     {
@@ -20,7 +20,7 @@ const users = [
         email: "pierre.dupont.marketing@groupomania.com",
         password: "P455W0rd2",
         about: "Responsable de l'équipe marketing.",
-        imageUrl: "../images/default_img.png",
+        imageUrl: "http://localhost:3000/images/default_img.png",
         isAdmin: false
     },
     {
@@ -30,7 +30,7 @@ const users = [
         email: "isabelle.martin.marketing@groupomania.com",
         password: "P455W0rd3",
         about: "Parlant couramment l'anglais et le chinois, je suis chargée des négociations tarifaires à l'international.",
-        imageUrl: "../images/default_img.png",
+        imageUrl: "http://localhost:3000/images/default_img.png",
         isAdmin: false
     },
 ];
@@ -45,7 +45,7 @@ const posts = [
         UserId: 2,
         title: "Votre salle de pause idéale",
         body: "Quels sont les facteurs qui contribuent à votre détente en salle de pause ? A vos commentaires !",
-        attachment: "../images/break_room.png",
+        attachment: "http://localhost:3000/images/break_room.png",
         likes: 0
     },
     {
@@ -53,7 +53,7 @@ const posts = [
         UserId: 4,
         title: "Méditation chinoise",
         body: "L'été dernier, j'ai découvert une technique de méditation chinoise : le Qigong. Idéal pour se ressourcer ! Nous pourrions demander à Bénédicte de réserver une séance d'initiation avec un coach spécialisé. Qui est partant ?",
-        attachment: "../images/qigong.png",
+        attachment: "http://localhost:3000/images/qigong.png",
         likes: 0
     },     
 ];

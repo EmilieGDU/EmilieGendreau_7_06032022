@@ -16,7 +16,8 @@ const postsCtrl = require("../controllers/posts");
 // ==========================================================================
 // Routes related to posts management (main segment = "/api/posts")
 router.post("/", auth, multer, postsCtrl.createPost);
-router.get("/", auth, postsCtrl.getAllPosts);
+// router.get("/", auth, postsCtrl.getAllPosts);
+router.get("/", postsCtrl.getAllPosts);
 router.get("/:id", auth, postsCtrl.getOnePost);
 router.put("/:id", auth, multer, postsCtrl.modifyPost);
 router.delete("/:id", auth, postsCtrl.deletePost);

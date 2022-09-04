@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9">
+    <div class="container col-12 col-md-9 col-lg-6">
         <h1>CREATION NOUVEAU POST</h1>
         <div>
             <h2>Créer un Post</h2>

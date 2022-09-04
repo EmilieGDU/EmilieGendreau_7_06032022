@@ -17,6 +17,9 @@ class AuthService {
                     localStorage.setItem("user", JSON.stringify(response.data));
                 }
                 return response.data;
+            })
+            .catch((error) => {
+                console.log(error.response.data);
             });
     };
     
