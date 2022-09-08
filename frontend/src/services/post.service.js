@@ -19,11 +19,6 @@ class PostService {
 
     }
 
-    getUserPosts() {
-        return axios
-            .get(API_URL, { headers: authHeader() });
-    }
-
     modifyPost() {
 
     }

@@ -24,6 +24,8 @@ router.post("/login", rateLimit, usersCtrl.login);
 router.post("/", auth, multer, usersCtrl.createUser);
 router.get("/", auth, usersCtrl.getAllUsers);
 router.get("/:id", auth, usersCtrl.getOneUser);
+router.get("/:id/posts", auth, usersCtrl.getUserPosts);
+router.get("/:id/comments", auth, usersCtrl.getUserComments);
 router.put("/:id", auth, multer, usersCtrl.modifyUser);
 router.delete("/:id", auth, usersCtrl.deleteUser);
 

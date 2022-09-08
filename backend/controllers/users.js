@@ -6,6 +6,8 @@ const { Op } = require("sequelize");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
+const Post = require("../models/Post.model");
+const Comment = require("../models/Comment.model");
 // Importing the NodeJS fs module (to access and interact with the file system)
 const fs = require("fs"); 
 
@@ -173,6 +175,58 @@ exports.getOneUser = (req, res, next) => {
             const message = "Un utilisateur a été récupéré.";
             return res.status(200).json({ message, data: user });
         };
+    })
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });
+};
+
+exports.getUserPosts = (req, res, next) => {
+    User.findByPk(req.params.id)
+    .then((user) => {
+        if (user === null) {
+            const message = "Utilisateur non trouvé.";
+            return res.status(404).json({ message });
+        }
+        
+        Post.findAll({ where: { UserId: user.id } })
+        .then((posts) => {
+            if (posts.length < 1) {
+                const message = "L'utilisateur n'a publié aucun post.";
+                return res.status(200).json({ message });
+            }
+            else {
+                const message = "L'ensemble des posts publiés par l'utilisateur a été récupéré.";
+                return res.status(200).json({ message, data: posts });
+            }
+        })
+        .catch((error) => { return res.status(500).json({ error }); });        
+    })
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });
+};
+
+exports.getUserComments = (req, res, next) => {
+    User.findByPk(req.params.id)
+    .then((user) => {
+        if (user === null) {
+            const message = "Utilisateur non trouvé.";
+            return res.status(404).json({ message });
+        }
+        
+        Post.findAll({ where: { UserId: user.id } })
+        .then((posts) => {
+            if (posts.length < 1) {
+                const message = "L'utilisateur n'a publié aucun post.";
+                return res.status(200).json({ message });
+            }
+            else {
+                const message = "L'ensemble des posts publiés par l'utilisateur a été récupéré.";
+                return res.status(200).json({ message, data: posts });
+            }
+        })
+        .catch((error) => { return res.status(500).json({ error }); });        
     })
     .catch((error) => {
         return res.status(500).json({ error });

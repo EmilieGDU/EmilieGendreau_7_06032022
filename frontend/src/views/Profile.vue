@@ -23,7 +23,7 @@
 
 
 <script>
-    //import PostService from "../services/post.service"
+    // import UserService from "../services/user.service"
     // import PostCreation from "../components/PostCreation.vue"
     import PostList from "../components/posts/PostList.vue"
 
@@ -49,7 +49,7 @@
         //         }
         //     }; 
 
-        //     PostService.getUserPosts(userId)
+        //     UserService.getUserPosts(userId)
         //     .then((response) => {
         //         // console.log(response.data);
         //         // response.data = {message, data}
@@ -59,7 +59,7 @@
         //         console.log(error.response.data);
         //     });
 
-        //     PostService.getUserComments()
+        //     UserService.getUserComments(userId)
         //     .then((response) => {
         //         // console.log(response.data);
         //         // response.data = {message, data}
