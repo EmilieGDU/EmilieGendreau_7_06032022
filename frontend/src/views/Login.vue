@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <main>
+        <main class="my-3">
             <login-block></login-block>
         </main>
 

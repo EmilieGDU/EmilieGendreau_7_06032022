@@ -29,10 +29,10 @@
             
             <div class="card-body d-flex">         
                 <div class="col-6 col-sm-5 me-auto d-flex text-start">
-                    <button type="button" class="btn btn-success fw-bold mb-2 w-100" v-on:click="onModifyPost">Modifier</button>
+                    <button type="button" class="btn btn-success fw-bold mb-2 p-2 w-75" v-on:click="onModifyPost">Modifier</button>
                 </div>
                 <div class="col-6 col-sm-5 text-end">
-                    <button type="button" class="btn btn-danger fw-bold mb-2 w-100" v-on:click="onDeletePost">Supprimer</button>
+                    <button type="button" class="btn btn-danger fw-bold mb-2 p-2 w-75" v-on:click="onDeletePost">Supprimer</button>
                 </div>
             </div>
         </div>        

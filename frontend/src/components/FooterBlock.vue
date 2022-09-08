@@ -1,5 +1,5 @@
 <template>
-    <footer class="container-fluid bg-dark mt-5 py-2">
+    <footer class="container-fluid bg-dark py-2">
         <div class="row">
             <p class="col-12 text-light text-center mt-2">
                 <img src="../assets/icon-left-font-monochrome-white-resized-150x32.png" alt="Logo de l'entreprise Groupomania" />

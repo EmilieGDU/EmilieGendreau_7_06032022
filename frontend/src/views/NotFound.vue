@@ -1,7 +1,7 @@
 <template>
     <div>
         
-        <main>
+        <main class="mt-4 mb-5">
             <not-found></not-found>
         </main>
 

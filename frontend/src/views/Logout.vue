@@ -1,7 +1,7 @@
 <template>
     <div>
         
-        <main>
+        <main class="my-5">
             <logged-out-block></logged-out-block>
         </main>
         

@@ -1,5 +1,5 @@
 <template>
-    <header class="mb-5">
+    <header>
         <!-- Navbar -->
         <!-- Adding a role="navigation" for assistive technology users -->
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark py-3" role="navigation">

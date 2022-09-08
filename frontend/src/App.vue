@@ -65,7 +65,8 @@
 
     @media screen and (max-width: 361px) {        
         .app-router-view {
-            min-height: calc(100vh - 220px);
+            // min-height: calc(100vh - 220px);
+            min-height: calc(100vh - 285px);
         }
         
         /* .app-footer {
@@ -75,7 +76,8 @@
 
     @media screen and (min-width: 362px) {        
         .app-router-view {
-            min-height: calc(100vh - 180px);
+            // min-height: calc(100vh - 180px);
+            min-height: calc(100vh - 250px);
         }
         
         /* .app-footer {
@@ -85,7 +87,8 @@
 
     @media screen and (min-width: 612px) {        
         .app-router-view {
-            min-height: calc(100vh - 140px);
+            // min-height: calc(100vh - 140px);
+            min-height: calc(100vh - 205px);
         }
         
         /* .app-footer {

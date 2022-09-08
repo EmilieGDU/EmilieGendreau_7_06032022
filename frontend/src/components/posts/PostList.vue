@@ -14,7 +14,6 @@
 
 
 <script>
-    //import PostService from "../../services/post.service"
     import PostCard from "../../components/posts/PostCard.vue"
 
     export default {
@@ -23,12 +22,6 @@
             "post-card": PostCard,
         },
         props: [ "posts" ],
-        // data() {
-        //     return {
-        //         // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
-        //         posts: []
-        //     };
-        // },
         methods: {
             modifyPost(postId) {
                 console.log("modifyPost : ", postId);
@@ -36,18 +29,7 @@
             deletePost(postId) {
                 console.log("deletePost : ", postId);
             },
-        },
-        // created() {
-        //     PostService.getAllPosts()
-        //     .then((response) => {
-        //         // console.log(response.data);
-        //         // response.data = {message, data}
-        //         this.posts = response.data.data;
-        //     })
-        //     .catch((error) => {
-        //         console.log(error.response.data);
-        //     })
-        // }        
+        }      
     }
 </script>
 

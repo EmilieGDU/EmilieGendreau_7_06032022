@@ -1,7 +1,7 @@
 <template>
     <div>
         
-        <main>
+        <main class="my-5">
             <post-creation></post-creation>
             <post-list v-bind:posts="posts"></post-list>
         </main>
