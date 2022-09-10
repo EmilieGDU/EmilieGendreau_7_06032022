@@ -190,14 +190,14 @@ exports.getUserPosts = (req, res, next) => {
         }
         
         Post.findAll({ where: { UserId: user.id } })
-        .then((posts) => {
-            if (posts.length < 1) {
+        .then((userPosts) => {
+            if (userPosts.length < 1) {
                 const message = "L'utilisateur n'a publié aucun post.";
                 return res.status(200).json({ message });
             }
             else {
                 const message = "L'ensemble des posts publiés par l'utilisateur a été récupéré.";
-                return res.status(200).json({ message, data: posts });
+                return res.status(200).json({ message, data: userPosts });
             }
         })
         .catch((error) => { return res.status(500).json({ error }); });        
@@ -208,6 +208,9 @@ exports.getUserPosts = (req, res, next) => {
 };
 
 exports.getUserComments = (req, res, next) => {
+    // console.log(req.auth);
+    // console.log(req.auth.userId);
+    // User.findByPk(req.auth.userId)
     User.findByPk(req.params.id)
     .then((user) => {
         if (user === null) {
@@ -215,15 +218,49 @@ exports.getUserComments = (req, res, next) => {
             return res.status(404).json({ message });
         }
         
-        Post.findAll({ where: { UserId: user.id } })
-        .then((posts) => {
-            if (posts.length < 1) {
-                const message = "L'utilisateur n'a publié aucun post.";
+        Comment.findAll({ where: { UserId: user.id } })
+        .then((userComments) => {
+            if (userComments.length < 1) {
+                const message = "L'utilisateur n'a publié aucun commentaire.";
                 return res.status(200).json({ message });
             }
             else {
-                const message = "L'ensemble des posts publiés par l'utilisateur a été récupéré.";
-                return res.status(200).json({ message, data: posts });
+                console.log(userComments);
+                const message = "L'ensemble des commentaires publiés par l'utilisateur a été récupéré.";
+                return res.status(200).json({ message, data: userComments});
+            }
+        })
+        .catch((error) => { return res.status(500).json({ error }); });        
+    })
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });
+};
+
+exports.getUserCommentedPosts = (req, res, next) => {
+    // console.log(req.auth);
+    // console.log(req.auth.userId);
+    //User.findByPk(req.auth.userId)
+    User.findByPk(req.params.id)
+    .then((user) => {
+        if (user === null) {
+            const message = "Utilisateur non trouvé.";
+            return res.status(404).json({ message });
+        }
+        
+        Comment.findAll(
+            { where: { UserId: user.id }, 
+            include: Post }
+        )
+        .then((userCommentedPosts) => {
+            if (userCommentedPosts.length < 1) {
+                const message = "L'utilisateur n'a commenté aucun post.";
+                return res.status(200).json({ message });
+            }
+            else {
+                console.log(userCommentedPosts);
+                const message = "L'ensemble des posts commentés par l'utilisateur a été récupéré.";
+                return res.status(200).json({ message, data: userCommentedPosts});
             }
         })
         .catch((error) => { return res.status(500).json({ error }); });        
