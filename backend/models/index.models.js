@@ -126,6 +126,15 @@ const initDb = async function() {
             }
             return dbComment;
         }));
+
+        // LIKES
+        await Promise.all(initialDb.likes.map(async function(like) {
+            const dbLike = await db.like.create(like);
+            if(dbLike) {
+                console.log(dbLike.toJSON());
+            }
+            return dbLike;
+        }));
     } 
     catch(error) {
         console.log(error.message);

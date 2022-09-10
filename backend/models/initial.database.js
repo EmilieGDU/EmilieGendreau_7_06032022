@@ -83,4 +83,23 @@ const comments = [
     },
 ];
 
-module.exports = {users, posts, comments};
+// #########################################################
+//                    Adding Likes
+// #########################################################
+
+const likes = [
+    {
+        PostId: 1,
+        UserId: 4,
+    },
+    {
+        PostId: 2,
+        UserId: 2,
+    },
+    {
+        PostId: 2,
+        UserId: 3,
+    },
+];
+
+module.exports = {users, posts, comments, likes};
