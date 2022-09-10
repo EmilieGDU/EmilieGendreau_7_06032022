@@ -248,10 +248,16 @@ exports.getUserCommentedPosts = (req, res, next) => {
             return res.status(404).json({ message });
         }
         
-        Comment.findAll(
-            { where: { UserId: user.id }, 
-            include: Post }
-        )
+        // Comment.findAll(
+        //     { where: { UserId: user.id }, 
+        //     include: Post }
+        // )
+        Post.findAll({ 
+            include: {
+                model: Comment,                
+                where: { UserId: user.id } 
+            } 
+        })
         .then((userCommentedPosts) => {
             if (userCommentedPosts.length < 1) {
                 const message = "L'utilisateur n'a commenté aucun post.";

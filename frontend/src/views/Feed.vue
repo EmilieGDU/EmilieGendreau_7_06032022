@@ -30,7 +30,7 @@
         created() {
             PostService.getAllPosts()
             .then((response) => {
-                // console.log(response.data);
+                console.log(response.data);
                 // response.data = {message, data}
                 this.posts = response.data.data;
             })

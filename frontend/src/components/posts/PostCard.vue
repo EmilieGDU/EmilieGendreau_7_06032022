@@ -1,7 +1,7 @@
 <template>
     <div class="my-5">
         <div class="card shadow">
-            <div class="card-body">
+            <div class="card-body" v-if="post.attachment">
                 <img v-bind:src="post.attachment" class="card-img-top text-light w-100 rounded-3" alt="Image associée au Post" />
             </div>
             

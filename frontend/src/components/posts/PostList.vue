@@ -29,6 +29,9 @@
             deletePost(postId) {
                 console.log("deletePost : ", postId);
             },
+        },
+        created() {
+            console.log(this.posts);
         }      
     }
 </script>
