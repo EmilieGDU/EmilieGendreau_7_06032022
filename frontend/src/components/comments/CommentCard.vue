@@ -1,6 +1,6 @@
 <template>
     <div class="my-5">
-        <div class="card text-center">
+        <div class="card">
             <div class="card-header">
                 {{ comment.UserId }}
             </div>

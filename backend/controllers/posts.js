@@ -5,6 +5,7 @@ const { ValidationError } = require("sequelize");
 const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Comment = require("../models/Comment.model"); 
+const Like = require("../models/Like.model"); 
 
 // Importing the NodeJS fs module (to access and interact with the file system)
 const fs = require("fs"); 
@@ -345,6 +346,32 @@ exports.deleteComment = (req, res, next) => {
 // CRUD Implementation with exploitation of the Sequelize data model
 // Controllers related to LIKES management
 // #################################################################
+
+// R like READ
+exports.getPostLikes = (req, res, next) => {
+    Like.findAndCountAll({ 
+        where: { 
+            PostId: req.params.postId
+        } 
+    })
+    .then(({count, rows}) => {
+        if (count == 0) {
+            const message = `Aucun like n'est rattaché au post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message });
+        }
+        else if (count == 1) {
+            const message = `${count} like est rattaché au post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message, data: {count, rows}});
+        }
+        else {
+            const message = `${count} likes sont rattachés au post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message, data: {count, rows}});
+        };            
+    })        
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });
+};
 
 // ###########################
 // Like/Dislike Implementation

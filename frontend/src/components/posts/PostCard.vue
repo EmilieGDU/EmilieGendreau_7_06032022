@@ -14,12 +14,17 @@
                 <div class="col-6 d-flex text-start">
                     <div class="fa-stack">
                         <!-- Bottom icon -->
-                        <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
+                        <button class="faStack" v-on:click="likePost">
+                            <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
+                        </button>
                         <!-- Top icon -->
-                        <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
+                        <button v-if="userLike" class="faStack" v-on:click="unlikePost">
+                            <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
+                        </button>                        
                     </div>
-                    <div class="">
-                        <span class="ms-2 ms-sm-0">N likes</span>
+                    <div>
+                        <span v-if="nbLikes <= 1" class="ms-2 ms-sm-0 faStack"> {{ nbLikes }} like</span>
+                        <span v-else class="ms-2 ms-sm-0 faStack"> {{ nbLikes }} likes</span>
                     </div>
                 </div>
                 <div class="col-6 text-end">
@@ -46,6 +51,7 @@
 
 
 <script>
+    import LikeService from "../../services/like.service"
     import CommentService from "../../services/comment.service"
     import CommentList from "../comments/CommentList.vue"
 
@@ -58,12 +64,20 @@
         data() {
             return {
                 postId: this.post.id,
+                userLike: false,
+                nbLikes: 0,
                 nbComments: 0,
                 comments: [],
                 showComments: false,
             }
         },
         methods: {
+            likePost() {
+                this.userLike = true;
+            },
+            unlikePost() {
+                this.userLike = false;
+            },
             toggleComments() {
                 console.log(this.showComments);
                 this.showComments = !this.showComments;
@@ -76,6 +90,15 @@
             },
         },
         created() {
+            LikeService.getPostLikes(this.postId)
+            .then((response) => {
+                // console.log(response.data);
+                // response.data = {message, data}
+                this.nbLikes = response.data.data.count;
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            });
             CommentService.getPostComments(this.postId)
             .then((response) => {
                 // console.log(response.data);
@@ -97,10 +120,20 @@
 
 <style scoped>
 
+.faStack {
+    color: #4E5166;
+    border: none;
+    background-color: #FFFFFF;
+}
+
 .toggleComments {
     color: #4E5166;
     border: none;
     background-color: #FFFFFF;
+}
+
+.toggleComments:hover {
+    text-decoration: underline;
 }
 
 </style>
