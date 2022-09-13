@@ -24,7 +24,8 @@ router.delete("/:id", auth, postsCtrl.deletePost);
 // ==========================================================================
 // Routes related to comments management (main segment = "/api/posts")
 router.post("/:postId/comments", auth, postsCtrl.createComment);
-router.get("/:postId/comments", auth, postsCtrl.getAllComments);
+//router.get("/:postId/comments", auth, postsCtrl.getPostComments);
+router.get("/:postId/comments", postsCtrl.getPostComments);
 router.put("/:postId/comments/:commentId", auth, postsCtrl.modifyComment);
 router.delete("/:postId/comments/:commentId", auth, postsCtrl.deleteComment);
 

@@ -45,16 +45,21 @@ const posts = [
         UserId: 2,
         title: "Votre salle de pause idéale",
         body: "Quels sont les facteurs qui contribuent à votre détente en salle de pause ? A vos commentaires !",
-        attachment: "http://localhost:3000/images/break_room.png",
-        likes: 0
+        attachment: "http://localhost:3000/images/break_room.png"
     },
     {
         // id: provided automatically by the database
         UserId: 4,
         title: "Méditation chinoise",
         body: "L'été dernier, j'ai découvert une technique de méditation chinoise : le Qigong. Idéal pour se ressourcer ! Nous pourrions demander à Bénédicte de réserver une séance d'initiation avec un coach spécialisé. Qui est partant ?",
-        attachment: "http://localhost:3000/images/qigong.png",
-        likes: 0
+        attachment: "http://localhost:3000/images/qigong.png"
+    },     
+    {
+        // id: provided automatically by the database
+        UserId: 4,
+        title: "C'est la rentrée !",
+        body: "Toute l'équipe est heureuse de vous retrouver et espère que vous avez passé un bel été.",
+        attachment: "http://localhost:3000/images/welcome_back.png"
     },     
 ];
 
@@ -81,6 +86,12 @@ const comments = [
         UserId: 2,
         comment: "Bonne idée Isabelle !"
     },
+    {
+        // id: provided automatically by the database
+        PostId: 3,
+        UserId: 2,
+        comment: "Bonne reprise à tous."
+    },
 ];
 
 // #########################################################
@@ -99,6 +110,14 @@ const likes = [
     {
         PostId: 2,
         UserId: 3,
+    },
+    {
+        PostId: 3,
+        UserId: 3,
+    },
+    {
+        PostId: 3,
+        UserId: 2,
     },
 ];
 

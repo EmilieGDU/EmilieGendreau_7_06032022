@@ -42,10 +42,6 @@ const Post = sequelize.define(
             // validate: {
             //     isUrl: { msg: "Renseignez une URL valide pour la pièce-jointe." } // Checks for URL format (https://foo.com)
             // }
-        },
-        likes: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0
         }
     },
     // By default, Sequelize automatically adds the fields createdAt and updatedAt to every model.

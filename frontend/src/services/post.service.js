@@ -15,9 +15,13 @@ class PostService {
             .get(API_URL, { headers: authHeader() });
     }
 
-    getOnePost() {
-
-    }
+    // getOnePost(postId) {
+        // return axios
+        //     .get(
+        //         `${API_URL}/${postId}`, 
+        //         { headers: authHeader() }
+        //     );
+    // }
 
     modifyPost() {
 

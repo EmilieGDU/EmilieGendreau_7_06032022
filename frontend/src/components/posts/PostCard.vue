@@ -23,8 +23,13 @@
                     </div>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="#" class="card-link">N commentaires</a>
+                    <button v-if="nbComments <= 1" class="toggleComments me-2 me-sm-0" v-on:click="toggleComments">{{ nbComments }} commentaire</button>
+                    <button v-else class="toggleComments me-2 me-sm-0" v-on:click="toggleComments">{{ nbComments }} commentaires</button>
                 </div>
+            </div>
+            
+            <div v-if="showComments">
+                <comment-list v-bind:comments="comments"></comment-list>
             </div>
             
             <div class="card-body d-flex">         
@@ -41,21 +46,61 @@
 
 
 <script>
+    import CommentService from "../../services/comment.service"
+    import CommentList from "../comments/CommentList.vue"
+
     export default {
         name: "PostCard",
+        components: {
+            "comment-list": CommentList,
+        },
         props: [ "post" ],
+        data() {
+            return {
+                postId: this.post.id,
+                nbComments: 0,
+                comments: [],
+                showComments: false,
+            }
+        },
         methods: {
+            toggleComments() {
+                console.log(this.showComments);
+                this.showComments = !this.showComments;
+            },
             onModifyPost() {
-                this.$emit("modifyPost", this.post.id);
+                this.$emit("modifyPost", this.postId);
             },
             onDeletePost() {
-                this.$emit("deletePost", this.post.id);
+                this.$emit("deletePost", this.postId);
             },
-        }       
+        },
+        created() {
+            CommentService.getPostComments(this.postId)
+            .then((response) => {
+                // console.log(response.data);
+                // console.log("Response.data.message : ", response.data.message);
+                // console.log("Response.data.data : ", response.data.data);
+                // console.log("Response.data.data.count : ", response.data.data.count);
+                // console.log("Response.data.data.rows : ", response.data.data.rows);
+                // response.data = {message, data}
+                this.comments = response.data.data.rows;
+                this.nbComments = response.data.data.count;
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            });
+        }     
     }
 </script>
 
 
 <style scoped>
+
+.toggleComments {
+    color: #4E5166;
+    border: none;
+    background-color: #FFFFFF;
+}
 
 </style>

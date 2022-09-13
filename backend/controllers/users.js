@@ -264,7 +264,7 @@ exports.getUserCommentedPosts = (req, res, next) => {
                 return res.status(200).json({ message });
             }
             else {
-                console.log(userCommentedPosts);
+                // console.log(userCommentedPosts);
                 const message = "L'ensemble des posts commentés par l'utilisateur a été récupéré.";
                 return res.status(200).json({ message, data: userCommentedPosts});
             }

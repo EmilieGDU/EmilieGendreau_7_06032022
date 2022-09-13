@@ -15,11 +15,11 @@ const User = sequelize.define(
         },
         lastName: {
             type: DataTypes.STRING(100),
-            allowNull: false,
-            validate: {
-                notEmpty: { msg: "Le nom doit être renseigné." }, // Don't allow empty strings
-                notNull: { msg: "Le nom est une propriété requise." } // Don't allow null (= no value)
-            }
+            allowNull: true,
+            // validate: {
+            //     notEmpty: { msg: "Le nom doit être renseigné." }, // Don't allow empty strings
+            //     notNull: { msg: "Le nom est une propriété requise." } // Don't allow null (= no value)
+            // }
         },
         email: {
             type: DataTypes.STRING(255),

@@ -11,7 +11,7 @@ const fs = require("fs");
 
 // #################################################################
 // CRUD Implementation with exploitation of the Sequelize data model
-// Controllers related to posts management
+// Controllers related to POSTS management
 // #################################################################
 
 // C like CREATE 
@@ -162,7 +162,7 @@ exports.deletePost = (req, res, next) => {
 
 // #################################################################
 // CRUD Implementation with exploitation of the Sequelize data model
-// Controllers related to comments management
+// Controllers related to COMMENTS management
 // #################################################################
 
 // C like CREATE
@@ -200,19 +200,44 @@ exports.createComment = (req, res, next) => {
 
 
 // R like READ
-exports.getAllComments = (req, res, next) => {
-    Comment.findAll({ where: { PostId: req.params.postId} })
-    .then((comments) => {
-        if (comments.length === 0) {
-            const message = "Post non trouvé.";
-            return res.status(404).json({ message });
+// exports.getPostComments = (req, res, next) => {
+//     Comment.findAll({ where: { PostId: req.params.postId} })
+//     .then((comments) => {
+//         if (comments.length === 0) {
+//             const message = "Post non trouvé.";
+//             return res.status(404).json({ message });
+//         } 
+//         else {
+//             const message = "L'ensemble des commentaires a été récupéré.";
+//             return res.status(200).json({ message, data: comments });
+//         }
+//     })
+//     .catch((error) => { return res.status(500).json({ error }); });
+// };
+
+exports.getPostComments = (req, res, next) => {
+    Comment.findAndCountAll({ 
+        where: { 
+            PostId: req.params.postId
         } 
-        else {
-            const message = "L'ensemble des commentaires a été récupéré.";
-            return res.status(200).json({ message, data: comments });
-        }
     })
-    .catch((error) => { return res.status(500).json({ error }); });
+    .then(({count, rows}) => {
+        if (count == 0) {
+            const message = `Aucun commentaire n'est rattaché au post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message });
+        }
+        else if (count == 1) {
+            const message = `${count} commentaire est rattaché au post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message, data: {count, rows}});
+        }
+        else {
+            const message = `${count} commentaires sont rattachés au post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message, data: {count, rows}});
+        };            
+    })        
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });
 };
 
 
@@ -316,7 +341,11 @@ exports.deleteComment = (req, res, next) => {
 };
 
 
+// #################################################################
+// CRUD Implementation with exploitation of the Sequelize data model
+// Controllers related to LIKES management
+// #################################################################
+
 // ###########################
 // Like/Dislike Implementation
 // ###########################
-
