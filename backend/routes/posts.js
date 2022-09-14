@@ -30,6 +30,10 @@ router.put("/:postId/comments/:commentId", auth, postsCtrl.modifyComment);
 router.delete("/:postId/comments/:commentId", auth, postsCtrl.deleteComment);
 // ==========================================================================
 // Routes related to LIKES management (main segment = "/api/posts")
+//router.post("/:postId/likes", auth, postsCtrl.likePost);
+router.post("/:postId/likes/:userId", postsCtrl.likePost);
+//router.get("/:postId/likes", auth, postsCtrl.getUserLikes);
+router.get("/:postId/likes/:userId", postsCtrl.getUserLikes);
 //router.get("/:postId/likes", auth, postsCtrl.getPostLikes);
 router.get("/:postId/likes", postsCtrl.getPostLikes);
 

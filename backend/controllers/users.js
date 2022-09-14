@@ -13,7 +13,7 @@ const fs = require("fs");
 
 
 // ################################################
-// Controllers related to authentication management
+// Controllers related to AUTHENTICATION management
 // ################################################
 
 exports.signup = (req, res, next) => {
@@ -79,7 +79,7 @@ exports.login = (req, res, next) => {
 
 // #################################################################
 // CRUD Implementation with exploitation of the Sequelize data model
-// Controllers related to users management
+// Controllers related to USERS management
 // #################################################################
 
 // C like CREATE

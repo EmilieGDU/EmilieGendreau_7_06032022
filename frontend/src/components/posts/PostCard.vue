@@ -18,7 +18,7 @@
                             <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>
                         <!-- Top icon -->
-                        <button v-if="userLike" class="faStack" v-on:click="unlikePost">
+                        <button v-if="userLike" class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>                        
                     </div>
@@ -64,7 +64,8 @@
         data() {
             return {
                 postId: this.post.id,
-                userLike: false,
+                userId: 2,
+                userLike: 0,
                 nbLikes: 0,
                 nbComments: 0,
                 comments: [],
@@ -73,10 +74,35 @@
         },
         methods: {
             likePost() {
-                this.userLike = true;
+                //this.userLike = 1;
+            
+            /* ########################################################## */
+                LikeService.likePost(this.postId, this.userId)
+                .then((response) => {
+                    console.log(response.data);
+                    console.log(response.data.like);
+                    // response = {like, message}
+                    this.userLike = response.data.like;
+
+                    LikeService.getPostLikes(this.postId)
+                        .then((response) => {
+                            console.log(response.data);
+                            console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
+                            // response.data = {message, data}
+                            this.nbLikes = response.data.data.count;
+                        })
+                        .catch((error) => {
+                            console.log(error.response);
+                        });
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                });
+            /* ########################################################## */
+
             },
             unlikePost() {
-                this.userLike = false;
+                //this.userLike = 0;
             },
             toggleComments() {
                 console.log(this.showComments);
@@ -90,6 +116,16 @@
             },
         },
         created() {
+            LikeService.getUserLikes(this.postId, this.userId)
+            .then((response) => {
+                console.log(response.data);
+                // response.data = {message, data}
+                this.userLike = response.data.data.count;
+            })
+            .catch((error) => {
+                console.log(error.response);
+            });
+
             LikeService.getPostLikes(this.postId)
             .then((response) => {
                 // console.log(response.data);
@@ -97,8 +133,9 @@
                 this.nbLikes = response.data.data.count;
             })
             .catch((error) => {
-                console.log(error.response.data);
+                console.log(error.response);
             });
+
             CommentService.getPostComments(this.postId)
             .then((response) => {
                 // console.log(response.data);
@@ -107,33 +144,33 @@
                 // console.log("Response.data.data.count : ", response.data.data.count);
                 // console.log("Response.data.data.rows : ", response.data.data.rows);
                 // response.data = {message, data}
-                this.comments = response.data.data.rows;
                 this.nbComments = response.data.data.count;
+                this.comments = response.data.data.rows;
             })
             .catch((error) => {
-                console.log(error.response.data);
+                console.log(error.response);
             });
-        }     
+        }    
     }
 </script>
 
 
 <style scoped>
 
-.faStack {
-    color: #4E5166;
-    border: none;
-    background-color: #FFFFFF;
-}
+    .faStack {
+        color: #4E5166;
+        border: none;
+        background-color: #FFFFFF;
+    }
 
-.toggleComments {
-    color: #4E5166;
-    border: none;
-    background-color: #FFFFFF;
-}
+    .toggleComments {
+        color: #4E5166;
+        border: none;
+        background-color: #FFFFFF;
+    }
 
-.toggleComments:hover {
-    text-decoration: underline;
-}
+    .toggleComments:hover {
+        text-decoration: underline;
+    }
 
 </style>

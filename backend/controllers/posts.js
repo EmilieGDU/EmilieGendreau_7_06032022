@@ -343,11 +343,84 @@ exports.deleteComment = (req, res, next) => {
 
 
 // #################################################################
-// CRUD Implementation with exploitation of the Sequelize data model
+// CRD Implementation with exploitation of the Sequelize data model
 // Controllers related to LIKES management
 // #################################################################
 
+// C like CREATE and D like DELETE
+exports.likePost = (req, res, next) => {    
+    const userId = req.params.userId;
+    const postId = req.params.postId;
+    Like.findAndCountAll({
+        where: {
+            UserId: userId,
+            PostId: postId
+        }
+    })
+    .then(({count, rows}) => {
+        if (count == 1) {
+            Like.destroy({
+                where: {
+                    UserId: userId,
+                    PostId: postId
+                }
+            })
+            .then(() => {
+                const like = 0;
+                const message = `Vous n'aimez plus le post ayant l'identifiant n°${postId}.`;
+                return res.status(200).json({ like, message });
+            })
+            .catch((error) => {
+                return res.status(500).json({ error });
+            });
+        }
+        
+        else {
+            Like.create({
+                UserId: userId,
+                PostId: postId
+            })
+            .then(() => {
+                const like = 1;
+                const message = `Vous aimez le post ayant l'identifiant n°${postId}.`;
+                return res.status(201).json({ like, message });
+            })
+            .catch((error) => {
+                return res.status(500).json({ error });
+            });
+        }
+    })
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });    
+};
+
+
 // R like READ
+exports.getUserLikes = (req, res, next) => {
+    const userId = req.params.userId;
+    const postId = req.params.postId;
+    Like.findAndCountAll({
+        where: {
+            UserId: userId,
+            PostId: postId
+        }
+    })
+    .then(({count, rows}) => {
+        if (count == 1) {
+            const message = `L'utilisateur a liké le post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message, data: {count, rows}});
+        }
+        else {
+            const message = `L'utilisateur n'a pas liké le post ayant l'identifiant n°${req.params.postId}.`;
+            return res.status(200).json({ message, data: {count}});
+        }
+    })
+    .catch((error) => {
+        return res.status(500).json({ error });
+    });    
+};
+
 exports.getPostLikes = (req, res, next) => {
     Like.findAndCountAll({ 
         where: { 
@@ -357,7 +430,7 @@ exports.getPostLikes = (req, res, next) => {
     .then(({count, rows}) => {
         if (count == 0) {
             const message = `Aucun like n'est rattaché au post ayant l'identifiant n°${req.params.postId}.`;
-            return res.status(200).json({ message });
+            return res.status(200).json({ message, data: {count, rows}});
         }
         else if (count == 1) {
             const message = `${count} like est rattaché au post ayant l'identifiant n°${req.params.postId}.`;
@@ -372,7 +445,3 @@ exports.getPostLikes = (req, res, next) => {
         return res.status(500).json({ error });
     });
 };
-
-// ###########################
-// Like/Dislike Implementation
-// ###########################
