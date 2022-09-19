@@ -1,7 +1,7 @@
 <template>
-    <div class="container mt-5">
+    <div class="container mt-2">
         <h1>La liste des commentaires</h1>
-        <p class="text-muted"><em>Affichage anti-chronologique</em></p>
+        <p class="text-muted"><em>Affichage chronologique</em></p>
         <comment-card
             v-for="(comment, index) in comments" 
             v-bind:key="index" 

@@ -8,11 +8,19 @@ const API_URL = "http://localhost:3000/api/posts";
 class PostService {
 
     createPost() {
+        // return axios
+        //     .post(
+        //         API_URL, 
+        //         { headers: authHeader() }
+        //     );
     }
 
     getAllPosts() {
         return axios
-            .get(API_URL, { headers: authHeader() });
+            .get(
+                API_URL, 
+                { headers: authHeader() }
+            );
     }
 
     // getOnePost(postId) {
@@ -23,12 +31,20 @@ class PostService {
         //     );
     // }
 
-    modifyPost() {
-
+    modifyPost(postId) {
+        return axios
+            .put(
+                `${API_URL}/${postId}`, 
+                { headers: authHeader() }
+            );
     }
 
-    deletePost() {
-
+    deletePost(postId) {
+        return axios
+            .delete(
+                `${API_URL}/${postId}`, 
+                { headers: authHeader() }
+            );
     }
 
 }

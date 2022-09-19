@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9 col-lg-6 mt-5">
+    <div class="container col-12 col-md-9 col-lg-6 mt-2">
         <h1>La liste des posts</h1>
         <p class="text-muted"><em>Affichage anti-chronologique</em></p>
         <post-card 
@@ -24,10 +24,13 @@
         props: [ "posts" ],
         methods: {
             modifyPost(postId) {
-                console.log("modifyPost : ", postId);
+                console.log("modifyPost depuis Postlist : ", postId);                
+                this.$emit("modifyPost", postId);
             },
+            
             deletePost(postId) {
-                console.log("deletePost : ", postId);
+                console.log("deletePost depuis PostList : ", postId);
+                this.$emit("deletePost", postId);
             },
         },
         created() {

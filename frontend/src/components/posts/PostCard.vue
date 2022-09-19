@@ -1,6 +1,7 @@
 <template>
-    <div class="my-5">
+    <div class="mt-5">
         <div class="card shadow">
+            <!-- Post Start -->
             <div class="card-body" v-if="post.attachment">
                 <img v-bind:src="post.attachment" class="card-img-top text-light w-100 rounded-3" alt="Image associée au Post" />
             </div>
@@ -9,8 +10,10 @@
                 <h2 class="card-title">{{ post.title }}</h2>
                 <p class="card-text">{{ post.body }}</p>
             </div>
+            <!-- Post End -->
             
-            <div class="card-body d-flex">         
+            <div class="card-body d-flex">    
+                <!-- Likes Start -->     
                 <div class="col-6 d-flex text-start">
                     <div class="fa-stack">
                         <!-- Bottom icon -->
@@ -27,24 +30,69 @@
                         <span v-else class="ms-2 ms-sm-0 faStack"> {{ nbLikes }} likes</span>
                     </div>
                 </div>
+                <!-- Likes End -->
+
+                <!-- Comments Start -->
                 <div class="col-6 text-end">
                     <button v-if="nbComments <= 1" class="toggleComments me-2 me-sm-0" v-on:click="toggleComments">{{ nbComments }} commentaire</button>
-                    <button v-else class="toggleComments me-2 me-sm-0" v-on:click="toggleComments">{{ nbComments }} commentaires</button>
+                    <button v-else class="toggleComments" v-on:click="toggleComments">{{ nbComments }} commentaires</button>
                 </div>
             </div>
             
             <div v-if="showComments">
                 <comment-list v-bind:comments="comments"></comment-list>
             </div>
+            <!-- Comments End -->
+
             
-            <div class="card-body d-flex">         
+            <div v-if="isAuthorOfPost" class="card-body d-flex">         
                 <div class="col-6 col-sm-5 me-auto d-flex text-start">
-                    <button type="button" class="btn btn-success fw-bold mb-2 p-2 w-75" v-on:click="onModifyPost">Modifier</button>
+                    <button type="button" class="btn btn-success fw-bold p-2 w-75" v-on:click="onModifyPost">Modifier</button>
                 </div>
                 <div class="col-6 col-sm-5 text-end">
-                    <button type="button" class="btn btn-danger fw-bold mb-2 p-2 w-75" v-on:click="onDeletePost">Supprimer</button>
+                    <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deleteConfirmModal">Supprimer</button>
                 </div>
             </div>
+            <div v-else-if="isAdmin" class="card-body d-flex">
+                <div class="col-6 mx-auto d-flex">
+                    <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deleteConfirmModal">Supprimer</button>
+                </div>
+            </div>
+
+            <!-- Modals -->
+            <!-- <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="deleteConfirmModalLabel">Confirmez votre choix</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer ce post ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-primary">Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="alertModalLabel">Confirmez votre choix</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer ce post ?</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- End of Modals -->
         </div>        
     </div>  
 </template>
@@ -65,29 +113,29 @@
             return {
                 postId: this.post.id,
                 userId: 2,
+                isAdmin: false,
+                isAuthorOfPost: true,
                 userLike: 0,
                 nbLikes: 0,
                 nbComments: 0,
                 comments: [],
                 showComments: false,
+
             }
         },
         methods: {
             likePost() {
-                //this.userLike = 1;
-            
-            /* ########################################################## */
                 LikeService.likePost(this.postId, this.userId)
                 .then((response) => {
-                    console.log(response.data);
-                    console.log(response.data.like);
+                    // console.log(response.data);
+                    // console.log(response.data.like);
                     // response = {like, message}
                     this.userLike = response.data.like;
 
                     LikeService.getPostLikes(this.postId)
                         .then((response) => {
-                            console.log(response.data);
-                            console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
+                            // console.log(response.data);
+                            // console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
                             // response.data = {message, data}
                             this.nbLikes = response.data.data.count;
                         })
@@ -98,11 +146,6 @@
                 .catch((error) => {
                     console.log(error.response.data);
                 });
-            /* ########################################################## */
-
-            },
-            unlikePost() {
-                //this.userLike = 0;
             },
             toggleComments() {
                 console.log(this.showComments);

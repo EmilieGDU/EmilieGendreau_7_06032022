@@ -72,7 +72,7 @@ const comments = [
         // id: provided automatically by the database
         PostId: 1,
         UserId: 3,
-        comment: "Un bon canapé !"
+        comment: "Un distributeur de boissons chaudes."
     },
     {
         // id: provided automatically by the database
@@ -84,7 +84,7 @@ const comments = [
         // id: provided automatically by the database
         PostId: 2,
         UserId: 2,
-        comment: "Bonne idée Isabelle !"
+        comment: "Bonne idée !"
     },
     {
         // id: provided automatically by the database

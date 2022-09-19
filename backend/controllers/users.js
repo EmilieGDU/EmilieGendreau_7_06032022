@@ -181,6 +181,33 @@ exports.getOneUser = (req, res, next) => {
     });
 };
 
+// #############################################################################################################################
+// exports.getUserName = (req, res, next) => {
+//     User.findByPk(req.params.id)
+//     .then((user) => {
+//         if (user === null) {
+//             const message = "Utilisateur non trouvé.";
+//             return res.status(404).json({ message });
+//         } 
+//         else {
+//             let email = user.email;
+
+//             let firstnameInEmailSmallCase = email.split("@")[0].split(".")[0];
+//             let firstNameInEmail = firstnameInEmailSmallCase.replace(/^./, firstnameInEmailSmallCase[0].toUpperCase());
+//             let lastNameInEmail = email.split("@")[0].split(".")[1].toUpperCase();
+
+//             const userName = `${firstNameInEmail} ${lastNameInEmail}`
+//             const message = "Le nom de l'utilisateur a été récupéré.";
+//             return res.status(200).json({ message, data: { userName: userName} });
+//         };
+//     })
+//     .catch((error) => {
+//         return res.status(500).json({ error });
+//     });
+// };
+// #############################################################################################################################
+
+
 exports.getUserPosts = (req, res, next) => {
     User.findByPk(req.params.id)
     .then((user) => {

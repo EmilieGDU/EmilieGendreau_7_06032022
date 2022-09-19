@@ -12,6 +12,16 @@ class UserService {
             .get(API_URL);
     }
     
+    // ###########################################
+    // getUserName(userId) {
+    //     return axios
+    //         .get(
+    //             `${API_URL}/users/${userId}`, 
+    //             { headers: authHeader() }
+    //         );
+    // }
+    // ###########################################
+
     getUserPosts(userId) {
         return axios
             .get(

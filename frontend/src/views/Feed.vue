@@ -3,7 +3,11 @@
         
         <main class="my-5">
             <post-creation></post-creation>
-            <post-list v-bind:posts="posts"></post-list>
+            <post-list 
+                v-bind:posts="posts"
+                v-on:modifyPost="modifyPost($event)"
+                v-on:deletePost="deletePost($event)">
+            </post-list>
         </main>
 
     </div>
@@ -27,6 +31,31 @@
                 posts: []
             };
         },
+        methods: {
+            modifyPost(postId) {
+                console.log("modifyPost depuis Feed : ", postId);
+            },
+            
+            deletePost(postId) {
+                console.log("deletePost depuis Feed : ", postId);
+                PostService.deletePost(postId)
+                .then((response) => {
+                    console.log(response.data.message);
+                    PostService.getAllPosts()
+                    .then((response) => {
+                        console.log(response.data);
+                        // response.data = {message, data}
+                        this.posts = response.data.data;
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+            },
+        },
         created() {
             PostService.getAllPosts()
             .then((response) => {
@@ -36,7 +65,7 @@
             })
             .catch((error) => {
                 console.log(error.response.data);
-            })
+            });
         } 
     }
 </script>

@@ -220,7 +220,11 @@ exports.getPostComments = (req, res, next) => {
     Comment.findAndCountAll({ 
         where: { 
             PostId: req.params.postId
-        } 
+        },
+        // include: {
+        //     model: User,
+        //     attributes: ["email"],
+        // } 
     })
     .then(({count, rows}) => {
         if (count == 0) {
