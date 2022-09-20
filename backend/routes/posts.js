@@ -28,8 +28,10 @@ router.delete("/:id", postsCtrl.deletePost);
 router.post("/:postId/comments", auth, postsCtrl.createComment);
 //router.get("/:postId/comments", auth, postsCtrl.getPostComments);
 router.get("/:postId/comments", postsCtrl.getPostComments);
-router.put("/:postId/comments/:commentId", auth, postsCtrl.modifyComment);
-router.delete("/:postId/comments/:commentId", auth, postsCtrl.deleteComment);
+//router.put("/:postId/comments/:commentId", auth, postsCtrl.modifyComment);
+router.put("/:postId/comments/:commentId", postsCtrl.modifyComment);
+//router.delete("/:postId/comments/:commentId", auth, postsCtrl.deleteComment);
+router.delete("/:postId/comments/:commentId", postsCtrl.deleteComment);
 // ==========================================================================
 // Routes related to LIKES management (main segment = "/api/posts")
 //router.post("/:postId/likes", auth, postsCtrl.likePost);

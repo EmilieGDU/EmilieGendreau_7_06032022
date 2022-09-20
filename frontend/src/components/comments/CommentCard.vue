@@ -40,16 +40,18 @@
         data() {
             return {
                 // userName: '',
+                postId: this.comment.PostId,
+                commentId: this.comment.id,
                 isAdmin: false,
                 isAuthorOfComment: true,
             }
         },
         methods: {
             onModifyComment() {
-                this.$emit("modifyComment", this.comment.id);
+                this.$emit("modifyComment", {postId: this.postId, commentId: this.commentId});
             },
             onDeleteComment() {
-                this.$emit("deleteComment", this.comment.id);
+                this.$emit("deleteComment", {postId: this.postId, commentId: this.commentId});
             },
         },
         // ##################################################################################################

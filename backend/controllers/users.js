@@ -192,8 +192,8 @@ exports.getOneUser = (req, res, next) => {
 //         else {
 //             let email = user.email;
 
-//             let firstnameInEmailSmallCase = email.split("@")[0].split(".")[0];
-//             let firstNameInEmail = firstnameInEmailSmallCase.replace(/^./, firstnameInEmailSmallCase[0].toUpperCase());
+//             let firstnameInEmailLowerCase = email.split("@")[0].split(".")[0];
+//             let firstNameInEmail = firstnameInEmailLowerCase.replace(/^./, firstnameInEmailLowerCase[0].toUpperCase());
 //             let lastNameInEmail = email.split("@")[0].split(".")[1].toUpperCase();
 
 //             const userName = `${firstNameInEmail} ${lastNameInEmail}`

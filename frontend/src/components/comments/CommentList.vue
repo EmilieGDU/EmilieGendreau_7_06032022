@@ -23,11 +23,14 @@
         },
         props: [ "comments" ],
         methods: {
-            modifyComment(commentId) {
-                console.log(`"modifyComment : " ${commentId}`);
+            modifyComment(event) {
+                console.log("modifyComment depuis CommentList : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
+                this.$emit("modifyComment", {postId: event.postId, commentId: event.commentId});
             },
-            deleteComment(commentId) {
-                console.log(`"deleteComment : " ${commentId}`);
+            
+            deleteComment(event) {
+                console.log("deleteComment depuis CommentList : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
+                this.$emit("deleteComment", {postId: event.postId, commentId: event.commentId});
             },
         },
         created() {

@@ -40,7 +40,11 @@
             </div>
             
             <div v-if="showComments">
-                <comment-list v-bind:comments="comments"></comment-list>
+                <comment-list 
+                    v-bind:comments="comments"
+                    v-on:modifyComment="modifyComment($event)"
+                    v-on:deleteComment="deleteComment($event)">
+                </comment-list>
             </div>
             <!-- Comments End -->
 
@@ -124,6 +128,14 @@
             }
         },
         methods: {
+            onModifyPost() {
+                this.$emit("modifyPost", this.postId);
+            },
+
+            onDeletePost() {
+                this.$emit("deletePost", this.postId);
+            },
+
             likePost() {
                 LikeService.likePost(this.postId, this.userId)
                 .then((response) => {
@@ -147,16 +159,38 @@
                     console.log(error.response.data);
                 });
             },
+
             toggleComments() {
                 console.log(this.showComments);
                 this.showComments = !this.showComments;
             },
-            onModifyPost() {
-                this.$emit("modifyPost", this.postId);
+            
+            modifyComment(event) {
+                console.log("modifyComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
+                // CommentService.modifyComment(event)
+                // .then()
+                // .catch();
             },
-            onDeletePost() {
-                this.$emit("deletePost", this.postId);
-            },
+            
+            deleteComment(event) {
+                console.log("deleteComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
+                CommentService.deleteComment(event)
+                .then((response) => {
+                    console.log(response.data.message);
+                    CommentService.getPostComments(event.postId)
+                    .then((response) => {
+                        console.log(response.data);
+                        // response.data = {message, data}
+                        this.comments = response.data.data;
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+            }
         },
         created() {
             LikeService.getUserLikes(this.postId, this.userId)

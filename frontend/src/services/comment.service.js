@@ -18,16 +18,25 @@ class CommentService {
 
     // getOneComment(postId, commentId) {
     //     return axios
-    //         .get(`${API_URL}/${postId}/comments/${commentId}`,
+    //         .get(`${API_URL}/posts/${postId}/comments/${commentId}`,
     //         { headers: authHeader() });
     // }
 
-    modifyComment() {
-
+    modifyComment({postId, commentId}) {
+        return axios
+            .put(
+                `${API_URL}/${postId}/comments/${commentId}`, 
+                { headers: authHeader() }
+            );
     }
 
-    deleteComment() {
-
+    deleteComment(comment) {
+        
+        return axios
+            .delete(
+                `${API_URL}/${comment.postId}/comments/${comment.commentId}`, 
+                { headers: authHeader() }
+            );
     }
 
 }
