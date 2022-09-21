@@ -7,13 +7,20 @@ const API_URL = "http://localhost:3000/api/posts";
 
 class CommentService {
 
-    createComment() {
+    createComment(comment) {
+        return axios
+            .post(
+                `${API_URL}/${comment.PostId}/comments`, 
+                { headers: authHeader() }
+            );
     }
 
     getPostComments(postId) {
         return axios
-            .get(`${API_URL}/${postId}/comments`,
-            { headers: authHeader() });
+            .get(
+                `${API_URL}/${postId}/comments`,
+                { headers: authHeader() }
+            );
     }
 
     // getOneComment(postId, commentId) {
@@ -22,7 +29,7 @@ class CommentService {
     //         { headers: authHeader() });
     // }
 
-    modifyComment({postId, commentId}) {
+    modifyComment(postId, commentId) {
         return axios
             .put(
                 `${API_URL}/${postId}/comments/${commentId}`, 
@@ -30,8 +37,7 @@ class CommentService {
             );
     }
 
-    deleteComment(comment) {
-        
+    deleteComment(comment) {        
         return axios
             .delete(
                 `${API_URL}/${comment.postId}/comments/${comment.commentId}`, 

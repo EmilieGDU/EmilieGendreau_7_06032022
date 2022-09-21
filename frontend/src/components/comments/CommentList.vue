@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-2">
+    <div class="container mt-5">
         <h1>La liste des commentaires</h1>
         <p class="text-muted"><em>Affichage chronologique</em></p>
         <comment-card

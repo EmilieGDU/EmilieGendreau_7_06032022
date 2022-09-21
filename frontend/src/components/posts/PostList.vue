@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-12 col-md-9 col-lg-6 mt-2">
+    <div class="mt-5">
         <h1>La liste des posts</h1>
         <p class="text-muted"><em>Affichage anti-chronologique</em></p>
         <post-card 

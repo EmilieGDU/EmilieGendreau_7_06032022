@@ -1,5 +1,5 @@
 <template>
-    <div class="my-3">
+    <div class="my-3 w-100">
         <div class="card">
             <div class="card-header">
                 {{ comment.UserId }}
@@ -16,14 +16,52 @@
                     <button type="button" class="btn btn-success fw-bold me-2 p-2 w-100" v-on:click="onModifyComment">Modifier</button>
                 </div>
                 <div class="col-6 col-sm-4 text-end">
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeleteComment">Supprimer</button>
+                    <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeleteComment" data-bs-toogle="modal" data-bs-target="#deleteCommentConfirmModal">Supprimer</button>
                 </div>
             </div>
             <div v-else-if="isAdmin" class="card-body d-flex">
                 <div class="col-6 col-sm-4 mx-auto d-flex">
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeleteComment">Supprimer</button>
+                    <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeleteComment" data-bs-toogle="modal" data-bs-target="#deleteCommentConfirmModal">Supprimer</button>
                 </div>
             </div>
+
+            <!-- Modals -->
+            <!-- <div class="modal fade" id="deleteCommentConfirmModal" tabindex="-1" aria-labelledby="deleteCommentConfirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="deleteCommentConfirmModalLabel">Confirmez votre choix</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer ce post ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-primary">Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="modal fade" id="alertCommentModal" tabindex="-1" aria-labelledby="alertCommentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="alertCommentModalLabel">{{ alertCommentModalTitle }}</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{ alertCommentModalContent }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">D'accord</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- End of Modals -->
         </div>        
     </div>  
 </template>
@@ -43,7 +81,9 @@
                 postId: this.comment.PostId,
                 commentId: this.comment.id,
                 isAdmin: false,
-                isAuthorOfComment: true,
+                isAuthorOfComment: true,                
+                // alertCommentModalTitle: "",
+                // alertCommentModalContent: "",
             }
         },
         methods: {

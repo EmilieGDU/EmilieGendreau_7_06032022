@@ -1,10 +1,10 @@
 <template>
     <div>
         
-        <main class="my-5">
+        <main class="container col-12 col-md-9 col-lg-6 my-5">
             <h1 class="text-center">Votre activité</h1>
 
-            <div class="container col-12 col-md-9 col-lg-6 text-center mt-3 mb-5"> 
+            <div class="mt-3 mb-5 w-100"> 
                 <a href="#posts" class="btn btn-outline-primary col-6 fw-bold me-auto mb-3 w-100">Posts</a>
                 <a href="#comments" class="btn btn-outline-primary col-6 fw-bold w-100">Commentaires</a>
             </div>
@@ -19,7 +19,6 @@
             </post-list>
             
             <h2 id="comments" class="text-center mt-5">Les articles que vous avez commentés</h2>
-            <!-- <post-creation></post-creation> -->
             <p v-if="!userCommentedPosts || userCommentedPosts == undefined">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userCommentedPosts"

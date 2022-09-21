@@ -25,7 +25,8 @@ router.put("/:id", multer, postsCtrl.modifyPost);
 router.delete("/:id", postsCtrl.deletePost);
 // ==========================================================================
 // Routes related to COMMENTS management (main segment = "/api/posts")
-router.post("/:postId/comments", auth, postsCtrl.createComment);
+//router.post("/:postId/comments", auth, postsCtrl.createComment);
+router.post("/:postId/comments", postsCtrl.createComment);
 //router.get("/:postId/comments", auth, postsCtrl.getPostComments);
 router.get("/:postId/comments", postsCtrl.getPostComments);
 //router.put("/:postId/comments/:commentId", auth, postsCtrl.modifyComment);

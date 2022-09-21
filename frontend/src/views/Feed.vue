@@ -1,7 +1,7 @@
 <template>
     <div>
         
-        <main class="my-5">
+        <main class="container col-12 col-md-9 col-lg-6 my-5">
             <post-creation></post-creation>
             <post-list 
                 v-bind:posts="posts"

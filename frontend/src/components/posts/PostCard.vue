@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-5">
+    <div class="mt-5 w-100">
         <div class="card shadow">
             <!-- Post Start -->
             <div class="card-body" v-if="post.attachment">
@@ -40,7 +40,10 @@
             </div>
             
             <div v-if="showComments">
-                <comment-creation></comment-creation>
+                <comment-creation 
+                    v-bind:post="post"
+                    v-on:createComment="createComment($event)">
+                </comment-creation>
                 <comment-list 
                     v-bind:comments="comments"
                     v-on:modifyComment="modifyComment($event)"
@@ -56,22 +59,22 @@
                 </div>
                 <div class="col-6 col-sm-5 text-end">
                     <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deleteConfirmModal">Supprimer</button>
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deletePostConfirmModal">Supprimer</button>
                 </div>
             </div>
             <div v-else-if="isAdmin" class="card-body d-flex">
                 <div class="col-6 mx-auto d-flex">
                     <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deleteConfirmModal">Supprimer</button>
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deletePostConfirmModal">Supprimer</button>
                 </div>
             </div>
 
             <!-- Modals -->
-            <!-- <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            <!-- <div class="modal fade" id="deletePostConfirmModal" tabindex="-1" aria-labelledby="deletePostConfirmModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title" id="deleteConfirmModalLabel">Confirmez votre choix</h3>
+                            <h3 class="modal-title" id="deletePostConfirmModalLabel">Confirmez votre choix</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -84,15 +87,18 @@
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+            <!-- <div class="modal fade" id="alertPostModal" tabindex="-1" aria-labelledby="alertPostModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 class="modal-title" id="alertModalLabel">Confirmez votre choix</h3>
+                            <h3 class="modal-title" id="alertPostModalLabel">{{ alertPostModalTitle }}</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Voulez-vous vraiment supprimer ce post ?</p>
+                            <p>{{ alertPostModalContent }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">D'accord</button>
                         </div>
                     </div>
                 </div>
@@ -127,6 +133,8 @@
                 nbComments: 0,
                 comments: [],
                 showComments: false,
+                // alertPostModalTitle: "",
+                // alertPostModalContent: "",
 
             }
         },
@@ -168,6 +176,27 @@
                 this.showComments = !this.showComments;
             },
             
+            createComment(event) {
+                console.log("createComment depuis PostCard : ", "formData = ", event);
+                console.log("createComment depuis PostCard : ", "formData.PostId = ", event.PostId);
+                CommentService.createComment(event)
+                .then((response) => {
+                    console.log(response.data.message);
+                    CommentService.getPostComments(event.PostId)
+                    .then((response) => {
+                        console.log(response.data);
+                        // response.data = {message, data}
+                        this.comments = response.data.data;
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+            },
+
             modifyComment(event) {
                 console.log("modifyComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
                 // CommentService.modifyComment(event)
