@@ -10,7 +10,7 @@
                 </div> 
                 <div class="d-flex">         
                     <div class="col-6 col-sm-4 me-auto d-flex text-start">
-                        <button class="btn btn-cancel fw-bold p-2 w-75" v-on:click="onCancelComment">Annuler</button>
+                        <button class="btn btn-cancel fw-bold p-2 w-75" v-on:click.prevent="onCancelComment">Annuler</button>
                     </div>
                     <div class="col-6 col-sm-4 text-end">
                         <button type="submit" class="btn btn-success fw-bold p-2 w-75">Publier</button>
