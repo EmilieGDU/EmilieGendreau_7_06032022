@@ -40,6 +40,7 @@
             </div>
             
             <div v-if="showComments">
+                <comment-creation></comment-creation>
                 <comment-list 
                     v-bind:comments="comments"
                     v-on:modifyComment="modifyComment($event)"
@@ -105,11 +106,13 @@
 <script>
     import LikeService from "../../services/like.service"
     import CommentService from "../../services/comment.service"
+    import CommentCreation from "../comments/CommentCreation.vue"
     import CommentList from "../comments/CommentList.vue"
 
     export default {
         name: "PostCard",
         components: {
+            "comment-creation": CommentCreation,
             "comment-list": CommentList,
         },
         props: [ "post" ],

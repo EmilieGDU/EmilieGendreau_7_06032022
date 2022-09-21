@@ -11,7 +11,7 @@
             
             <h2 id="posts" class="text-center mt-3">Les articles que vous avez publiés</h2>
             <!-- <post-creation></post-creation> -->
-            <p v-if="!userPosts">Vous n'avez publié aucun article jusqu'à présent.</p>
+            <p v-if="!userPosts || userPosts == undefined">Vous n'avez publié aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userPosts"
                 v-on:modifyPost="modifyUserPost($event)"
@@ -20,7 +20,7 @@
             
             <h2 id="comments" class="text-center mt-5">Les articles que vous avez commentés</h2>
             <!-- <post-creation></post-creation> -->
-            <p v-if="!userCommentedPosts">Vous n'avez commenté aucun article jusqu'à présent.</p>
+            <p v-if="!userCommentedPosts || userCommentedPosts == undefined">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userCommentedPosts"
                 v-on:modifyPost="modifyUserCommentedPost($event)"
@@ -145,7 +145,7 @@
 
             UserService.getUserPosts(this.userId)
             .then((response) => {
-                // console.log(response.data);
+                // console.log("Vos Posts publiés : ", response.data);
                 // response.data = {message, data}
                 this.userPosts = response.data.data;
             })
