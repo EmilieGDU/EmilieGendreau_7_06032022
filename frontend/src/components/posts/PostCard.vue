@@ -59,52 +59,14 @@
                     <button type="button" class="btn btn-success fw-bold p-2 w-75" v-on:click="onModifyPost">Modifier</button>
                 </div>
                 <div class="col-6 col-sm-5 text-end">
-                    <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deletePostConfirmModal">Supprimer</button>
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost">Supprimer</button>
                 </div>
             </div>
             <div v-else-if="isAdmin" class="card-body d-flex">
                 <div class="col-6 mx-auto d-flex">
-                    <!-- !!! Supprimer data-bs-toogle et data-bs-target si suppression des modales !!! -->
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeletePost" data-bs-toogle="modal" data-bs-target="#deletePostConfirmModal">Supprimer</button>
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeletePost">Supprimer</button>
                 </div>
             </div>
-
-            <!-- Modals -->
-            <!-- <div class="modal fade" id="deletePostConfirmModal" tabindex="-1" aria-labelledby="deletePostConfirmModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title" id="deletePostConfirmModalLabel">Confirmez votre choix</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Voulez-vous vraiment supprimer ce post ?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-primary">Confirmer</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div class="modal fade" id="alertPostModal" tabindex="-1" aria-labelledby="alertPostModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title" id="alertPostModalLabel">{{ alertPostModalTitle }}</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>{{ alertPostModalContent }}</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">D'accord</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- End of Modals -->
         </div>        
     </div>  
 </template>
@@ -133,9 +95,7 @@
                 nbLikes: 0,
                 nbComments: 0,
                 comments: [],
-                showComments: false,
-                // alertPostModalTitle: "",
-                // alertPostModalContent: "",
+                showComments: false
 
             }
         },
