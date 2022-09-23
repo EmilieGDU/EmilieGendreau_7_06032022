@@ -11,7 +11,10 @@ class CommentService {
         return axios
             .post(
                 `${API_URL}/${comment.PostId}/comments`, 
-                { headers: authHeader() }
+                comment,
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 
@@ -19,7 +22,9 @@ class CommentService {
         return axios
             .get(
                 `${API_URL}/${postId}/comments`,
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 
@@ -33,7 +38,9 @@ class CommentService {
         return axios
             .put(
                 `${API_URL}/${postId}/comments/${commentId}`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 
@@ -41,7 +48,9 @@ class CommentService {
         return axios
             .delete(
                 `${API_URL}/${comment.postId}/comments/${comment.commentId}`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 

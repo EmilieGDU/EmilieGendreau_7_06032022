@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-5 w-100">
+    <div class="mb-5 w-100">
         <div class="card shadow">
             <!-- Post Start -->
             <div class="card-body" v-if="post.attachment">
@@ -44,6 +44,7 @@
                     v-bind:post="post"
                     v-on:createComment="createComment($event)">
                 </comment-creation>
+
                 <comment-list 
                     v-bind:comments="comments"
                     v-on:modifyComment="modifyComment($event)"
@@ -127,7 +128,7 @@
                 postId: this.post.id,
                 userId: 2,
                 isAdmin: false,
-                isAuthorOfPost: true,
+                isAuthorOfPost: false,
                 userLike: 0,
                 nbLikes: 0,
                 nbComments: 0,
@@ -139,6 +140,64 @@
             }
         },
         methods: {
+            fetchPostLikes() {
+                LikeService.getPostLikes(this.postId)
+                .then((response) => {
+                    // console.log(response.data);
+                    // console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
+                    // response.data = {message, data}
+                    this.nbLikes = response.data.data.count;
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
+            },
+
+            fetchPostComments() {
+                CommentService.getPostComments(this.postId)
+                .then((response) => {
+                    // console.log("*********************************************************************************************")
+                    // console.log(response.data);
+                    // console.log("Response.data.message : ", response.data.message);
+                    // console.log("Response.data.data : ", response.data.data);
+                    // console.log("Response.data.data.count : ", response.data.data.count);
+                    // console.log("Response.data.data.rows : ", response.data.data.rows);
+                    // response.data = {message, data}
+                    // console.log("*********************************************************************************************")
+                    this.nbComments = response.data.data.count;
+                    this.comments = response.data.data.rows;
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
+            },
+
             onModifyPost() {
                 this.$emit("modifyPost", this.postId);
             },
@@ -154,20 +213,23 @@
                     // console.log(response.data.like);
                     // response = {like, message}
                     this.userLike = response.data.like;
-
-                    LikeService.getPostLikes(this.postId)
-                        .then((response) => {
-                            // console.log(response.data);
-                            // console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
-                            // response.data = {message, data}
-                            this.nbLikes = response.data.data.count;
-                        })
-                        .catch((error) => {
-                            console.log(error.response);
-                        });
+                    this.fetchPostLikes();
                 })
                 .catch((error) => {
-                    console.log(error.response.data);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             },
 
@@ -175,52 +237,85 @@
                 console.log(this.showComments);
                 this.showComments = !this.showComments;
             },
-            
+
             createComment(event) {
+                console.log("**********************************************************************")
                 console.log("createComment depuis PostCard : ", "formData = ", event);
                 console.log("createComment depuis PostCard : ", "formData.PostId = ", event.PostId);
+                console.log("**********************************************************************")
                 CommentService.createComment(event)
                 .then((response) => {
                     console.log(response.data.message);
-                    CommentService.getPostComments(event.PostId)
-                    .then((response) => {
-                        console.log(response.data);
-                        // response.data = {message, data}
-                        this.comments = response.data.data;
-                    })
-                    .catch((error) => {
-                        console.log(error.response.data);
-                    });
+                    this.fetchPostComments();
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             },
 
             modifyComment(event) {
+                console.log("*********************************************************************************************")
                 console.log("modifyComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
+                console.log("*********************************************************************************************")
                 // CommentService.modifyComment(event)
-                // .then()
-                // .catch();
+                // .then(
+                //    this.fetchPostComments();
+                // )
+                // .catch((error) => {
+                //     if (error.response) { // Get response with a status code not in range 2xx
+                //         console.log(error.response.data);
+                //         console.log(error.response.status);
+                //         console.log(error.response.headers);
+                //     }
+                //     else if (error.request) { // No response
+                //         console.log(error.request);
+                //         // Instance of XMLHttpRequest in the Browser
+                //         // Instance of http.ClientRequest in Node.js
+                //     }
+                //     else { // Something wrong in setting up the request
+                //         console.log("Error : ", error.message);
+                //     };
+                //     console.log(error.config);
+                // });
             },
             
             deleteComment(event) {
+                console.log("*********************************************************************************************")
                 console.log("deleteComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
+                console.log("*********************************************************************************************")
                 CommentService.deleteComment(event)
                 .then((response) => {
                     console.log(response.data.message);
-                    CommentService.getPostComments(event.postId)
-                    .then((response) => {
-                        console.log(response.data);
-                        // response.data = {message, data}
-                        this.comments = response.data.data;
-                    })
-                    .catch((error) => {
-                        console.log(error.response.data);
-                    });
+                    this.fetchPostComments();
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             }
         },
@@ -232,34 +327,26 @@
                 this.userLike = response.data.data.count;
             })
             .catch((error) => {
-                console.log(error.response);
+                if (error.response) { // Get response with a status code not in range 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }
+                else if (error.request) { // No response
+                    console.log(error.request);
+                    // Instance of XMLHttpRequest in the Browser
+                    // Instance of http.ClientRequest in Node.js
+                }
+                else { // Something wrong in setting up the request
+                    console.log("Error : ", error.message);
+                }
+                console.log(error.config);
             });
 
-            LikeService.getPostLikes(this.postId)
-            .then((response) => {
-                // console.log(response.data);
-                // response.data = {message, data}
-                this.nbLikes = response.data.data.count;
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });
+            this.fetchPostLikes();
 
-            CommentService.getPostComments(this.postId)
-            .then((response) => {
-                // console.log(response.data);
-                // console.log("Response.data.message : ", response.data.message);
-                // console.log("Response.data.data : ", response.data.data);
-                // console.log("Response.data.data.count : ", response.data.data.count);
-                // console.log("Response.data.data.rows : ", response.data.data.rows);
-                // response.data = {message, data}
-                this.nbComments = response.data.data.count;
-                this.comments = response.data.data.rows;
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });
-        }    
+            this.fetchPostComments();
+        }
     }
 </script>
 

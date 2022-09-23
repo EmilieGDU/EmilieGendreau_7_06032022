@@ -2,8 +2,8 @@
     <div class="my-3 w-100">
         <div class="card">
             <div class="card-header">
-                {{ comment.UserId }}
-                <!-- <p> <strong> {{ comment.User.email }} </strong> a écrit : </p> -->
+                <!-- <p> <strong> {{ comment.UserId }} </strong> a écrit : </p> -->
+                <p> <strong> {{ comment.User.email }} </strong> a écrit : </p>
                 <!-- <p> <strong>{{ userName }}</strong> a écrit : </p> -->
             </div>
 
@@ -78,10 +78,12 @@
         data() {
             return {
                 // userName: '',
-                postId: this.comment.PostId,
+                //userId: null,
                 commentId: this.comment.id,
+                postId: this.comment.PostId,
+                //authorOfCommentId: this.comment.UserId,
                 isAdmin: false,
-                isAuthorOfComment: true,                
+                isAuthorOfComment: false,                
                 // alertCommentModalTitle: "",
                 // alertCommentModalContent: "",
             }
@@ -93,6 +95,18 @@
             onDeleteComment() {
                 this.$emit("deleteComment", {postId: this.postId, commentId: this.commentId});
             },
+
+        // ##################################################################################################
+            // checkStatus() {
+            //     // L'utilisateur connecté est-il l'auteur du commentaire ?
+            //     if (this.userId == this.authorOfcommentId) {
+            //         this.isAuthorOfComment = true;
+            //     }
+            //     // L'utilisateur connecté est-il administrateur ?
+            //     else if (???)
+            //     this.isAdmin = true;
+            // }
+        // ##################################################################################################
         },
         // ##################################################################################################
         // created() {

@@ -15,7 +15,8 @@ const postsCtrl = require("../controllers/posts");
 // Applying middlewares and assigning controller functions
 // ==========================================================================
 // Routes related to POSTS management (main segment = "/api/posts")
-router.post("/", auth, multer, postsCtrl.createPost);
+//router.post("/", auth, multer, postsCtrl.createPost);
+router.post("/", multer, postsCtrl.createPost);
 // router.get("/", auth, postsCtrl.getAllPosts);
 router.get("/", postsCtrl.getAllPosts);
 router.get("/:id", auth, postsCtrl.getOnePost);

@@ -1,13 +1,13 @@
 <template>
     <div class="w-100">
-        <h1>CREATION NOUVEAU POST</h1>
-        <div>
-            <h2>Créer un Post</h2>
-            <form method="post" v-on:submit.prevent="onCreatePost" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Titre du Post</label>
-                    <input id="title" type="text" name="postTitle" class="form-control" v-model="formData.title" placeholder="Que souhaitez-vous partager ?"/>
-                </div>
+        <h2>Créez votre publication</h2>
+
+        <form method="post" v-on:submit.prevent="onCreatePost" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label v-if="showPostForm" for="title" class="form-label">Titre du Post</label>
+                <input id="title" type="text" name="postTitle" class="form-control" v-on:focus="togglePostForm" v-model="formData.title" placeholder="Que souhaitez-vous partager ?"/>
+            </div>
+            <div v-if="showPostForm">
                 <div class="mb-3">
                     <label for="text" class="form-label">Votre texte</label>
                     <textarea id="text" name="postBody" class="form-control" rows="2" v-model="formData.body"  placeholder="Dites-nous en plus..."></textarea>
@@ -25,8 +25,8 @@
                         <button type="submit" class="btn btn-success fw-bold p-2 w-75">Publier</button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>      
 </template>
 
@@ -36,6 +36,7 @@
         name: "PostCreation",
         data() {
             return {
+                showPostForm: false,
                 formData: {
                     title: "",
                     body: "",
@@ -44,12 +45,29 @@
             }
         },
         methods: {
+            togglePostForm() {
+                console.log("SHOW POST FORM ? : ", this.showPostForm);
+                this.showPostForm = !this.showPostForm;
+            },
             onCancelPost() {
-                this.formData.title = "";
-                this.formData.body = "";
+                this.formData = {
+                    title: "",
+                    body: "",
+                    //attachment: ""
+                },                
+                this.showPostForm = false;
             },
             onCreatePost() {
-                
+                console.log("**********************************************************************************")
+                console.log("Clic sur publier Post : ", "THIS.FORMDATA.TITLE = ", this.formData.title, "|| THIS.FORMDATA.BODY = ", this.formData.body);
+                console.log("**********************************************************************************")
+                this.$emit("createPost", this.formData);
+                this.formData = {
+                    title: "",
+                    body: "",
+                    //attachment: ""
+                };                
+                this.showPostForm = false;
             },
             
         }
@@ -58,9 +76,12 @@
 
 
 <style scoped>
+    h2 {
+        /* color:  #4E5166; */
+        color: #FD2D01;
+    }
 
     .btn-cancel {
         background-color: #E9ECEF;
     }
-
 </style>

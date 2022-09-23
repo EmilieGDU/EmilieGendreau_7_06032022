@@ -9,17 +9,17 @@
                 <a href="#comments" class="btn btn-outline-primary col-6 fw-bold w-100">Commentaires</a>
             </div>
             
-            <h2 id="posts" class="text-center mt-3">Les articles que vous avez publiés</h2>
+            <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
             <!-- <post-creation></post-creation> -->
-            <p v-if="!userPosts || userPosts == undefined">Vous n'avez publié aucun article jusqu'à présent.</p>
+            <p v-if="userPosts.length ==0">Vous n'avez publié aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userPosts"
                 v-on:modifyPost="modifyUserPost($event)"
                 v-on:deletePost="deleteUserPost($event)">
             </post-list>
             
-            <h2 id="comments" class="text-center mt-5">Les articles que vous avez commentés</h2>
-            <p v-if="!userCommentedPosts || userCommentedPosts == undefined">Vous n'avez commenté aucun article jusqu'à présent.</p>
+            <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
+            <p v-if="userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userCommentedPosts"
                 v-on:modifyPost="modifyUserCommentedPost($event)"
@@ -54,23 +54,53 @@
             }
         },
         methods: {
+            fetchAllPosts() {
+                PostService.getAllPosts()
+                .then((response) => {
+                    console.log(response.data);
+                    // response.data = {message, data}
+                    this.posts = response.data.data;
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
+            },
+
             modifyUserPost(postId) {
                 console.log("modifyUserPost depuis Profile : ", postId);
                 PostService.modifyPost(postId)
                 .then((response) => {
                     console.log(response.data.message);
-                    PostService.getAllPosts()
-                    .then((response) => {
-                        console.log(response.data);
-                        // response.data = {message, data}
-                        this.userPosts = response.data.data;
-                    })
-                    .catch((error) => {
-                        console.log(error.response.data);
-                    });
+                    this.fetchAllPosts();
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             },
             
@@ -79,18 +109,23 @@
                 PostService.modifyPost(postId)
                 .then((response) => {
                     console.log(response.data.message);
-                    PostService.getAllPosts()
-                    .then((response) => {
-                        console.log(response.data);
-                        // response.data = {message, data}
-                        this.userCommentedPosts = response.data.data;
-                    })
-                    .catch((error) => {
-                        console.log(error.response.data);
-                    });
+                    this.fetchAllPosts();
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             },
             
@@ -99,18 +134,23 @@
                 PostService.deletePost(postId)
                 .then((response) => {
                     console.log(response.data.message);
-                    PostService.getAllPosts()
-                    .then((response) => {
-                        console.log(response.data);
-                        // response.data = {message, data}
-                        this.userPosts = response.data.data;
-                    })
-                    .catch((error) => {
-                        console.log(error.response.data);
-                    });
+                    this.fetchAllPosts();
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             },
             
@@ -119,18 +159,23 @@
                 PostService.deletePost(postId)
                 .then((response) => {
                     console.log(response.data.message);
-                    PostService.getAllPosts()
-                    .then((response) => {
-                        console.log(response.data);
-                        // response.data = {message, data}
-                        this.userCommentedPosts = response.data.data;
-                    })
-                    .catch((error) => {
-                        console.log(error.response.data);
-                    });
+                    this.fetchAllPosts();
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
                 });
             },
         },
@@ -149,7 +194,20 @@
                 this.userPosts = response.data.data;
             })
             .catch((error) => {
-                console.log(error.response.data);
+                if (error.response) { // Get response with a status code not in range 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }
+                else if (error.request) { // No response
+                    console.log(error.request);
+                    // Instance of XMLHttpRequest in the Browser
+                    // Instance of http.ClientRequest in Node.js
+                }
+                else { // Something wrong in setting up the request
+                    console.log("Error : ", error.message);
+                }
+                console.log(error.config);
             });
 
             // UserService.getUserComments(userId)
@@ -169,7 +227,20 @@
                 this.userCommentedPosts = response.data.data;
             })
             .catch((error) => {
-                console.log(error.response.data);
+                if (error.response) { // Get response with a status code not in range 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }
+                else if (error.request) { // No response
+                    console.log(error.request);
+                    // Instance of XMLHttpRequest in the Browser
+                    // Instance of http.ClientRequest in Node.js
+                }
+                else { // Something wrong in setting up the request
+                    console.log("Error : ", error.message);
+                }
+                console.log(error.config);
             });
         }
         

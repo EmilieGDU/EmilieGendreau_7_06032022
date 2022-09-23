@@ -8,10 +8,13 @@ class AuthService {
     
     login(user) {
         return axios
-            .post(`${API_URL}/login`, {
-                email: user.email,
-                password: user.password
-            })
+            .post(
+                `${API_URL}/login`, 
+                {
+                    email: user.email,
+                    password: user.password
+                }
+            )
             .then(response => {
                 if (response.data.token) {
                     localStorage.setItem("user", JSON.stringify(response.data));
@@ -29,12 +32,14 @@ class AuthService {
     
     signup(user) {
         return axios
-            .post(`${API_URL}/signup`, {
-                email: user.email,
-                password: user.password
-            });
+            .post(
+                `${API_URL}/signup`, 
+                {
+                    email: user.email,
+                    password: user.password
+                }
+            );
     };
-
 };
 
 export default new AuthService();

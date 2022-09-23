@@ -7,19 +7,24 @@ const API_URL = "http://localhost:3000/api/posts";
 
 class PostService {
 
-    createPost() {
-        // return axios
-        //     .post(
-        //         API_URL, 
-        //         { headers: authHeader() }
-        //     );
+    createPost(post) {
+        return axios
+            .post(
+                API_URL,
+                post, 
+                { 
+                    headers: authHeader() 
+                }
+            );
     }
 
     getAllPosts() {
         return axios
             .get(
                 API_URL, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 
@@ -27,7 +32,9 @@ class PostService {
         // return axios
         //     .get(
         //         `${API_URL}/${postId}`, 
-        //         { headers: authHeader() }
+        //         { 
+        //             headers: authHeader() 
+        //         }
         //     );
     // }
 
@@ -35,7 +42,9 @@ class PostService {
         return axios
             .put(
                 `${API_URL}/${postId}`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 
@@ -43,7 +52,9 @@ class PostService {
         return axios
             .delete(
                 `${API_URL}/${postId}`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 

@@ -168,19 +168,21 @@ exports.deletePost = (req, res, next) => {
 
 // C like CREATE
 exports.createComment = (req, res, next) => {
+    // console.log("**********************************************************************************************")
     // console.log(`ReqParamspostId : ${typeof(req.params.postId)} || ReqBodypostId : ${typeof(req.body.PostId)}`);
     // console.log(req.params.postId);
     // console.log(req.body.PostId);
+    // console.log("**********************************************************************************************")
     Post.findByPk(req.params.postId)
-    .then((post) => {
+        .then((post) => {
         if (post === null) {
             const message = "Post non trouvé.";
             return res.status(404).json({ message });
         }
-        else if (req.params.postId != req.body.PostId) {
-            const message = "Vous ne pouvez pas commenter ce post.";
-            return res.status(400).json({ message });
-        }
+        // else if (req.params.postId != req.body.comment.PostId) {
+        //     const message = "Vous ne pouvez pas commenter ce post.";
+        //     return res.status(400).json({ message });
+        // }
         else {
             Comment.create(req.body)
             .then((comment) => {
@@ -221,10 +223,10 @@ exports.getPostComments = (req, res, next) => {
         where: { 
             PostId: req.params.postId
         },
-        // include: {
-        //     model: User,
-        //     attributes: ["email"],
-        // } 
+        include: {
+            model: User,
+            attributes: ["email"],
+        } 
     })
     .then(({count, rows}) => {
         if (count == 0) {

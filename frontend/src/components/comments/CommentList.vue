@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5">
-        <h1>La liste des commentaires</h1>
+        <h2>Les réactions de vos collègues</h2>
         <p class="text-muted"><em>Affichage chronologique</em></p>
         <comment-card
             v-for="(comment, index) in comments" 
@@ -41,6 +41,11 @@
 
 
 <style scoped>
+    h2 {
+        /* color:  #4E5166; */
+        color: #FD2D01;
+    }
+    
     ul {
         padding: 0;
         list-style-type: none;

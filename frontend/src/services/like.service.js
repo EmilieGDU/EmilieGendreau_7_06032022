@@ -9,20 +9,32 @@ class LikeService {
 
     getUserLikes(postId, userId) {
         return axios
-            .get(`${API_URL}/${postId}/likes/${userId}`,
-            { headers: authHeader() });
+            .get(
+                `${API_URL}/${postId}/likes/${userId}`,
+                { 
+                    headers: authHeader() 
+                }
+            );
     }
     
     getPostLikes(postId) {
         return axios
-            .get(`${API_URL}/${postId}/likes`,
-            { headers: authHeader() });
+            .get(
+                `${API_URL}/${postId}/likes`,
+                { 
+                    headers: authHeader() 
+                }
+            );
     }
 
     likePost(postId, userId) {
         return axios
-            .post(`${API_URL}/${postId}/likes/${userId}`,
-            { headers: authHeader() });
+            .post(
+                `${API_URL}/${postId}/likes/${userId}`,
+                { 
+                    headers: authHeader() 
+                }
+            );
     }    
 
 }

@@ -26,7 +26,9 @@ class UserService {
         return axios
             .get(
                 `${API_URL}/users/${userId}/posts`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader()
+                }
             );
     }
 
@@ -34,7 +36,9 @@ class UserService {
         return axios
             .get(
                 `${API_URL}/users/${userId}/comments`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 
@@ -42,7 +46,9 @@ class UserService {
         return axios
             .get(
                 `${API_URL}/users/${userId}/commentedPosts`, 
-                { headers: authHeader() }
+                { 
+                    headers: authHeader() 
+                }
             );
     }
 

@@ -1,7 +1,5 @@
 <template>
-    <div class="mt-5">
-        <h1>La liste des posts</h1>
-        <p class="text-muted"><em>Affichage anti-chronologique</em></p>
+    <div class="mt-3">
         <post-card 
             v-for="(post, index) in posts" 
             v-bind:key="index" 
@@ -41,6 +39,11 @@
 
 
 <style scoped>
+    h2 {
+        /* color:  #4E5166; */
+        color: #FD2D01;
+    }
+   
     ul {
         padding: 0;
         list-style-type: none;
