@@ -23,11 +23,13 @@
         name: "CommentEdit",
         props: [ "comment" ],
         data() {
-            console.log("++++++++++++++++++++++++++++++++")
-            console.log(this.comment)
-            console.log("++++++++++++++++++++++++++++++++")
+            console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++")
+            console.log("THIS.COMMENT depuis CommentEdit : ", this.comment)
+            console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++")
             return {
                 formData: {
+                    commentId: this.comment.id,
+                    postId: this.comment.PostId,
                     comment: this.comment.comment,
                 }
             }
@@ -36,14 +38,14 @@
             onCancelCommentEdit() {
                 this.$emit("cancelCommentEdit");
             },
+            
             onModifyComment() {
                 console.log("**********************************************************************************")
-                console.log("Clic sur modifier Commentaire depuis CommentEdit : ", "THIS.FORMDATA.COMMENT = ", this.formData.comment);
+                console.log("Clic sur modifier Commentaire depuis CommentEdit : ");
+                console.log("THIS.FORMDATA (event envoyé au serveur) = ", this.formData);
+                console.log("THIS.FORMDATA.COMMENT = ", this.formData.comment);
                 console.log("**********************************************************************************")
-                this.$emit("modifyComment", this.formData);
-                this.formData = {
-                    comment: "",
-                };                
+                this.$emit("modifyComment", this.formData);                
                 this.onCancelCommentEdit();
             }
         }

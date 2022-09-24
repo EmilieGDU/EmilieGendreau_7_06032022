@@ -2,16 +2,36 @@
     <div class="mb-5 w-100">
         <div class="card shadow">
             <!-- Post Start -->
-            <div class="card-body" v-if="post.attachment">
-                <img v-bind:src="post.attachment" class="card-img-top text-light w-100 rounded-3" alt="Image associée au Post" />
-            </div>
+            <div v-if="showPost">
+                <div class="card-body" v-if="post.attachment">
+                    <img v-bind:src="post.attachment" class="card-img-top text-light w-100 rounded-3" alt="Image associée au Post" />
+                </div>
+                
+                <div class="card-body">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-text">{{ post.body }}</p>
+                </div>
+            </div>            
+            <!-- Post End -->            
             
-            <div class="card-body">
-                <h2 class="card-title">{{ post.title }}</h2>
-                <p class="card-text">{{ post.body }}</p>
+            <!-- Buttons Start -->
+            <div v-if="(isAuthorOfPost || isAdmin) && showPost" class="card-body d-flex">         
+                <div class="col-6 col-sm-5 me-auto d-flex text-start">
+                    <button type="button" class="btn btn-success fw-bold p-2 w-75" v-on:click="togglePostEdit">Modifier</button>
+                </div>
+                <div class="col-6 col-sm-5 text-end">
+                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost">Supprimer</button>
+                </div>
             </div>
-            <!-- Post End -->
-            
+            <!-- Buttons End -->
+
+            <post-edit
+                v-if="showPostEdit"
+                v-bind:post="post"
+                v-on:cancelPostEdit="cancelPostEdit"
+                v-on:modifyPost="modifyPost($event)">
+            </post-edit>
+
             <div class="card-body d-flex">    
                 <!-- Likes Start -->     
                 <div class="col-6 d-flex text-start">
@@ -52,21 +72,6 @@
                 </comment-list>
             </div>
             <!-- Comments End -->
-
-            
-            <div v-if="isAuthorOfPost" class="card-body d-flex">         
-                <div class="col-6 col-sm-5 me-auto d-flex text-start">
-                    <button type="button" class="btn btn-success fw-bold p-2 w-75" v-on:click="onModifyPost">Modifier</button>
-                </div>
-                <div class="col-6 col-sm-5 text-end">
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-75" v-on:click="onDeletePost">Supprimer</button>
-                </div>
-            </div>
-            <div v-else-if="isAdmin" class="card-body d-flex">
-                <div class="col-6 mx-auto d-flex">
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeletePost">Supprimer</button>
-                </div>
-            </div>
         </div>        
     </div>  
 </template>
@@ -75,22 +80,26 @@
 <script>
     import LikeService from "../../services/like.service"
     import CommentService from "../../services/comment.service"
+    import PostEdit from "./PostEdit.vue"
     import CommentCreation from "../comments/CommentCreation.vue"
     import CommentList from "../comments/CommentList.vue"
 
     export default {
         name: "PostCard",
         components: {
+            "post-edit": PostEdit,
             "comment-creation": CommentCreation,
             "comment-list": CommentList,
         },
         props: [ "post" ],
         data() {
             return {
+                userId: 2, // Sera à récupérer du LocalStorage
                 postId: this.post.id,
-                userId: 2,
                 isAdmin: false,
-                isAuthorOfPost: false,
+                isAuthorOfPost: true,
+                showPost: true,
+                showPostEdit: false,
                 userLike: 0,
                 nbLikes: 0,
                 nbComments: 0,
@@ -100,6 +109,25 @@
             }
         },
         methods: {
+            togglePostEdit() {
+                console.log("SHOW POST EDIT ? : ",this.showPostEdit);
+                this.showPost = false;
+                this.showPostEdit = true;
+            },
+
+            cancelPostEdit() {
+                this.showPost = true;
+                this.showPostEdit = false;
+            },
+            
+            onModifyPost() {
+                this.$emit("deletePost", this.postId);
+            },
+
+            onDeletePost() {
+                this.$emit("deletePost", this.postId);
+            },
+
             fetchPostLikes() {
                 LikeService.getPostLikes(this.postId)
                 .then((response) => {
@@ -158,14 +186,6 @@
                 });
             },
 
-            onModifyPost() {
-                this.$emit("modifyPost", this.postId);
-            },
-
-            onDeletePost() {
-                this.$emit("deletePost", this.postId);
-            },
-
             likePost() {
                 LikeService.likePost(this.postId, this.userId)
                 .then((response) => {
@@ -205,7 +225,8 @@
                 console.log("**********************************************************************")
                 CommentService.createComment(event)
                 .then((response) => {
-                    console.log(response.data.message);
+                    console.log("CREATECOMMENT(EVENT) DEPUIS POSTCARD / RESPONSE.DATA.MESSAGE : ", response.data.message);
+                    console.log("CREATECOMMENT(EVENT) DEPUIS POSTCARD / RESPONSE.DATA.DATA : ", response.data.data);
                     this.fetchPostComments();
                 })
                 .catch((error) => {
@@ -227,29 +248,32 @@
             },
 
             modifyComment(event) {
-                console.log("*********************************************************************************************")
-                console.log("modifyComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId);
-                console.log("*********************************************************************************************")
-                // CommentService.modifyComment(event)
-                // .then(
-                //    this.fetchPostComments();
-                // )
-                // .catch((error) => {
-                //     if (error.response) { // Get response with a status code not in range 2xx
-                //         console.log(error.response.data);
-                //         console.log(error.response.status);
-                //         console.log(error.response.headers);
-                //     }
-                //     else if (error.request) { // No response
-                //         console.log(error.request);
-                //         // Instance of XMLHttpRequest in the Browser
-                //         // Instance of http.ClientRequest in Node.js
-                //     }
-                //     else { // Something wrong in setting up the request
-                //         console.log("Error : ", error.message);
-                //     };
-                //     console.log(error.config);
-                // });
+                console.log("**************************************************************************************************************************")
+                console.log("modifyComment depuis PostCard : ", "PostId = ", event.postId, "CommentId = ", event.commentId, "Comment = ", event.comment);
+                console.log("**************************************************************************************************************************")
+                let postId = event.postId;
+                let commentId = event.commentId;
+                CommentService.modifyComment(postId, commentId, event)
+                .then((response) => {
+                    console.log(response.data.message);
+                    this.fetchPostComments();
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
             },
             
             deleteComment(event) {

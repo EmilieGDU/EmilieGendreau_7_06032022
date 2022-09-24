@@ -70,7 +70,8 @@
             
             createPost(event) {
                 console.log("**********************************************************************")
-                console.log("createPost depuis Feed : ", "formData = ", event);
+                console.log("createPost depuis Feed : ");
+                console.log("formData = ", event);
                 console.log("**********************************************************************")
                 PostService.createPost(event)
                 .then((response) => {

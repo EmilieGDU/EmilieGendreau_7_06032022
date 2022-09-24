@@ -5,17 +5,17 @@
         <form method="post" v-on:submit.prevent="onCreatePost" enctype="multipart/form-data">
             <div class="mb-3">
                 <label v-if="showPostForm" for="title" class="form-label">Titre du Post</label>
-                <input id="title" type="text" name="postTitle" class="form-control" v-on:focus="togglePostForm" v-model="formData.title" placeholder="Que souhaitez-vous partager ?"/>
+                <input id="title" type="text" name="title" class="form-control" v-on:focus="togglePostForm" v-model="formData.title" placeholder="Que souhaitez-vous partager ?"/>
             </div>
             <div v-if="showPostForm">
                 <div class="mb-3">
                     <label for="text" class="form-label">Votre texte</label>
-                    <textarea id="text" name="postBody" class="form-control" rows="2" v-model="formData.body"  placeholder="Dites-nous en plus..."></textarea>
+                    <textarea id="text" name="body" class="form-control" rows="2" v-model="formData.body"  placeholder="Dites-nous en plus..."></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="formFile" class="form-label">Votre fichier</label>
                     <!-- <input id="formFile" type="file" class="form-control" v-model="formData.attachment" /> -->
-                    <input id="formFile" type="file" name="postAttachment" accept="image/png, image/jpg, image/jpeg" class="form-control" />
+                    <input id="formFile" type="file" name="attachment" accept="image/png, image/jpg, image/jpeg" class="form-control" />
                 </div>                
                 <div class="d-flex">         
                     <div class="col-6 col-sm-4 me-auto d-flex text-start">
@@ -40,7 +40,8 @@
                 formData: {
                     title: "",
                     body: "",
-                    //attachment: ""
+                    attachment: "",
+                    UserId: 2 // A RECUPERER DU LOCALSTORAGE
                 }
             }
         },
@@ -49,23 +50,32 @@
                 console.log("SHOW POST FORM ? : ", this.showPostForm);
                 this.showPostForm = !this.showPostForm;
             },
+
             onCancelPost() {
                 this.formData = {
                     title: "",
                     body: "",
-                    //attachment: ""
+                    attachment: "",
+                    UserId: 2 // A RECUPERER DU LOCALSTORAGE
                 },                
                 this.showPostForm = false;
             },
+
             onCreatePost() {
                 console.log("**********************************************************************************")
-                console.log("Clic sur publier Post : ", "THIS.FORMDATA.TITLE = ", this.formData.title, "|| THIS.FORMDATA.BODY = ", this.formData.body);
+                console.log("Clic sur publier Post depuis PostCreation : ");
+                console.log("THIS.FORMDATA (event envoyé au serveur) = ", this.formData);
+                console.log("THIS.FORMDATA.TITLE = ", this.formData.title);
+                console.log("THIS.FORMDATA.BODY = ", this.formData.body);
+                console.log("THIS.FORMDATA.ATTACHMENT = ", this.formData.attachment);
+                console.log("THIS.FORMDATA.USERID = ", this.formData.UserId);
                 console.log("**********************************************************************************")
                 this.$emit("createPost", this.formData);
                 this.formData = {
                     title: "",
                     body: "",
-                    //attachment: ""
+                    attachment: "",                    
+                    UserId: 2 // A RECUPERER DU LOCALSTORAGE
                 };                
                 this.showPostForm = false;
             },

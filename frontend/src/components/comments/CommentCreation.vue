@@ -32,7 +32,7 @@
                 showCommentForm: false,
                 formData: {
                     comment: "",
-                    UserId: null,
+                    UserId: 2, // A RECUPERER DU LOCALSTORAGE
                     PostId: this.post.id,
                 }
             }
@@ -42,17 +42,22 @@
                 console.log("SHOW COMMENT FORM ? : ",this.showCommentForm);
                 this.showCommentForm = !this.showCommentForm;
             },
+
             onCancelComment() {
                 this.formData.comment = "";
                 this.showCommentForm = false;
             },
+
             onCreateComment() {
                 console.log("**********************************************************************************")
-                console.log("Clic sur publier Commentaire : ", "THIS.FORMDATA.POSTID = ", this.formData.PostId);
+                console.log("Clic sur publier Commentaire depuis COMMENTCREATION : ");
+                console.log("THIS.FORMDATA.POSTID = ", this.formData.PostId);
                 console.log("**********************************************************************************")
                 this.$emit("createComment", this.formData);
                 this.formData = {
-                    comment: ""
+                    comment: "",
+                    UserId: 2, // A RECUPERER DU LOCALSTORAGE
+                    PostId: this.post.id,
                 };                
                 this.showCommentForm = false;
             }

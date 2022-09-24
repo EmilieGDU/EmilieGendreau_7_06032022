@@ -34,10 +34,14 @@ class CommentService {
     //         { headers: authHeader() });
     // }
 
-    modifyComment(postId, commentId) {
+    modifyComment(postId, commentId, event) {
+        // axios.interceptors.request.use(function(event) {
+        //     console.log("DONNEES ENVOYEES AU SERVEUR : ", event);
+        // })
         return axios
             .put(
                 `${API_URL}/${postId}/comments/${commentId}`, 
+                event,
                 { 
                     headers: authHeader() 
                 }

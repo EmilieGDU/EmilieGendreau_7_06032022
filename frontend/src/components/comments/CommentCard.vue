@@ -12,20 +12,11 @@
             </div>
             
             <!-- Buttons Start -->
-            <div v-if="isAuthorOfComment && showComment" class="card-body d-flex">         
+            <div v-if="(isAuthorOfComment || isAdmin) && showComment" class="card-body d-flex">         
                 <div class="col-6 col-sm-4 me-auto d-flex text-start">
                     <button type="button" class="btn btn-success fw-bold me-2 p-2 w-100" v-on:click="toggleCommentEdit">Modifier</button>
                 </div>
-                <!-- <div class="col-6 col-sm-4 me-auto d-flex text-start">
-                    <button type="button" class="btn btn-success fw-bold me-2 p-2 w-100" v-on:click="onModifyComment">Modifier</button>
-                </div> -->
                 <div class="col-6 col-sm-4 text-end">
-                    <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeleteComment">Supprimer</button>
-                </div>
-            </div>
-
-            <div v-else-if="isAdmin" class="card-body d-flex">
-                <div class="col-6 col-sm-4 mx-auto d-flex">
                     <button type="button" class="btn btn-danger fw-bold p-2 w-100" v-on:click="onDeleteComment">Supprimer</button>
                 </div>
             </div>
@@ -34,7 +25,8 @@
             <comment-edit
                 v-if="showCommentEdit"
                 v-bind:comment="comment"
-                v-on:cancelCommentEdit="onCancelCommentEdit">
+                v-on:cancelCommentEdit="cancelCommentEdit"
+                v-on:modifyComment="modifyComment($event)">
             </comment-edit>
         </div>        
     </div>  
@@ -55,8 +47,7 @@
         props: [ "comment" ],
         data() {
             return {
-                // userName: '',
-                //userId: null,
+                //userId: null, // Sera à récupérer du LocalStorage
                 commentId: this.comment.id,
                 postId: this.comment.PostId,
                 //authorOfCommentId: this.comment.UserId,
@@ -72,13 +63,13 @@
                 this.showComment = false;
                 this.showCommentEdit = true;
             },
-            onCancelCommentEdit() {
+            cancelCommentEdit() {
                 this.showComment = true;
                 this.showCommentEdit = false;
             },
-            // onModifyComment() {
-            //     this.$emit("modifyComment", {postId: this.postId, commentId: this.commentId});
-            // },
+            modifyComment(event) {
+                this.$emit("modifyComment", event);
+            },
             onDeleteComment() {
                 this.$emit("deleteComment", {postId: this.postId, commentId: this.commentId});
             },

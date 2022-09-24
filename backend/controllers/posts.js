@@ -250,6 +250,12 @@ exports.getPostComments = (req, res, next) => {
 
 // U like UPDATE
 exports.modifyComment = (req, res, next) => {
+    console.log("************************************************")
+    console.log("REQ.BODY : ", req.body);
+    console.log("REQ.BODY.COMMENT : ", req.body.comment);
+    console.log("REQ.PARAMS.POSTID : ", req.params.postId);
+    console.log("REQ.BODY.COMMENTID : ", req.params.commentId);
+    console.log("************************************************")
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     Post.findByPk(postId)
@@ -269,10 +275,13 @@ exports.modifyComment = (req, res, next) => {
                     const message = "Vous ne pouvez pas modifier ce commentaire.";
                     return res.status(400).json({ message });
                 }
-                if (comment.UserId != req.auth.userId) {
-                    const message = "Requête non autorisée.";
-                    return res.status(401).json({ message });
-                }
+                // console.log("#################################")
+                // console.log("COMMENT.UserId", comment.UserId);
+                // console.log("#################################")
+                // if (comment.UserId != req.auth.userId) {
+                //     const message = "Requête non autorisée.";
+                //     return res.status(401).json({ message });
+                // }
                 Comment.update(req.body, { where: { id: commentId } })
                 .then(() => {
                     Comment.findByPk(commentId)
@@ -280,20 +289,20 @@ exports.modifyComment = (req, res, next) => {
                         const message = "Le commentaire a été modifié.";
                         return res.status(200).json({ message, data: updatedComment });
                     })
-                    .catch((error) => { return res.status(500).json({ error }); });
+                    .catch((error) => { return res.status(500).json({ error: error.message }); });
                 })
                 .catch((error) => {
                     if (error instanceof ValidationError) {
                         return res.status(400).json({ message: error.message, data: error })
                     }
                     const message = "Le commentaire n'a pas pu être modifié. Réessayez dans quelques instants.";
-                    return res.status(500).json({ message, data: error });
+                    return res.status(500).json({ message, data: error.message });
                 });    
             })
-            .catch((error) => { return res.status(500).json({ error }); });
+            .catch((error) => { return res.status(500).json({ error: error.message }); });
         };
     })
-    .catch((error) => { return res.status(500).json({ error }); });
+    .catch((error) => { return res.status(500).json({ error: error.message }); });
 };
 
 
@@ -339,12 +348,12 @@ exports.deleteComment = (req, res, next) => {
                     const message = `Le commentaire avec l'identifiant '${ deletedComment.id }' a été supprimé.`;
                     return res.status(200).json({ message, deletedData: deletedComment });
                 })
-                .catch((error) => { return res.status(500).json({ error }); }); 
+                .catch((error) => { return res.status(500).json({ error: error.message }); }); 
             }
         })
-        .catch((error) => { return res.status(500).json({ error }); });
+        .catch((error) => { return res.status(500).json({ error: error.message }); });
     })
-    .catch((error) => { return res.status(500).json({ error }); });
+    .catch((error) => { return res.status(500).json({ error: error.message }); });
 };
 
 
