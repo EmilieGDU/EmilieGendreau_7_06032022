@@ -4,6 +4,10 @@
         <main class="container col-12 col-md-9 col-lg-6 my-5">
             <h1 class="text-center mb-5">Votre espace communautaire</h1>            
 
+            <!-- <post-creation
+                v-model="attachment"
+                v-on:createPost="createPost($event)">
+            </post-creation> -->
             <post-creation
                 v-on:createPost="createPost($event)">
             </post-creation>
@@ -16,6 +20,7 @@
             
             <post-list v-else 
                 v-bind:posts="posts"
+                v-bind:sync="sync"
                 v-on:modifyPost="modifyPost($event)"
                 v-on:deletePost="deletePost($event)">
             </post-list>
@@ -39,7 +44,9 @@
         data() {
             return {
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
-                posts: []
+                posts: [],
+                attachment: "",
+                sync: false
             };
         },
         methods: {
@@ -77,6 +84,7 @@
                 .then((response) => {
                     console.log(response.data.message);
                     this.fetchAllPosts();
+                    this.sync = true;
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx

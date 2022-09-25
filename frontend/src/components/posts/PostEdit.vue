@@ -12,8 +12,7 @@
             </div>
             <div class="mb-4">
                 <label for="formFile" class="form-label">Votre fichier</label>
-                <!-- <input id="formFile" type="file" class="form-control" v-model="formData.attachment" /> -->
-                <input id="formFile" type="file" name="attachment" accept="image/png, image/jpg, image/jpeg" class="form-control" />
+                <input id="formFile" type="file" name="attachment" class="form-control" v-on:change="onChangeFile" accept="image/png, image/jpg, image/jpeg"/>
             </div>                
             <div class="d-flex mb-3">         
                 <div class="col-6 col-sm-4 me-auto d-flex text-start">
@@ -40,11 +39,16 @@
                 formData: {
                     title: this.post.title,
                     body: this.post.body,
-                    attachment: ""
+                    attachment: this.post.attachment,
+                    UserId: this.post.UserId
                 }
             }
         },
         methods: {
+            onChangeFile(event) {
+                this.formData.attachment = event.target.files[0].name;
+            },
+
             onCancelPostEdit() {
                 this.$emit("cancelPostEdit");
             },
@@ -56,6 +60,7 @@
                 console.log("THIS.FORMDATA.TITLE = ", this.formData.title);
                 console.log("THIS.FORMDATA.BODY = ", this.formData.body);
                 console.log("THIS.FORMDATA.ATTACHMENT = ", this.formData.attachment);
+                console.log("THIS.FORMDATA.USERID = ", this.formData.UserId);
                 console.log("**********************************************************************************")
                 this.$emit("modifyPost", this.formData);
                 this.onCancelPostEdit();

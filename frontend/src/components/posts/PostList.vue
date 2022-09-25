@@ -4,6 +4,7 @@
             v-for="(post, index) in posts" 
             v-bind:key="index" 
             v-bind:post="post"
+            v-bind:sync="sync"
             v-on:modifyPost="modifyPost($event)"
             v-on:deletePost="deletePost($event)">
         </post-card>
@@ -19,7 +20,10 @@
         components: {
             "post-card": PostCard,
         },
-        props: [ "posts" ],
+        props: [ 
+            "posts",
+            "sync" 
+        ],
         methods: {
             modifyPost(postId) {
                 console.log("modifyPost depuis Postlist : ", postId);                

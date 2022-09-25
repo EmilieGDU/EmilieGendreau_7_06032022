@@ -40,6 +40,7 @@
                         <button class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>
+                        {{sync}}
                         <!-- Top icon -->
                         <button v-if="userLike" class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
@@ -91,7 +92,10 @@
             "comment-creation": CommentCreation,
             "comment-list": CommentList,
         },
-        props: [ "post" ],
+        props: [ 
+            "post",
+            "sync"
+        ],
         data() {
             return {
                 userId: 2, // Sera à récupérer du LocalStorage
@@ -105,7 +109,6 @@
                 nbComments: 0,
                 comments: [],
                 showComments: false
-
             }
         },
         methods: {
@@ -134,7 +137,8 @@
                     // console.log(response.data);
                     // console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
                     // response.data = {message, data}
-                    this.nbLikes = response.data.data.count;
+                    // this.nbLikes = response.data.data.count;
+                    this.nbLikes = (response.data.data.count == undefined) ? 0 : response.data.data.count;
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -165,7 +169,9 @@
                     // console.log("Response.data.data.rows : ", response.data.data.rows);
                     // response.data = {message, data}
                     // console.log("*********************************************************************************************")
-                    this.nbComments = response.data.data.count;
+                    
+                    this.nbComments = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+                    //this.nbComments = response.data.data.count ? response.data.data.count : 0;
                     this.comments = response.data.data.rows;
                 })
                 .catch((error) => {
@@ -308,7 +314,8 @@
             .then((response) => {
                 console.log(response.data);
                 // response.data = {message, data}
-                this.userLike = response.data.data.count;
+                // this.userLike = response.data.data.count;
+                this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
             })
             .catch((error) => {
                 if (error.response) { // Get response with a status code not in range 2xx

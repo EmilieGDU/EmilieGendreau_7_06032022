@@ -17,6 +17,10 @@ const fs = require("fs");
 
 // C like CREATE 
 exports.createPost = (req, res, next) => {
+    console.log("=====================================================================");
+    console.log("CONTROLLER/POST/CREATEPOST Objet REQ.BODY = ", req.body);
+    console.log("CONTROLLER/POST/CREATEPOST Objet REQ.FILE = ", req.file);
+    console.log("=====================================================================");
     const postObject = req.file ?
         {
             //...JSON.parse(req.body.post),
