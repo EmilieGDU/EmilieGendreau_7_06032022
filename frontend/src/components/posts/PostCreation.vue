@@ -39,8 +39,7 @@
                 newPost: {
                     title: "",
                     body: "",
-                    //attachment: "",
-                    UserId: 2 // A RECUPERER DU LOCALSTORAGE
+                    UserId: 2 //localStorage.getItem("userId")
                 },
                 file: undefined,
             }
@@ -53,15 +52,13 @@
 
             onChangeFile(event) {
                 this.file = event.target.files[0];
-                // this.newPost.attachment = event.target.files[0].name;
-                //this.$emit("update:modelValue", event.target.files[0].name);
+                //this.$emit("update:modelValue", event.target.files[0]);
             },
 
             onCancelPost() {
                 this.newPost = {
                     title: "",
                     body: "",
-                    // attachment: null,
                     UserId: 2 // A RECUPERER DU LOCALSTORAGE
                 },
                 this.file = undefined,                
@@ -74,7 +71,6 @@
                 console.log("THIS.newPost (event envoyé au serveur) = ", this.newPost);
                 console.log("THIS.newPost.TITLE = ", this.newPost.title);
                 console.log("THIS.newPost.BODY = ", this.newPost.body);
-                //console.log("THIS.newPost.ATTACHMENT = ", this.newPost.attachment);
                 console.log("THIS.newPost.USERID = ", this.newPost.UserId);
                 console.log("THIS.FILE = ", this.file);
                 console.log("**********************************************************************************")
@@ -83,7 +79,7 @@
                 formData.append("title", this.newPost.title);
                 formData.append("body", this.newPost.body);
                 formData.append("UserId", this.newPost.UserId);
-                formData.append("image", this.file); // nom défini dans le middleware multer en dernière ligne (on attend file single nommé image)
+                formData.append("image", this.file); // "image" = name defined in the multer middleware (in the last line, we specify that we expect single file named "image")
                 console.log("#########################");
                 console.log("FORMDATA = ", formData);
                 console.log("#########################");
@@ -91,35 +87,11 @@
                 this.$emit("createPost", formData);
                 this.newPost = {
                     title: "",
-                    body: "",
-                    // attachment: "",                    
+                    body: "",                  
                     UserId: 2 // A RECUPERER DU LOCALSTORAGE
                 }; 
                 this.file = undefined,               
                 this.showPostForm = false;
-
-                // if (this.file == undefined) {
-                //     this.$emit("createPost", this.newPost);
-                //     this.newPost = {
-                //         title: "",
-                //         body: "",
-                //         // attachment: "",                    
-                //         UserId: 2 // A RECUPERER DU LOCALSTORAGE
-                //     };              
-                //     this.showPostForm = false;
-                // }
-                // else {
-                //     this.$emit("createPost", this.newPost);
-                //     this.newPost = {
-                //         title: "",
-                //         body: "",
-                //         // attachment: "",                    
-                //         UserId: 2 // A RECUPERER DU LOCALSTORAGE
-                //     }; 
-                //     this.file = undefined,               
-                //     this.showPostForm = false;
-                // }
-
             }            
         }
     }

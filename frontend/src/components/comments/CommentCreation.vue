@@ -32,7 +32,7 @@
                 showCommentForm: false,
                 formData: {
                     comment: "",
-                    UserId: 2, // A RECUPERER DU LOCALSTORAGE
+                    UserId: 2, //localStorage.getItem("userId")
                     PostId: this.post.id,
                 }
             }
@@ -56,7 +56,7 @@
                 this.$emit("createComment", this.formData);
                 this.formData = {
                     comment: "",
-                    UserId: 2, // A RECUPERER DU LOCALSTORAGE
+                    UserId: 2, // localStorage.getItem("userId")
                     PostId: this.post.id,
                 };                
                 this.showCommentForm = false;

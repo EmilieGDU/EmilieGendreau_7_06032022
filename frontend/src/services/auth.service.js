@@ -14,21 +14,13 @@ class AuthService {
                     email: user.email,
                     password: user.password
                 }
-            )
-            .then(response => {
-                if (response.data.token) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                }
-                return response.data;
-            })
-            .catch((error) => {
-                console.log(error.response.data);
-            });
-    };
+            );
+    }
     
     logout() {
-        localStorage.removeItem("user");
-    };
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userToken");
+    }
     
     signup(user) {
         return axios
@@ -39,7 +31,7 @@ class AuthService {
                     password: user.password
                 }
             );
-    };
-};
+    }
+}
 
 export default new AuthService();

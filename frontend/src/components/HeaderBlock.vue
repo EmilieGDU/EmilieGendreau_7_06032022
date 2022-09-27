@@ -37,7 +37,7 @@
                             <router-link to="/profile" class="nav-link text-light">Mon profil</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/logout" class="nav-link text-light">Se déconnecter</router-link>
+                            <router-link to="/logout" class="nav-link text-light" v-on:click="onLogout">Se déconnecter</router-link>
                         </li>
                     </ul>
                 </div>
@@ -48,12 +48,24 @@
 
 
 <script>
+    import AuthService from "../services/auth.service"
+
     export default {
         name: "HeaderBlock",
         data() {
             return {
                 isLogged: false,
                 isLoggedOut: false
+            }
+        },
+        methods: {
+            onLogout() {
+                console.log("####################################################################################################");
+                console.log("HEADERBLOCK / V-IF LOGGED / Clic sur Logout");
+                console.log("####################################################################################################");
+                AuthService.logout();
+                this.isLogged = false;
+                this.isLoggedOut = true;
             }
         }
     }

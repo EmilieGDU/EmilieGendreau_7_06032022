@@ -18,9 +18,14 @@
                 Aucun article à afficher pour le moment... Soyez le premier à publier !
             </p>
             
-            <post-list v-else 
+            <!-- <post-list v-else 
                 v-bind:posts="posts"
                 v-bind:sync="sync"
+                v-on:modifyPost="modifyPost($event)"
+                v-on:deletePost="deletePost($event)">
+            </post-list> -->
+            <post-list v-else 
+                v-bind:posts="posts"
                 v-on:modifyPost="modifyPost($event)"
                 v-on:deletePost="deletePost($event)">
             </post-list>
@@ -45,16 +50,19 @@
             return {
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
                 posts: [],
-                attachment: "",
-                sync: false
+                //attachment: "",
+                //sync: false
             };
         },
         methods: {
             fetchAllPosts() {
                 PostService.getAllPosts()
                 .then((response) => {
+                    console.log("################################");
+                    console.log("3 - Feed - CREATED - LancementFetchAllPosts");
                     console.log(response.data);
                     // response.data = {message, data}
+                    console.log("################################");
                     this.posts = response.data.data;
                 })
                 .catch((error) => {
@@ -75,16 +83,16 @@
                 });
             },
             
-            createPost(event) {
+            createPost(newPost) {
                 console.log("**********************************************************************")
                 console.log("createPost depuis Feed : ");
-                console.log("formData = ", event);
+                console.log("formData (= newPost) ", newPost);
                 console.log("**********************************************************************")
-                PostService.createPost(event)
+                PostService.createPost(newPost)
                 .then((response) => {
                     console.log(response.data.message);
                     this.fetchAllPosts();
-                    this.sync = true;
+                    //this.sync = true;
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -104,8 +112,33 @@
                 });
             },
 
-            modifyPost(postId) {
-                console.log("modifyPost depuis Feed : ", postId);
+            modifyPost(updatedPost) {
+                console.log("##################################");
+                console.log("modifyPost depuis Feed : ");
+                console.log("UPDATEDPOST : ", updatedPost);
+                console.log("##################################");
+                let postId = updatedPost.id;
+                PostService.modifyPost(postId, updatedPost)
+                .then((response) => {
+                    console.log(response.data.message);
+                    this.fetchAllPosts();
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
             },
             
             deletePost(postId) {
@@ -134,7 +167,12 @@
             },
         },
         created() {
-           this.fetchAllPosts();
+            console.log("1 - Feed - CREATED");
+            console.log("################################");
+            console.log("2 - Feed - CREATED - AppelFetchAllPosts");
+            console.log("################################");
+            
+            this.fetchAllPosts();
         } 
     }
 </script>

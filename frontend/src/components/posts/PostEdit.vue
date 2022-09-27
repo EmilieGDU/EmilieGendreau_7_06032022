@@ -4,11 +4,11 @@
         <form method="post" v-on:submit.prevent="onModifyPost" enctype="multipart/form-data">
             <div class="mb-4">
                 <label for="title" class="form-label">Votre titre</label>
-                <input id="title" type="text" name="title" class="form-control" v-model="formData.title"/>
+                <input id="title" type="text" name="title" class="form-control" v-model="updatedPost.title"/>
             </div>            
             <div class="mb-3">
                 <label for="text" class="form-label">Votre texte</label>
-                <textarea id="text" name="body" class="form-control" rows="2" v-model="formData.body"></textarea>
+                <textarea id="text" name="body" class="form-control" rows="2" v-model="updatedPost.body"></textarea>
             </div>
             <div class="mb-4">
                 <label for="formFile" class="form-label">Votre fichier</label>
@@ -36,17 +36,18 @@
             console.log("THIS.POST depuis PostEdit : ", this.post)
             console.log("++++++++++++++++++++++++++++++++++++++++++")
             return {
-                formData: {
+                updatedPost: {
+                    id: this.post.id,
                     title: this.post.title,
                     body: this.post.body,
-                    attachment: this.post.attachment,
                     UserId: this.post.UserId
-                }
+                },
+                file: undefined,
             }
         },
         methods: {
             onChangeFile(event) {
-                this.formData.attachment = event.target.files[0].name;
+                this.file = event.target.files[0];
             },
 
             onCancelPostEdit() {
@@ -56,16 +57,26 @@
             onModifyPost() {
                 console.log("**********************************************************************************")
                 console.log("Clic sur modifier Post depuis PostEdit : ");
-                console.log("THIS.FORMDATA (event envoyé au serveur) = ", this.formData);
-                console.log("THIS.FORMDATA.TITLE = ", this.formData.title);
-                console.log("THIS.FORMDATA.BODY = ", this.formData.body);
-                console.log("THIS.FORMDATA.ATTACHMENT = ", this.formData.attachment);
-                console.log("THIS.FORMDATA.USERID = ", this.formData.UserId);
+                console.log("THIS.updatedPost (event envoyé au serveur) = ", this.updatedPost);
+                console.log("THIS.updatedPost.id= ", this.updatedPost.id);
+                console.log("THIS.updatedPost.title = ", this.updatedPost.title);
+                console.log("THIS.updatedPost.body = ", this.updatedPost.body);
+                console.log("THIS.updatedPost.UserId = ", this.updatedPost.UserId);
+                console.log("THIS.FILE = ", this.file);
                 console.log("**********************************************************************************")
-                this.$emit("modifyPost", this.formData);
+                const formData = new FormData();
+                formData.append("id", this.updatedPost.id);
+                formData.append("title", this.updatedPost.title);
+                formData.append("body", this.updatedPost.body);
+                formData.append("UserId", this.updatedPost.UserId);
+                formData.append("image", this.file); // nom défini dans le middleware multer en dernière ligne (on attend file single nommé image)
+                console.log("#########################");
+                console.log("FORMDATA = ", formData);
+                console.log("#########################");
+
+                this.$emit("modifyPost", formData);
                 this.onCancelPostEdit();
-            },
-            
+            }            
         }
     }
 </script>

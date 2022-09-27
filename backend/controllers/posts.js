@@ -74,6 +74,15 @@ exports.getOnePost = (req, res, next) => {
 
 // U like UPDATE
 exports.modifyPost = (req, res, next) => {
+    console.log("************************************************")
+    console.log("REQ.BODY : ", req.body);
+    console.log("REQ.BODY.ID : ", req.body.id);
+    console.log("REQ.BODY.TITLE : ", req.body.title);
+    console.log("REQ.BODY.BODY : ", req.body.body);
+    console.log("REQ.BODY.UserId : ", req.body.UserId);
+    console.log("REQ.PARAMS.ID : ", req.params.id);
+    console.log("REQ.FILE : ", req.file);
+    console.log("************************************************")
     const postId = req.params.id;
     Post.findByPk(postId)
     .then((post) => {

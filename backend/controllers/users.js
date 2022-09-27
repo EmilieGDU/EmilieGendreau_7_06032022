@@ -21,13 +21,14 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then((hash) => {
         User.create({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            // firstName: req.body.firstName,
+            // lastName: req.body.lastName,
             email: req.body.email,
             password: hash // Storing the hashed password
         })
         .then((user) => {
-            const message = `Le nouvel utilisateur '${ user.firstName } ${ user.lastName }' a été créé.`;
+            //const message = `Le nouvel utilisateur '${ user.firstName } ${ user.lastName }' a été créé.`;
+            const message = `Le nouvel utilisateur '${ user.email }' a été créé.`;
             return res.status(201).json({ message, data: user });
         })
         .catch((error) => {

@@ -38,10 +38,11 @@ class PostService {
         //     );
     // }
 
-    modifyPost(postId) {
+    modifyPost(postId, updatedPost) {
         return axios
             .put(
-                `${API_URL}/${postId}`, 
+                `${API_URL}/${postId}`,
+                updatedPost, 
                 { 
                     headers: authHeader() 
                 }

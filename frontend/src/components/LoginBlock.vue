@@ -3,7 +3,7 @@
         <div>
             <h1>S'identifier</h1>
             <p class="lead">{{ citation }}</p>
-            <form method="" action="">
+            <form method="post" v-on:submit.prevent="onLogin">
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
                     <input id="email" type="email" class="form-control" v-model="formData.email" />
@@ -27,6 +27,8 @@
 
 
 <script>
+    import AuthService from "../services/auth.service"
+
     export default {
         name: "LoginBlock",
         data() {
@@ -36,6 +38,71 @@
                     email: "",
                     password: ""
                 }
+            }
+        },
+        methods: {
+            goFeed: function() {
+                console.log("****************")
+                console.log("LOGINBLOCK / ONLOGIN / IF RESPONSE.DATA.TOKEN ==> GO FEED")
+                console.log("****************")
+                this.$router.push("/feed");
+            },
+            
+            onLogin() {
+                console.log("####################################################################################################");
+                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK / THIS.FORMDATA : ", this.formData);
+                console.log("####################################################################################################");
+                AuthService.login(this.formData)
+                .then((response) => {
+                    console.log("####################################################################################################");
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA : ", response.data);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / JSON.STRINGIFY(RESPONSE.DATA) : ", JSON.stringify(response.data));
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA.MESSAGE : ", response.data.message);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA.USERID : ", response.data.userId);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA.TOKEN : ", response.data.token);
+                    console.log("####################################################################################################");
+                    
+                    if (response.data.token) {
+                        localStorage.setItem("userId", JSON.stringify(response.data.userId));
+                        localStorage.setItem("userToken", JSON.stringify(response.data.token));
+
+                        this.formData = {
+                            email: "",
+                            password:"",
+                        }
+                        console.log("###############################################################");
+                        console.log("THIS.FORMDATA APRES CLEAR LOGINBLOCK/ONLOGIN : ", this.formData);
+                        console.log("###############################################################");
+
+                        this.goFeed();
+                    }
+
+                    // this.formData = {
+                    //     email: "",
+                    //     password:"",
+                    // }
+                    // console.log("###############################################################");
+                    // console.log("THIS.FORMDATA APRES CLEAR LOGINBLOCK/ONLOGIN : ", this.formData);
+                    // console.log("###############################################################");
+
+                    return response.data;
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
             }
         }        
     }

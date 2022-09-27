@@ -40,7 +40,10 @@
                         <button class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>
-                        {{sync}}
+
+                        <!-- Contenu de la PROPS SYNC transmise par Feed (et via PostList) pour lancer actualisation des likes et comments à la création d'un nouveau Post =  -->
+                        <!-- <p>{{sync}}</p> -->
+
                         <!-- Top icon -->
                         <button v-if="userLike" class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
@@ -98,7 +101,7 @@
         ],
         data() {
             return {
-                userId: 2, // Sera à récupérer du LocalStorage
+                userId: 2, // localStorage.getItem("userId")
                 postId: this.post.id,
                 isAdmin: false,
                 isAuthorOfPost: true,
@@ -123,8 +126,10 @@
                 this.showPostEdit = false;
             },
             
-            onModifyPost() {
-                this.$emit("deletePost", this.postId);
+            modifyPost(updatedPost) {
+                console.log("MODIFYPOST depuis POSTCARD - Contenu UpdatedPost : ", updatedPost);
+                console.log("TypeOf updatedPost.id depuis POSTCARD : ", typeof(updatedPost.id));
+                this.$emit("modifyPost", updatedPost);
             },
 
             onDeletePost() {
@@ -310,6 +315,7 @@
             }
         },
         created() {
+            console.log("PostCard component CREATED : ", this.post);
             LikeService.getUserLikes(this.postId, this.userId)
             .then((response) => {
                 console.log(response.data);

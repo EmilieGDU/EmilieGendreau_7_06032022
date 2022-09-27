@@ -3,7 +3,7 @@
         <div>
             <h1>S'inscrire</h1>
             <p class="lead">{{ citation }}</p>
-            <form method="" action="">
+            <form method="post" v-on:submit.prevent="onSignup">
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
                     <input id="email" type="email" class="form-control" v-model="formData.email" />
@@ -63,6 +63,8 @@
 
 
 <script>
+    import AuthService from "../services/auth.service"
+
     export default {
         name: "SignupBlock",
         data() {
@@ -73,8 +75,48 @@
                     password: ""
                 }
             }
+        },
+        methods: {
+            onSignup() {
+                console.log("####################################################################################################");
+                console.log("SIGNUP(THIS.FORMDATA) DEPUIS SIGNUPBLOCK / THIS.FORMDATA : ", this.formData);
+                console.log("####################################################################################################");
+                AuthService.signup(this.formData)
+                .then((response) => {
+                    console.log("####################################################################################################");
+                    console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA : ", response.data);
+                    console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA.MESSAGE : ", response.data.message);
+                    console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA.DATA : ", response.data.data);
+                    console.log("####################################################################################################");
+
+                    this.formData = {
+                        email: "",
+                        password:"",
+                    }
+                    console.log("##################################################################");
+                    console.log("THIS.FORMDATA APRES CLEAR SIGNUPBLOCK/ONSIGNUP : ", this.formData);
+                    console.log("##################################################################");
+
+                    return response.data;
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
+            }
         }
-        
     }
 </script>
 
