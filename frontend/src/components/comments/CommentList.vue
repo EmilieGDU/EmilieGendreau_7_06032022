@@ -1,7 +1,6 @@
 <template>
     <div class="container mt-5">
         <h2>Les réactions de vos collègues</h2>
-        <p class="text-muted"><em>IMPLEMENTER AFFICHAGE ANTICHRONOLOGIQUE</em></p>
         
         <p v-if="comments.length == 0" class="mt-3">
                 Aucun commentaire à afficher pour le moment... <br />

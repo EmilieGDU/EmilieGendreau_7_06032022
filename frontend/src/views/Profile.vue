@@ -11,7 +11,7 @@
             
             <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
             <!-- <post-creation></post-creation> -->
-            <p v-if="userPosts.length ==0">Vous n'avez publié aucun article jusqu'à présent.</p>
+            <p v-if="(userPosts.length == undefined) ? 0 : userPosts.length">Vous n'avez publié aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userPosts"
                 v-on:modifyPost="modifyUserPost($event)"
@@ -19,7 +19,7 @@
             </post-list>
             
             <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
-            <p v-if="userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
+            <p v-if="(userCommentedPosts.length == undefined) ? 0 : userCommentedPosts.length">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userCommentedPosts"
                 v-on:modifyPost="modifyUserCommentedPost($event)"
@@ -50,7 +50,7 @@
                 userPosts: [],
                 //userComments: [],
                 userCommentedPosts: [],
-                userId: 2,
+                userId: localStorage.getItem("userId")
             }
         },
         methods: {

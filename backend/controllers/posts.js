@@ -236,6 +236,7 @@ exports.getPostComments = (req, res, next) => {
         where: { 
             PostId: req.params.postId
         },
+        order: [ ["updatedAt", "DESC"] ],
         include: {
             model: User,
             attributes: ["email"],
