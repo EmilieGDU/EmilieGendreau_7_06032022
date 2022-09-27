@@ -63,8 +63,12 @@
                     console.log("####################################################################################################");
                     
                     if (response.data.token) {
-                        localStorage.setItem("userId", JSON.stringify(response.data.userId));
-                        localStorage.setItem("userToken", JSON.stringify(response.data.token));
+                        const user = { userId: response.data.userId, token: response.data.token };
+                        console.log("+++++++++++++++++++++++++++++++++");
+                        console.log("USER pour LOCALSTORAGE = ", user);
+                        console.log("+++++++++++++++++++++++++++++++++");
+                        localStorage.setItem("user", JSON.stringify(user));
+                        //localStorage.setItem("user", JSON.stringify(response.data));
 
                         this.formData = {
                             email: "",
