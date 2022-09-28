@@ -29,6 +29,8 @@
                 v-on:modifyPost="modifyPost($event)"
                 v-on:deletePost="deletePost($event)">
             </post-list>
+
+            <go-on-top></go-on-top>
         </main>
 
     </div>
@@ -38,13 +40,15 @@
 <script>
     import PostService from "../services/post.service"
     import PostCreation from "../components/posts/PostCreation.vue"
-    import PostList from "../components/posts/PostList.vue"
+    import PostList from "../components/posts/PostList.vue"    
+    import GoOnTop from "../components/GoOnTop.vue"
     
     export default {
         name: "FeedView",
         components: {
             "post-creation": PostCreation,
-            "post-list": PostList,
+            "post-list": PostList,            
+            "go-on-top": GoOnTop,
         },
         data() {
             return {

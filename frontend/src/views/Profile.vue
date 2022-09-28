@@ -10,8 +10,7 @@
             </div>
             
             <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
-            <!-- <post-creation></post-creation> -->
-            <p v-if="(userPosts.length == undefined) ? 0 : userPosts.length">Vous n'avez publié aucun article jusqu'à présent.</p>
+            <p v-if="userPosts.length == 0">Vous n'avez publié aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userPosts"
                 v-on:modifyPost="modifyUserPost($event)"
@@ -19,12 +18,14 @@
             </post-list>
             
             <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
-            <p v-if="(userCommentedPosts.length == undefined) ? 0 : userCommentedPosts.length">Vous n'avez commenté aucun article jusqu'à présent.</p>
+            <p v-if="userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userCommentedPosts"
                 v-on:modifyPost="modifyUserCommentedPost($event)"
                 v-on:deletePost="deleteUserCommentedPost($event)">
             </post-list>
+
+            <go-on-top></go-on-top>
         </main>
 
     </div>
@@ -36,12 +37,13 @@
     import UserService from "../services/user.service"
     // import PostCreation from "../components/PostCreation.vue"
     import PostList from "../components/posts/PostList.vue"
+    import GoOnTop from "../components/GoOnTop.vue"
 
     export default {
         name: "ProfileView",
         components: {
-            // "post-creation": PostCreation,
             "post-list": PostList,
+            "go-on-top": GoOnTop,
         },
         data() {
             return {
@@ -50,7 +52,7 @@
                 userPosts: [],
                 //userComments: [],
                 userCommentedPosts: [],
-                userId: localStorage.getItem("userId")
+                userId: 2, //localStorage.getItem("userId")
             }
         },
         methods: {
@@ -177,16 +179,9 @@
                     }
                     console.log(error.config);
                 });
-            },
+            }
         },
         created() {
-        //     function getUserId() {
-        //         let user = JSON.parse(localStorage.getItem("user"));
-        //         if (user && user.id) {
-
-        //         }
-        //     }; 
-
             UserService.getUserPosts(this.userId)
             .then((response) => {
                 // console.log("Vos Posts publiés : ", response.data);

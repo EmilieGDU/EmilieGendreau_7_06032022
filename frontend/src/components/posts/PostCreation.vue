@@ -59,7 +59,7 @@
                 this.newPost = {
                     title: "",
                     body: "",
-                    UserId: 2 // A RECUPERER DU LOCALSTORAGE
+                    UserId: 2 // localStorage.getItem("userId")
                 },
                 this.file = undefined,                
                 this.showPostForm = false;
@@ -88,7 +88,7 @@
                 this.newPost = {
                     title: "",
                     body: "",                  
-                    UserId: 2 // A RECUPERER DU LOCALSTORAGE
+                    UserId: 2 // localStorage.getItem("userId")
                 }; 
                 this.file = undefined,               
                 this.showPostForm = false;

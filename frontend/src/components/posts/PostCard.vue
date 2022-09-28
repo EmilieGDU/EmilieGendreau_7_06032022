@@ -318,7 +318,7 @@
             console.log("PostCard component CREATED : ", this.post);
             LikeService.getUserLikes(this.postId, this.userId)
             .then((response) => {
-                console.log(response.data);
+                console.log("POSTCARD / 319 / GETUSERLIKES", response.data);
                 // response.data = {message, data}
                 // this.userLike = response.data.data.count;
                 this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
