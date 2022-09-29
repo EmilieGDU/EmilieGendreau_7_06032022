@@ -19,6 +19,7 @@ module.exports = (req, res, next) => {
             // Adding an auth object to the request object, which contains the userId extracted from the token
             // The addition within a middleware makes it available for all the following middlewares
             req.auth = { userId: userId };
+            console.log("req.auth.userId", req.auth.userId);
             if (req.body.userId && req.body.userId !== userId) {
                 throw "Identifiant d'utilisateur non valable.";
             }

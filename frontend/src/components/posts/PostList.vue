@@ -32,9 +32,9 @@
             // "sync" 
         ],
         methods: {
-            modifyPost(postId) {
-                console.log("modifyPost depuis Postlist : ", postId);                
-                this.$emit("modifyPost", postId);
+            modifyPost(updatedPost) {
+                console.log("MODIFYPOST depuis POSTCARD - Contenu UpdatedPost : ", updatedPost);               
+                this.$emit("modifyPost", updatedPost);
             },
             
             deletePost(postId) {

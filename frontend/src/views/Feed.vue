@@ -93,27 +93,28 @@
                 console.log("formData (= newPost) ", newPost);
                 console.log("**********************************************************************")
                 PostService.createPost(newPost)
-                .then((response) => {
-                    console.log(response.data.message);
-                    this.fetchAllPosts();
-                    //this.sync = true;
-                })
-                .catch((error) => {
-                    if (error.response) { // Get response with a status code not in range 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }
-                    else if (error.request) { // No response
-                        console.log(error.request);
-                        // Instance of XMLHttpRequest in the Browser
-                        // Instance of http.ClientRequest in Node.js
-                    }
-                    else { // Something wrong in setting up the request
-                        console.log("Error : ", error.message);
-                    }
-                    console.log(error.config);
-                });
+                    .then((response) => {
+                        console.log(response.data.message);
+                        // this.fetchAllPosts();
+                        //this.sync = true;
+                    })
+                    .then( () => this.fetchAllPosts())
+                    .catch((error) => {
+                        if (error.response) { // Get response with a status code not in range 2xx
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        }
+                        else if (error.request) { // No response
+                            console.log(error.request);
+                            // Instance of XMLHttpRequest in the Browser
+                            // Instance of http.ClientRequest in Node.js
+                        }
+                        else { // Something wrong in setting up the request
+                            console.log("Error : ", error.message);
+                        }
+                        console.log(error.config);
+                    });
             },
 
             modifyPost(updatedPost) {
@@ -121,8 +122,8 @@
                 console.log("modifyPost depuis Feed : ");
                 console.log("UPDATEDPOST : ", updatedPost);
                 console.log("##################################");
-                let postId = updatedPost.id;
-                PostService.modifyPost(postId, updatedPost)
+                let postId = updatedPost.postId;
+                PostService.modifyPost(postId, updatedPost.updatedPost)
                 .then((response) => {
                     console.log(response.data.message);
                     this.fetchAllPosts();

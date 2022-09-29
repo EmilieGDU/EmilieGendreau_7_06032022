@@ -50,7 +50,7 @@
             
             onLogin() {
                 console.log("####################################################################################################");
-                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK / THIS.FORMDATA : ", this.formData);
+                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK / THIS.FORMDATA.EMAIL : ", this.formData.email);
                 console.log("####################################################################################################");
                 AuthService.login(this.formData)
                 .then((response) => {

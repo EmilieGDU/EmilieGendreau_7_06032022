@@ -74,12 +74,12 @@ exports.getOnePost = (req, res, next) => {
 
 // U like UPDATE
 exports.modifyPost = (req, res, next) => {
-    console.log("************************************************")
+    // console.log("************************************************")
+    console.log("REQ.HEADERS : ", req.headers);
+    console.log("REQ.AUTH : ", req.auth);
     console.log("REQ.BODY : ", req.body);
-    console.log("REQ.BODY.ID : ", req.body.id);
     console.log("REQ.BODY.TITLE : ", req.body.title);
     console.log("REQ.BODY.BODY : ", req.body.body);
-    console.log("REQ.BODY.UserId : ", req.body.UserId);
     console.log("REQ.PARAMS.ID : ", req.params.id);
     console.log("REQ.FILE : ", req.file);
     console.log("************************************************")
@@ -90,11 +90,13 @@ exports.modifyPost = (req, res, next) => {
             const message = "Post non trouvé.";
             return res.status(404).json({ message });
         } 
-        if (post.UserId != req.auth.userId) {
-            const message = "Requête non autorisée.";
-            return res.status(401).json({ message });
-        }
-        
+        // if (post.UserId != req.auth.userId) {
+        //     const message = "Requête non autorisée.";
+        //     return res.status(401).json({ message });
+        // }
+        console.log("+++++++++++++++++++++++++++++++++++++++")
+        console.log("+++++++++++++++++++++++++++++++++++++++")
+        console.log("+++++++++++++++++++++++++++++++++++++++")
         const postObject = req.file ?
         {
             //...JSON.parse(req.body.post),

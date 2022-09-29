@@ -36,11 +36,10 @@
             console.log("THIS.POST depuis PostEdit : ", this.post)
             console.log("++++++++++++++++++++++++++++++++++++++++++")
             return {
+                postId: this.post.id,
                 updatedPost: {
-                    id: this.post.id,
                     title: this.post.title,
-                    body: this.post.body,
-                    UserId: this.post.UserId
+                    body: this.post.body
                 },
                 file: undefined,
             }
@@ -58,23 +57,23 @@
                 console.log("**********************************************************************************")
                 console.log("Clic sur modifier Post depuis PostEdit : ");
                 console.log("THIS.updatedPost (event envoyé au serveur) = ", this.updatedPost);
-                console.log("THIS.updatedPost.id= ", this.updatedPost.id);
+                console.log("THIS.postId= ", this.postId);
                 console.log("THIS.updatedPost.title = ", this.updatedPost.title);
                 console.log("THIS.updatedPost.body = ", this.updatedPost.body);
-                console.log("THIS.updatedPost.UserId = ", this.updatedPost.UserId);
                 console.log("THIS.FILE = ", this.file);
                 console.log("**********************************************************************************")
                 const formData = new FormData();
-                formData.append("id", this.updatedPost.id);
                 formData.append("title", this.updatedPost.title);
                 formData.append("body", this.updatedPost.body);
-                formData.append("UserId", this.updatedPost.UserId);
                 formData.append("image", this.file); // nom défini dans le middleware multer en dernière ligne (on attend file single nommé image)
                 console.log("#########################");
                 console.log("FORMDATA = ", formData);
                 console.log("#########################");
 
-                this.$emit("modifyPost", formData);
+                this.$emit("modifyPost", {
+                    postId: this.postId,
+                    updatedPost: formData
+                });
                 this.onCancelPostEdit();
             }            
         }

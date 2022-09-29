@@ -54,7 +54,7 @@
         name: "HeaderBlock",
         data() {
             return {
-                isLogged: false,
+                isLogged: true,
                 isLoggedOut: false
             }
         },

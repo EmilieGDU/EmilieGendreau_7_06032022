@@ -39,6 +39,10 @@ class PostService {
     // }
 
     modifyPost(postId, updatedPost) {
+        console.log("++++++++++++++++++++");
+        console.log(postId);
+        console.log(updatedPost);
+        console.log("++++++++++++++++++++");
         return axios
             .put(
                 `${API_URL}/${postId}`,

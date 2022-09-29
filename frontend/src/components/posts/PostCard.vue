@@ -97,7 +97,7 @@
         },
         props: [ 
             "post",
-            "sync"
+            // "sync"
         ],
         data() {
             return {
@@ -128,7 +128,6 @@
             
             modifyPost(updatedPost) {
                 console.log("MODIFYPOST depuis POSTCARD - Contenu UpdatedPost : ", updatedPost);
-                console.log("TypeOf updatedPost.id depuis POSTCARD : ", typeof(updatedPost.id));
                 this.$emit("modifyPost", updatedPost);
             },
 

@@ -59,8 +59,11 @@
             fetchAllPosts() {
                 PostService.getAllPosts()
                 .then((response) => {
+                    console.log("################################");
+                    console.log("Profile L63 - CREATED - LancementFetchAllPosts");
                     console.log(response.data);
-                    // response.data = {message, data}
+                    // response.data = {message, data}                    
+                    console.log("################################");
                     this.posts = response.data.data;
                 })
                 .catch((error) => {
@@ -81,9 +84,13 @@
                 });
             },
 
-            modifyUserPost(postId) {
-                console.log("modifyUserPost depuis Profile : ", postId);
-                PostService.modifyPost(postId)
+            modifyUserPost(updatedPost) {
+                console.log("##################################");
+                console.log("modifyUserPost depuis Profile : ");
+                console.log("UPDATEDPOST : ", updatedPost);
+                console.log("##################################");
+                let postId = updatedPost.postId;
+                PostService.modifyPost(postId, updatedPost.updatedPost)
                 .then((response) => {
                     console.log(response.data.message);
                     this.fetchAllPosts();
