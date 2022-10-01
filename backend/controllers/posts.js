@@ -48,7 +48,9 @@ exports.createPost = (req, res, next) => {
 
 // R like READ
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll({ order: [ ["updatedAt", "DESC"] ] })
+    Post.findAll({        
+        order: [ ["updatedAt", "DESC"] ], 
+    })
     .then((posts) => {
         const message = "L'ensemble des posts a été récupéré.";
         return res.status(200).json({ message, data: posts });
@@ -218,31 +220,16 @@ exports.createComment = (req, res, next) => {
 
 
 // R like READ
-// exports.getPostComments = (req, res, next) => {
-//     Comment.findAll({ where: { PostId: req.params.postId} })
-//     .then((comments) => {
-//         if (comments.length === 0) {
-//             const message = "Post non trouvé.";
-//             return res.status(404).json({ message });
-//         } 
-//         else {
-//             const message = "L'ensemble des commentaires a été récupéré.";
-//             return res.status(200).json({ message, data: comments });
-//         }
-//     })
-//     .catch((error) => { return res.status(500).json({ error }); });
-// };
-
 exports.getPostComments = (req, res, next) => {
     Comment.findAndCountAll({ 
         where: { 
             PostId: req.params.postId
         },
-        order: [ ["updatedAt", "DESC"] ],
         include: {
             model: User,
             attributes: ["email"],
-        } 
+        }, 
+        order: [ ["updatedAt", "DESC"] ],
     })
     .then(({count, rows}) => {
         if (count == 0) {

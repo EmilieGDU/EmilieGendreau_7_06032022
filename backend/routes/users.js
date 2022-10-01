@@ -30,8 +30,6 @@ router.get("/:id", auth, usersCtrl.getOneUser);
 // ###########################################################################
 // router.get("/:id/posts", auth, usersCtrl.getUserPosts);
 router.get("/:id/posts", usersCtrl.getUserPosts);
-// router.get("/:id/comments", usersCtrl.getUserComments);
-// router.get("/:id/comments", auth, usersCtrl.getUserComments);
 router.get("/:id/commentedPosts", usersCtrl.getUserCommentedPosts);
 // router.get("/:id/commentedPosts", auth, usersCtrl.getUserCommentedPosts);
 router.put("/:id", auth, multer, usersCtrl.modifyUser);

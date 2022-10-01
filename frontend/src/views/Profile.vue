@@ -10,7 +10,7 @@
             </div>
             
             <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
-            <p v-if="userPosts.length == 0">Vous n'avez publié aucun article jusqu'à présent.</p>
+            <p v-if="userPosts.length == 0 || userPosts.length == undefined">Vous n'avez publié aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userPosts"
                 v-on:modifyPost="modifyUserPost($event)"
@@ -20,9 +20,7 @@
             <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
             <p v-if="userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
-                v-bind:posts="userCommentedPosts"
-                v-on:modifyPost="modifyUserCommentedPost($event)"
-                v-on:deletePost="deleteUserCommentedPost($event)">
+                v-bind:posts="userCommentedPosts">
             </post-list>
 
             <go-on-top></go-on-top>
@@ -35,7 +33,6 @@
 <script>
     import PostService from "../services/post.service"
     import UserService from "../services/user.service"
-    // import PostCreation from "../components/PostCreation.vue"
     import PostList from "../components/posts/PostList.vue"
     import GoOnTop from "../components/GoOnTop.vue"
 
@@ -50,21 +47,46 @@
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
                 //userId: null,
                 userPosts: [],
-                //userComments: [],
                 userCommentedPosts: [],
                 userId: 2, //localStorage.getItem("userId")
             }
         },
         methods: {
-            fetchAllPosts() {
-                PostService.getAllPosts()
+            fetchUserPosts() {
+                UserService.getUserPosts(this.userId)
                 .then((response) => {
-                    console.log("################################");
-                    console.log("Profile L63 - CREATED - LancementFetchAllPosts");
-                    console.log(response.data);
-                    // response.data = {message, data}                    
-                    console.log("################################");
-                    this.posts = response.data.data;
+                    // console.log("=================================================================");
+                    // console.log("Vos Posts publiés : ", response.data);
+                    // response.data = {message, data}
+                    // console.log("=================================================================");
+                    this.userPosts = response.data.data;
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
+            },
+
+            fetchUserCommentedPosts() {
+                UserService.getUserCommentedPosts(this.userId)
+                .then((response) => {
+                    // console.log("=================================================================");
+                    // console.log(response.data);
+                    // response.data = {message, data}
+                    // console.log("=================================================================");
+                    this.userCommentedPosts = response.data.data;
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -92,8 +114,10 @@
                 let postId = updatedPost.postId;
                 PostService.modifyPost(postId, updatedPost.updatedPost)
                 .then((response) => {
+                    console.log("==================================================");
                     console.log(response.data.message);
-                    this.fetchAllPosts();
+                    console.log("==================================================");
+                    this.fetchUserPosts();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -112,63 +136,15 @@
                     console.log(error.config);
                 });
             },
-            
-            modifyUserCommentedPost(postId) {
-                console.log("modifyUserCommentedPost depuis Profile : ", postId);
-                PostService.modifyPost(postId)
-                .then((response) => {
-                    console.log(response.data.message);
-                    this.fetchAllPosts();
-                })
-                .catch((error) => {
-                    if (error.response) { // Get response with a status code not in range 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }
-                    else if (error.request) { // No response
-                        console.log(error.request);
-                        // Instance of XMLHttpRequest in the Browser
-                        // Instance of http.ClientRequest in Node.js
-                    }
-                    else { // Something wrong in setting up the request
-                        console.log("Error : ", error.message);
-                    }
-                    console.log(error.config);
-                });
-            },
-            
+                        
             deleteUserPost(postId) {
+                console.log("=================================================================");
                 console.log("deleteUserPost depuis Profile : ", postId);
+                console.log("=================================================================");
                 PostService.deletePost(postId)
                 .then((response) => {
                     console.log(response.data.message);
-                    this.fetchAllPosts();
-                })
-                .catch((error) => {
-                    if (error.response) { // Get response with a status code not in range 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }
-                    else if (error.request) { // No response
-                        console.log(error.request);
-                        // Instance of XMLHttpRequest in the Browser
-                        // Instance of http.ClientRequest in Node.js
-                    }
-                    else { // Something wrong in setting up the request
-                        console.log("Error : ", error.message);
-                    }
-                    console.log(error.config);
-                });
-            },
-            
-            deleteUserCommentedPost(postId) {
-                console.log("deleteUserCommentedPost depuis Profile : ", postId);
-                PostService.deletePost(postId)
-                .then((response) => {
-                    console.log(response.data.message);
-                    this.fetchAllPosts();
+                    this.fetchUserPosts();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -189,63 +165,10 @@
             }
         },
         created() {
-            UserService.getUserPosts(this.userId)
-            .then((response) => {
-                // console.log("Vos Posts publiés : ", response.data);
-                // response.data = {message, data}
-                this.userPosts = response.data.data;
-            })
-            .catch((error) => {
-                if (error.response) { // Get response with a status code not in range 2xx
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-                else if (error.request) { // No response
-                    console.log(error.request);
-                    // Instance of XMLHttpRequest in the Browser
-                    // Instance of http.ClientRequest in Node.js
-                }
-                else { // Something wrong in setting up the request
-                    console.log("Error : ", error.message);
-                }
-                console.log(error.config);
-            });
+            this.fetchUserPosts();
 
-            // UserService.getUserComments(userId)
-            // .then((response) => {
-            //     // console.log(response.data);
-            //     // response.data = {message, data}
-            //     this.userComments = response.data.data;
-            // })
-            // .catch((error) => {
-            //     console.log(error.response.data);
-            // });
-
-            UserService.getUserCommentedPosts(this.userId)
-            .then((response) => {
-                // console.log(response.data);
-                // response.data = {message, data}
-                this.userCommentedPosts = response.data.data;
-            })
-            .catch((error) => {
-                if (error.response) { // Get response with a status code not in range 2xx
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-                else if (error.request) { // No response
-                    console.log(error.request);
-                    // Instance of XMLHttpRequest in the Browser
-                    // Instance of http.ClientRequest in Node.js
-                }
-                else { // Something wrong in setting up the request
-                    console.log("Error : ", error.message);
-                }
-                console.log(error.config);
-            });
-        }
-        
+            this.fetchUserCommentedPosts();         
+        }        
     }
 </script>
 

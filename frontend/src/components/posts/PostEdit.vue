@@ -32,9 +32,11 @@
         name: "PostEdit",
         props: [ "post" ],
         data() {
-            console.log("++++++++++++++++++++++++++++++++++++++++++")
-            console.log("THIS.POST depuis PostEdit : ", this.post)
-            console.log("++++++++++++++++++++++++++++++++++++++++++")
+            // =======================================================
+            console.log("++++++++++++++++++++++++++++++++++++++++++++++")
+            console.log("THIS.POST depuis PostEdit - L37 : ", this.post)
+            console.log("++++++++++++++++++++++++++++++++++++++++++++++")
+            // =======================================================
             return {
                 postId: this.post.id,
                 updatedPost: {
@@ -54,6 +56,7 @@
             },
 
             onModifyPost() {
+                // ==============================================================================================
                 console.log("**********************************************************************************")
                 console.log("Clic sur modifier Post depuis PostEdit : ");
                 console.log("THIS.updatedPost (event envoyé au serveur) = ", this.updatedPost);
@@ -62,13 +65,16 @@
                 console.log("THIS.updatedPost.body = ", this.updatedPost.body);
                 console.log("THIS.FILE = ", this.file);
                 console.log("**********************************************************************************")
+                // ==============================================================================================
                 const formData = new FormData();
                 formData.append("title", this.updatedPost.title);
                 formData.append("body", this.updatedPost.body);
-                formData.append("image", this.file); // nom défini dans le middleware multer en dernière ligne (on attend file single nommé image)
-                console.log("#########################");
-                console.log("FORMDATA = ", formData);
-                console.log("#########################");
+                formData.append("image", this.file); // "image" = name defined in the multer middleware (in the last line, we specify that we expect single file named "image")
+                // ==============================================================================================
+                console.log("#######################################");
+                console.log("POSTEDIT - L75 - FORMDATA = ", formData);
+                console.log("#######################################");
+                // ==============================================================================================
 
                 this.$emit("modifyPost", {
                     postId: this.postId,

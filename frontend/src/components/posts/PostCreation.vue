@@ -35,11 +35,13 @@
         name: "PostCreation",
         data() {
             return {
+                //user: JSON.parse(localStorage.getItem("user")),
+                //userId: this.user.userId,
                 showPostForm: false,
                 newPost: {
                     title: "",
                     body: "",
-                    UserId: 2 //localStorage.getItem("userId")
+                    UserId: 2, //this.userId
                 },
                 file: undefined,
             }
@@ -59,13 +61,14 @@
                 this.newPost = {
                     title: "",
                     body: "",
-                    UserId: 2 // localStorage.getItem("userId")
+                    UserId: 2 //this.userId
                 },
                 this.file = undefined,                
                 this.showPostForm = false;
             },
 
             onCreatePost() {
+                // =================================================================================================
                 console.log("**********************************************************************************")
                 console.log("Clic sur publier Post depuis PostCreation : ");
                 console.log("THIS.newPost (event envoyé au serveur) = ", this.newPost);
@@ -73,22 +76,25 @@
                 console.log("THIS.newPost.BODY = ", this.newPost.body);
                 console.log("THIS.newPost.USERID = ", this.newPost.UserId);
                 console.log("THIS.FILE = ", this.file);
-                console.log("**********************************************************************************")
-                
+                console.log("**********************************************************************************")                
+                // =================================================================================================
+
                 const formData = new FormData();
                 formData.append("title", this.newPost.title);
                 formData.append("body", this.newPost.body);
                 formData.append("UserId", this.newPost.UserId);
                 formData.append("image", this.file); // "image" = name defined in the multer middleware (in the last line, we specify that we expect single file named "image")
-                console.log("#########################");
-                console.log("FORMDATA = ", formData);
-                console.log("#########################");
+                // ==============================================================================================
+                console.log("#################################################");
+                console.log("FORMDATA depuis PostCreation - L87 = ", formData);
+                console.log("#################################################");
+                // ==============================================================================================
                 
                 this.$emit("createPost", formData);
                 this.newPost = {
                     title: "",
                     body: "",                  
-                    UserId: 2 // localStorage.getItem("userId")
+                    UserId: 2 //this.userId
                 }; 
                 this.file = undefined,               
                 this.showPostForm = false;

@@ -217,7 +217,10 @@ exports.getUserPosts = (req, res, next) => {
             return res.status(404).json({ message });
         }
         
-        Post.findAll({ where: { UserId: user.id } })
+        Post.findAll({ 
+            where: { UserId: user.id },
+            order: [ ["updatedAt", "DESC"] ]
+        })
         .then((userPosts) => {
             if (userPosts.length < 1) {
                 const message = "L'utilisateur n'a publié aucun post.";
@@ -226,36 +229,6 @@ exports.getUserPosts = (req, res, next) => {
             else {
                 const message = "L'ensemble des posts publiés par l'utilisateur a été récupéré.";
                 return res.status(200).json({ message, data: userPosts });
-            }
-        })
-        .catch((error) => { return res.status(500).json({ error }); });        
-    })
-    .catch((error) => {
-        return res.status(500).json({ error });
-    });
-};
-
-exports.getUserComments = (req, res, next) => {
-    // console.log(req.auth);
-    // console.log(req.auth.userId);
-    // User.findByPk(req.auth.userId)
-    User.findByPk(req.params.id)
-    .then((user) => {
-        if (user === null) {
-            const message = "Utilisateur non trouvé.";
-            return res.status(404).json({ message });
-        }
-        
-        Comment.findAll({ where: { UserId: user.id } })
-        .then((userComments) => {
-            if (userComments.length < 1) {
-                const message = "L'utilisateur n'a publié aucun commentaire.";
-                return res.status(200).json({ message });
-            }
-            else {
-                console.log(userComments);
-                const message = "L'ensemble des commentaires publiés par l'utilisateur a été récupéré.";
-                return res.status(200).json({ message, data: userComments});
             }
         })
         .catch((error) => { return res.status(500).json({ error }); });        
@@ -284,7 +257,8 @@ exports.getUserCommentedPosts = (req, res, next) => {
             include: {
                 model: Comment,                
                 where: { UserId: user.id } 
-            } 
+            },
+            order: [ ["updatedAt", "DESC"] ] 
         })
         .then((userCommentedPosts) => {
             if (userCommentedPosts.length < 1) {

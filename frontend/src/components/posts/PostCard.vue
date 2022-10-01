@@ -40,9 +40,11 @@
                         <button class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>
-
+                        <!-- ===================================================================================================================================================== -->
                         <!-- Contenu de la PROPS SYNC transmise par Feed (et via PostList) pour lancer actualisation des likes et comments à la création d'un nouveau Post =  -->
                         <!-- <p>{{sync}}</p> -->
+                        <!-- ===================================================================================================================================================== -->
+
 
                         <!-- Top icon -->
                         <button v-if="userLike" class="faStack" v-on:click="likePost">
@@ -97,11 +99,14 @@
         },
         props: [ 
             "post",
+            // ==============================================================================================
             // "sync"
+            // ==============================================================================================
         ],
         data() {
             return {
-                userId: 2, // localStorage.getItem("userId")
+                user: 0, // localStorage.getItem("user")
+                userId: 2, // localStorage.getItem("user")
                 postId: this.post.id,
                 isAdmin: false,
                 isAuthorOfPost: true,
@@ -116,7 +121,9 @@
         },
         methods: {
             togglePostEdit() {
+                // ==============================================================================================
                 console.log("SHOW POST EDIT ? : ",this.showPostEdit);
+                // ==============================================================================================
                 this.showPost = false;
                 this.showPostEdit = true;
             },
@@ -127,7 +134,9 @@
             },
             
             modifyPost(updatedPost) {
-                console.log("MODIFYPOST depuis POSTCARD - Contenu UpdatedPost : ", updatedPost);
+                // ==============================================================================================
+                console.log("MODIFYPOST depuis POSTCARD - L133 - Contenu UpdatedPost : ", updatedPost);
+                // ==============================================================================================
                 this.$emit("modifyPost", updatedPost);
             },
 
@@ -314,12 +323,16 @@
             }
         },
         created() {
+            // =====================================================================================================================================================
             console.log("PostCard component CREATED : ", this.post);
+            // =====================================================================================================================================================
             LikeService.getUserLikes(this.postId, this.userId)
             .then((response) => {
-                console.log("POSTCARD / 319 / GETUSERLIKES", response.data);
+                // =====================================================================================================================================================
+                console.log("POSTCARD / L319 / GETUSERLIKES", response.data);
                 // response.data = {message, data}
                 // this.userLike = response.data.data.count;
+                // =====================================================================================================================================================
                 this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
             })
             .catch((error) => {
@@ -342,6 +355,13 @@
             this.fetchPostLikes();
 
             this.fetchPostComments();
+
+            const user = JSON.parse(localStorage.getItem("user"));
+            const userId = user.userId;
+            console.log("LOCALSTORAGE.USER = ", user);
+            console.log("LOCALSTORAGE.USERID = ", userId);
+
+
         }
     }
 </script>
