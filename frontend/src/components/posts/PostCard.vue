@@ -40,12 +40,6 @@
                         <button class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>
-                        <!-- ===================================================================================================================================================== -->
-                        <!-- Contenu de la PROPS SYNC transmise par Feed (et via PostList) pour lancer actualisation des likes et comments à la création d'un nouveau Post =  -->
-                        <!-- <p>{{sync}}</p> -->
-                        <!-- ===================================================================================================================================================== -->
-
-
                         <!-- Top icon -->
                         <button v-if="userLike" class="faStack" v-on:click="likePost">
                             <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
@@ -98,10 +92,7 @@
             "comment-list": CommentList,
         },
         props: [ 
-            "post",
-            // ==============================================================================================
-            // "sync"
-            // ==============================================================================================
+            "post"
         ],
         data() {
             return {
@@ -356,10 +347,10 @@
 
             this.fetchPostComments();
 
-            const user = JSON.parse(localStorage.getItem("user"));
-            const userId = user.userId;
-            console.log("LOCALSTORAGE.USER = ", user);
-            console.log("LOCALSTORAGE.USERID = ", userId);
+            // const user = JSON.parse(localStorage.getItem("user"));
+            // const userId = user.userId;
+            // console.log("LOCALSTORAGE.USER = ", user);
+            // console.log("LOCALSTORAGE.USERID = ", userId);
 
 
         }

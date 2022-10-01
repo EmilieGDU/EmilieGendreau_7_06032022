@@ -4,10 +4,6 @@
         <main class="container col-12 col-md-9 col-lg-6 my-5">
             <h1 class="text-center mb-5">Votre espace communautaire</h1>            
 
-            <!-- <post-creation
-                v-model="attachment"
-                v-on:createPost="createPost($event)">
-            </post-creation> -->
             <post-creation
                 v-on:createPost="createPost($event)">
             </post-creation>
@@ -17,16 +13,7 @@
             <p v-if="posts.length == 0 || posts.length == undefined" class="mt-3">
                 Aucun article à afficher pour le moment... Soyez le premier à publier !
             </p>
-            
-            <!-- -------------------------------------------------------------------------
-                PASSAGE BOOLEEN SYNC PR POUVOIR LANCER INSTRUCTION SYNCHRO DANS POSTCARD : 
-                <post-list v-else 
-                v-bind:posts="posts"
-                v-bind:sync="sync"
-                v-on:modifyPost="modifyPost($event)"
-                v-on:deletePost="deletePost($event)">
-                </post-list> 
-            -------------------------------------------------------------------------- -->
+
             <post-list v-else 
                 v-bind:posts="posts"
                 v-on:modifyPost="modifyPost($event)"
@@ -57,21 +44,15 @@
             return {
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
                 posts: [],
-                // ====================================================
-                //attachment: "",
-                //sync: false
-                // ====================================================
             };
         },
         methods: {
-            // #################################################################
-            // POSTS START
             fetchAllPosts() {
                 PostService.getAllPosts()
                 .then((response) => {
                     // ==========================================================
                     console.log("################################");
-                    console.log("FEED - L72 - CREATED - LancementFetchAllPosts");
+                    console.log("FEED - L72 - LancementFetchAllPosts");
                     console.log(response.data);
                     // response.data = {message, data}
                     console.log("################################");
@@ -98,16 +79,15 @@
             
             createPost(newPost) {
                 console.log("**********************************************************************")
-                console.log("createPost depuis FEED - L90 : ");
+                console.log("createPost depuis FEED - L99 : ");
                 console.log("formData (= newPost) ", newPost);
                 console.log("**********************************************************************")
                 PostService.createPost(newPost)
                     .then((response) => {
                         console.log(response.data.message);
-                        // this.fetchAllPosts();
-                        //this.sync = true;
+                        this.fetchAllPosts();
+                        location.reload();
                     })
-                    .then( () => this.fetchAllPosts())
                     .catch((error) => {
                         if (error.response) { // Get response with a status code not in range 2xx
                             console.log(error.response.data);
@@ -184,25 +164,7 @@
                     }
                     console.log(error.config);
                 });
-            },
-            // POSTS END
-            // #################################################################
-
-
-            // #################################################################
-            // LIKES START
-
-            // LIKES END
-            // #################################################################
-
-
-            // #################################################################
-            // COMMENTS START
-            
-            // COMMENTS END
-            // #################################################################
-
-
+            }
         },
         created() {
             // ====================================================
