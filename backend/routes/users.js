@@ -21,9 +21,9 @@ router.post("/signup", passwordValidator, usersCtrl.signup);
 router.post("/login", rateLimit, usersCtrl.login);
 // ========================================================================
 // Routes related to users management (main segment = "/api/users")
-router.post("/", auth, multer, usersCtrl.createUser);
-router.get("/", auth, usersCtrl.getAllUsers);
-router.get("/:id", auth, usersCtrl.getOneUser);
+// router.post("/", auth, multer, usersCtrl.createUser);
+// router.get("/", auth, usersCtrl.getAllUsers);
+// router.get("/:id", auth, usersCtrl.getOneUser);
 // ###########################################################################
 // router.get("/:id", auth, usersCtrl.getUserName);
 // router.get("/:id", usersCtrl.getUserName);
@@ -32,8 +32,8 @@ router.get("/:id", auth, usersCtrl.getOneUser);
 router.get("/:id/posts", usersCtrl.getUserPosts);
 router.get("/:id/commentedPosts", usersCtrl.getUserCommentedPosts);
 // router.get("/:id/commentedPosts", auth, usersCtrl.getUserCommentedPosts);
-router.put("/:id", auth, multer, usersCtrl.modifyUser);
-router.delete("/:id", auth, usersCtrl.deleteUser);
+// router.put("/:id", auth, multer, usersCtrl.modifyUser);
+// router.delete("/:id", auth, usersCtrl.deleteUser);
 
 
 module.exports = router;
