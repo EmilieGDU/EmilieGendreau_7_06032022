@@ -13,7 +13,13 @@
                 </div>
             </div>            
             <!-- Post End -->            
-            
+                        
+                    
+            <!-- Contenu de la PROPS SYNC transmise par Feed (et via PostList) pour lancer actualisation des likes et comments à la création d'un nouveau Post =  -->
+            <p style="color: red" class="text-center">SYNC = <strong>{{ sync }}</strong></p>
+            <p style="color: red" class="text-center">USERID = <strong>{{ user.userId }}</strong></p>
+
+
             <!-- Buttons Start -->
             <div v-if="(isAuthorOfPost || isAdmin) && showPost" class="card-body d-flex">         
                 <div class="col-6 col-sm-5 me-auto d-flex text-start">
@@ -45,6 +51,7 @@
                             <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>                        
                     </div>
+
                     <div>
                         <span v-if="nbLikes <= 1" class="ms-2 ms-sm-0 faStack"> {{ nbLikes }} like</span>
                         <span v-else class="ms-2 ms-sm-0 faStack"> {{ nbLikes }} likes</span>
@@ -78,6 +85,7 @@
 
 
 <script>
+    import { getLocalStorage } from "../../services/localStorage.service"
     import LikeService from "../../services/like.service"
     import CommentService from "../../services/comment.service"
     import PostEdit from "./PostEdit.vue"
@@ -92,15 +100,16 @@
             "comment-list": CommentList,
         },
         props: [ 
-            "post"
+            "post",
+            "sync"
         ],
         data() {
             return {
-                user: 0, // localStorage.getItem("user")
-                userId: 2, // localStorage.getItem("user")
-                postId: this.post.id,
+                user: undefined,
+                userId: null,
                 isAdmin: false,
-                isAuthorOfPost: true,
+                postId: this.post.id,
+                isAuthorOfPost: false,
                 showPost: true,
                 showPostEdit: false,
                 userLike: 0,
@@ -237,7 +246,8 @@
                 .then((response) => {
                     console.log("CREATECOMMENT(EVENT) DEPUIS POSTCARD / RESPONSE.DATA.MESSAGE : ", response.data.message);
                     console.log("CREATECOMMENT(EVENT) DEPUIS POSTCARD / RESPONSE.DATA.DATA : ", response.data.data);
-                    this.fetchPostComments();
+                    this.fetchPostComments();                    
+                    //location.reload();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -312,15 +322,76 @@
                     console.log(error.config);
                 });
             }
+        },        
+        // watch: {
+        //     sync: function() {
+        //         this.fetchPostLikes();
+        //         this.fetchPostComments();
+        //     }
+        // },
+        beforeCreate() {
+            console.log("PostCard component BEFORECREATE - Le composant", this.post.id, "va être créé");
         },
         created() {
             // =====================================================================================================================================================
-            console.log("PostCard component CREATED : ", this.post);
+            console.log("PostCard component CREATED - Le composant", this.post.id, "est créé");
             // =====================================================================================================================================================
+            this.user = getLocalStorage() ;
+            this.userId = this.user.userId ;
+            this.isAdmin = this.user.isAdmin;
+            this.isAuthorOfPost = (this.post.UserId === this.userId) ? true : false;
+
+            console.log("POSTCARD - CREATED - L344 - THIS.USER", this.user);
+            console.log("POSTCARD - CREATED - L345 - THIS.USERID", this.userId);
+            console.log("POSTCARD - CREATED - L346 - THIS.ISADMIN", this.isAdmin);
+            console.log("POSTCARD - CREATED - L347 - THIS.ISAUTHOROFPOST", this.isAuthorOfPost);
+            
+            // LikeService.getUserLikes(this.postId, this.userId)
+            // .then((response) => {
+            //     // =====================================================================================================================================================
+            //     console.log("POSTCARD / L340 / GETUSERLIKES", response.data);
+            //     // response.data = {message, data}
+            //     // this.userLike = response.data.data.count;
+            //     // =====================================================================================================================================================
+            //     this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+            // })
+            // .catch((error) => {
+            //     if (error.response) { // Get response with a status code not in range 2xx
+            //         console.log(error.response.data);
+            //         console.log(error.response.status);
+            //         console.log(error.response.headers);
+            //     }
+            //     else if (error.request) { // No response
+            //         console.log(error.request);
+            //         // Instance of XMLHttpRequest in the Browser
+            //         // Instance of http.ClientRequest in Node.js
+            //     }
+            //     else { // Something wrong in setting up the request
+            //         console.log("Error : ", error.message);
+            //     }
+            //     console.log(error.config);
+            // });
+            // // =====================================================================================================================================================
+            // console.log("POSTCARD / L363 / GETPOSTLIKES DU POST", this.post.id);
+            // // =====================================================================================================================================================
+            // this.fetchPostLikes();
+            // // =====================================================================================================================================================
+            // console.log("POSTCARD / L367 / GETPOSTCOMMENTS DU POST", this.post.id);
+            // // =====================================================================================================================================================
+            // this.fetchPostComments();
+
+            // const user = JSON.parse(localStorage.getItem("user"));
+            // const userId = user.userId;
+            // console.log("LOCALSTORAGE.USER = ", user);
+            // console.log("LOCALSTORAGE.USERID = ", userId);
+        },
+        beforeMount() {
+            console.log("PostCard component BEFOREMOUNT - Le composant", this.post.id, " va être monté dans le DOM");
+            
             LikeService.getUserLikes(this.postId, this.userId)
             .then((response) => {
                 // =====================================================================================================================================================
-                console.log("POSTCARD / L319 / GETUSERLIKES", response.data);
+                console.log("POSTCARD / L384 / GETUSERLIKES", response.data);
                 // response.data = {message, data}
                 // this.userLike = response.data.data.count;
                 // =====================================================================================================================================================
@@ -342,18 +413,52 @@
                 }
                 console.log(error.config);
             });
-
+            
             this.fetchPostLikes();
-
             this.fetchPostComments();
+        },
+        mounted() {
+            console.log("PostCard component MOUNTED - Le composant", this.post.id, " est intégré dans le DOM");
+            // =====================================================================================================================================================
+            
+            // LikeService.getUserLikes(this.postId, this.userId)
+            // .then((response) => {
+            //     // =====================================================================================================================================================
+            //     console.log("POSTCARD / L384 / GETUSERLIKES", response.data);
+            //     // response.data = {message, data}
+            //     // this.userLike = response.data.data.count;
+            //     // =====================================================================================================================================================
+            //     this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+            // })
+            // .catch((error) => {
+            //     if (error.response) { // Get response with a status code not in range 2xx
+            //         console.log(error.response.data);
+            //         console.log(error.response.status);
+            //         console.log(error.response.headers);
+            //     }
+            //     else if (error.request) { // No response
+            //         console.log(error.request);
+            //         // Instance of XMLHttpRequest in the Browser
+            //         // Instance of http.ClientRequest in Node.js
+            //     }
+            //     else { // Something wrong in setting up the request
+            //         console.log("Error : ", error.message);
+            //     }
+            //     console.log(error.config);
+            // });
 
-            // const user = JSON.parse(localStorage.getItem("user"));
-            // const userId = user.userId;
-            // console.log("LOCALSTORAGE.USER = ", user);
-            // console.log("LOCALSTORAGE.USERID = ", userId);
+            // this.fetchPostLikes();
 
-
-        }
+            // this.fetchPostComments();
+        },
+        beforeUpdate() {
+            console.log("PostCard component BEFOREUPDATE - Le composant", this.post.id, " va se mettre à jour");
+            // this.fetchPostLikes();
+            // this.fetchPostComments();
+        },
+        updated() {
+            console.log("PostCard component UPDATED - Le composant", this.post.id, " s'est bien mis à jour");
+        },
     }
 </script>
 

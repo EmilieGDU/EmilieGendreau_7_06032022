@@ -1,15 +1,14 @@
 <template>
     <div class="mt-3">
-        <!-- ------------------------------------------------------
-            <post-card 
+        <post-card 
             v-for="(post, index) in posts" 
             v-bind:key="index" 
             v-bind:post="post"
             v-bind:sync="sync"
             v-on:modifyPost="modifyPost($event)"
             v-on:deletePost="deletePost($event)">
-        </post-card> 
-        ------------------------------------------------------- -->
+        </post-card>
+        <!-- ------------------------------------------------------
         <post-card 
             v-for="(post, index) in posts" 
             v-bind:key="index" 
@@ -17,6 +16,7 @@
             v-on:modifyPost="modifyPost($event)"
             v-on:deletePost="deletePost($event)">
         </post-card>
+        ------------------------------------------------------- -->
     </div>    
 </template>
 
@@ -32,7 +32,7 @@
         props: [ 
             "posts",
             // ==============================================================================================
-            // "sync" 
+            "sync" 
             // ==============================================================================================
         ],
         methods: {

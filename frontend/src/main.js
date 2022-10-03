@@ -3,9 +3,9 @@
 // ###############################################################################
 /* Set up using Vue 3 */
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router/index.router'
+// import store from './store/index.store'
 
 
 // ###############################################################################
@@ -27,11 +27,9 @@ import { FontAwesomeIcon } from "./plugins/font-awesome"
 // ###############################################################################
 //                                   APPLICATION
 // ###############################################################################
-const pinia = createPinia();
-
 createApp(App)
     .use(router)
-    .use(pinia)
+    //.use(store)
     .component('font-awesome-icon', FontAwesomeIcon)
     .mount('#app')
 

@@ -16,9 +16,15 @@
 
             <post-list v-else 
                 v-bind:posts="posts"
+                v-bind:sync="sync"
                 v-on:modifyPost="modifyPost($event)"
                 v-on:deletePost="deletePost($event)">
             </post-list>
+            <!-- <post-list v-else 
+                v-bind:posts="posts"
+                v-on:modifyPost="modifyPost($event)"
+                v-on:deletePost="deletePost($event)">
+            </post-list> -->
 
             <go-on-top></go-on-top>
         </main>
@@ -44,6 +50,7 @@
             return {
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
                 posts: [],
+                sync: false
             };
         },
         methods: {
@@ -52,7 +59,7 @@
                 .then((response) => {
                     // ==========================================================
                     console.log("################################");
-                    console.log("FEED - L72 - LancementFetchAllPosts");
+                    console.log("FEED - L62 - LancementFetchAllPosts");
                     console.log(response.data);
                     // response.data = {message, data}
                     console.log("################################");
@@ -79,14 +86,15 @@
             
             createPost(newPost) {
                 console.log("**********************************************************************")
-                console.log("createPost depuis FEED - L99 : ");
+                console.log("createPost depuis FEED - L89 : ");
                 console.log("formData (= newPost) ", newPost);
                 console.log("**********************************************************************")
                 PostService.createPost(newPost)
                     .then((response) => {
                         console.log(response.data.message);
                         this.fetchAllPosts();
-                        location.reload();
+                        this.sync = true;
+                        //location.reload();
                     })
                     .catch((error) => {
                         if (error.response) { // Get response with a status code not in range 2xx
@@ -117,7 +125,8 @@
                 PostService.modifyPost(postId, updatedPost.updatedPost)
                 .then((response) => {
                     console.log(response.data.message);
-                    this.fetchAllPosts();
+                    this.fetchAllPosts();                    
+                    //location.reload();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -166,15 +175,25 @@
                 });
             }
         },
+        mounted() {
+            // ====================================================
+            console.log("Feed - MOUNTED");
+            // ====================================================
+        } ,
         created() {
             // ====================================================
-            console.log("1 - Feed - CREATED");
+            console.log("Feed - CREATED");
             console.log("################################");
-            console.log("2 - Feed - CREATED - AppelFetchAllPosts");
+            console.log("Feed - CREATED - AppelFetchAllPosts");
             console.log("################################");
             // ====================================================
             
             this.fetchAllPosts();
+        }, 
+        updated() {
+            // ====================================================
+            console.log("Feed - UPDATED");
+            // ====================================================
         } 
     }
 </script>

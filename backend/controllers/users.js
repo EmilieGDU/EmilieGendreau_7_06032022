@@ -10,6 +10,7 @@ const Post = require("../models/Post.model");
 const Comment = require("../models/Comment.model");
 // Importing the NodeJS fs module (to access and interact with the file system)
 const fs = require("fs"); 
+const { isErrored } = require("stream");
 
 
 // ################################################
@@ -59,12 +60,13 @@ exports.login = (req, res, next) => {
             return res.status(200).json({ 
                 message: "Utilisateur authentifié.",
                 userId: user.id,
+                isAdmin: user.isAdmin,
                 // Encoding a new token
                 token: jwt.sign(
                     { userId: user.id },
                     process.env.tokenKey,
                     { expiresIn: "24h" }
-                )
+                )                
             });
         })
         .catch((error) => {

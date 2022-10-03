@@ -28,6 +28,7 @@
 
 <script>
     import AuthService from "../services/auth.service"
+    import { setLocalStorage } from "../services/localStorage.service"
 
     export default {
         name: "LoginBlock",
@@ -50,25 +51,31 @@
             
             onLogin() {
                 console.log("####################################################################################################");
-                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK / THIS.FORMDATA.EMAIL : ", this.formData.email);
+                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK - L53 / THIS.FORMDATA : ", this.formData);
+                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK - L54 / THIS.FORMDATA.EMAIL : ", this.formData.email);
                 console.log("####################################################################################################");
                 AuthService.login(this.formData)
                 .then((response) => {
                     console.log("####################################################################################################");
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA : ", response.data);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / JSON.STRINGIFY(RESPONSE.DATA) : ", JSON.stringify(response.data));
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA.MESSAGE : ", response.data.message);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA.USERID : ", response.data.userId);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK / RESPONSE.DATA.TOKEN : ", response.data.token);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L59 / RESPONSE.DATA : ", response.data);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L60 / JSON.STRINGIFY(RESPONSE.DATA) : ", JSON.stringify(response.data));
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L61 / RESPONSE.DATA.MESSAGE : ", response.data.message);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L62 / RESPONSE.DATA.USERID : ", response.data.userId);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L62 / RESPONSE.DATA.ISADMIN : ", response.data.isAdmin);
+                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L63 / RESPONSE.DATA.TOKEN : ", response.data.token);
                     console.log("####################################################################################################");
                     
                     if (response.data.token) {
-                        const user = { userId: response.data.userId, token: response.data.token };
-                        console.log("+++++++++++++++++++++++++++++++++");
-                        console.log("USER pour LOCALSTORAGE = ", user);
-                        console.log("+++++++++++++++++++++++++++++++++");
-                        localStorage.setItem("user", JSON.stringify(user));
-                        //localStorage.setItem("user", JSON.stringify(response.data));
+                        const userId = response.data.userId;
+                        const isAdmin = response.data.isAdmin;
+                        const token = response.data.token;
+                        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        console.log("ONLOGIN DEPUIS LOGINBLOCK  - L69 / USER pour LOCALSTORAGE = USERID : ", userId);
+                        console.log("ONLOGIN DEPUIS LOGINBLOCK  - L69 / USER pour LOCALSTORAGE = ISADMIN : ", isAdmin);
+                        console.log("ONLOGIN DEPUIS LOGINBLOCK  - L69 / USER pour LOCALSTORAGE = TOKEN : ", token);
+                        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        
+                        setLocalStorage(userId, isAdmin, token);
 
                         this.formData = {
                             email: "",
