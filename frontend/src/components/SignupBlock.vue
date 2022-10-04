@@ -63,7 +63,8 @@
 
 
 <script>
-    import AuthService from "../services/auth.service"
+    import AuthService from "../services/auth.service"    
+    import { setLocalStorage } from "../services/localStorage.service"
 
     export default {
         name: "SignupBlock",
@@ -77,6 +78,13 @@
             }
         },
         methods: {
+            goFeed: function() {
+                console.log("****************")
+                console.log("SIGNUPBLOCK / ONSIGNUP / IF RESPONSE.DATA.DATA.TOKEN ==> GO FEED")
+                console.log("****************")
+                this.$router.push("/feed");
+            },
+
             onSignup() {
                 console.log("####################################################################################################");
                 console.log("SIGNUP(THIS.FORMDATA) DEPUIS SIGNUPBLOCK / THIS.FORMDATA : ", this.formData);
@@ -87,15 +95,32 @@
                     console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA : ", response.data);
                     console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA.MESSAGE : ", response.data.message);
                     console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA.DATA : ", response.data.data);
+                    console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA.DATA.USER : ", response.data.data.user);
+                    console.log("ONSIGNUP/RESPONSE DEPUIS SIGNUPBLOCK / RESPONSE.DATA.DATA.TOKEN : ", response.data.data.token);
                     console.log("####################################################################################################");
 
-                    this.formData = {
-                        email: "",
-                        password:"",
+                    if (response.data.data.token) {
+                        const userId = response.data.data.user.id;
+                        const isAdmin = response.data.data.user.isAdmin;
+                        const token = response.data.data.token;
+                        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        console.log("ONSIGNUP DEPUIS SIGNUPBLOCK  - L100 / USER pour LOCALSTORAGE = USERID : ", userId);
+                        console.log("ONSIGNUP DEPUIS SIGNUPBLOCK  - L101 / USER pour LOCALSTORAGE = ISADMIN : ", isAdmin);
+                        console.log("ONSIGNUP DEPUIS SIGNUPBLOCK  - L102 / USER pour LOCALSTORAGE = TOKEN : ", token);
+                        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        
+                        setLocalStorage(userId, isAdmin, token);
+
+                        this.formData = {
+                            email: "",
+                            password:"",
+                        }
+                        console.log("##################################################################");
+                        console.log("THIS.FORMDATA APRES CLEAR SIGNUPBLOCK/ONSIGNUP : ", this.formData);
+                        console.log("##################################################################");
+                        
+                        this.goFeed();
                     }
-                    console.log("##################################################################");
-                    console.log("THIS.FORMDATA APRES CLEAR SIGNUPBLOCK/ONSIGNUP : ", this.formData);
-                    console.log("##################################################################");
 
                     return response.data;
                 })

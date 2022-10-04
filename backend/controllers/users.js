@@ -30,7 +30,19 @@ exports.signup = (req, res, next) => {
         .then((user) => {
             //const message = `Le nouvel utilisateur '${ user.firstName } ${ user.lastName }' a été créé.`;
             const message = `Le nouvel utilisateur '${ user.email }' a été créé.`;
-            return res.status(201).json({ message, data: user });
+            // Encoding a new token
+            const token = jwt.sign(
+                { userId: user.id },
+                process.env.tokenKey,
+                { expiresIn: "24h" }
+            ) 
+            return res.status(201).json({ 
+                message, 
+                data: { 
+                    user: user, 
+                    token: token 
+                } 
+            });
         })
         .catch((error) => {
             if (error instanceof ValidationError) {

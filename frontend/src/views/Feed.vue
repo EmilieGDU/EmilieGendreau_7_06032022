@@ -94,7 +94,7 @@
                         console.log(response.data.message);
                         this.fetchAllPosts();
                         this.sync = true;
-                        //location.reload();
+                        location.reload();
                     })
                     .catch((error) => {
                         if (error.response) { // Get response with a status code not in range 2xx
