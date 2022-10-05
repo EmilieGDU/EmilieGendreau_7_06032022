@@ -10,7 +10,7 @@
             </div>
             
             <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
-            <p v-if="userPosts.length == 0 || userPosts.length == undefined">Vous n'avez publié aucun article jusqu'à présent.</p>
+            <p v-if="userPosts == undefined || userPosts.length == 0">Vous n'avez publié aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userPosts"
                 v-on:modifyPost="modifyUserPost($event)"
@@ -18,7 +18,7 @@
             </post-list>
             
             <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
-            <p v-if="userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
+            <p v-if="userCommentedPosts == undefined || userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
             <post-list v-else 
                 v-bind:posts="userCommentedPosts">
             </post-list>
@@ -61,6 +61,9 @@
                     // response.data = {message, data}
                     // console.log("=================================================================");
                     this.userPosts = response.data.data;
+                    console.log("=================")
+                    console.log(response.data.data);
+                    console.log("=================")
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -166,12 +169,29 @@
             }
         },
         created() {
-            this.user = getLocalStorage() ;
-            this.userId = this.user.userId ;
+            this.user = getLocalStorage();
+            this.userId = this.user.userId;
+
+            console.log("+++++++++++++++++++++++++")
+            console.log(this.user);
+            console.log(this.userId);
+            console.log("+++++++++++++++++++++++++")
+            
+            
+            console.log("######################")
+            console.log(this.userPosts);
+            console.log(this.userCommentedPosts);
+            console.log("######################")
             
             this.fetchUserPosts();
 
-            this.fetchUserCommentedPosts();         
+            this.fetchUserCommentedPosts();       
+            
+            console.log("######################")
+            console.log(this.userPosts);
+            console.log(this.userCommentedPosts);
+            console.log("######################")
+
         }        
     }
 </script>
