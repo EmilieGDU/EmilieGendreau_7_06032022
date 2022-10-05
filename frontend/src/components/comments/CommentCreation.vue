@@ -21,6 +21,8 @@
 
 
 <script>
+    import { getLocalStorage } from "../../services/localStorage.service"
+
     export default {
         name: "CommentCreation",
         props: [ "post" ],
@@ -29,10 +31,11 @@
             console.log(this.post)
             console.log("++++++++++++++++++++++++++++++++")
             return {
+                user: undefined,
                 showCommentForm: false,
                 formData: {
                     comment: "",
-                    UserId: 2, //localStorage.getItem("userId")
+                    UserId: null,
                     PostId: this.post.id,
                 }
             }
@@ -51,17 +54,30 @@
             onCreateComment() {
                 console.log("**********************************************************************************")
                 console.log("Clic sur publier Commentaire depuis COMMENTCREATION : ");
+                console.log("THIS.FORMDATA.USERID = ", this.formData.UserId);
                 console.log("THIS.FORMDATA.POSTID = ", this.formData.PostId);
                 console.log("**********************************************************************************")
                 this.$emit("createComment", this.formData);
                 this.formData = {
                     comment: "",
-                    UserId: 2, // localStorage.getItem("userId")
+                    UserId: null,
                     PostId: this.post.id,
                 };                
                 this.showCommentForm = false;
             }
-        }
+        },
+        created() {
+            const user = getLocalStorage();
+            const UserId = user.userId;
+
+            this.user = user;
+            this.formData.UserId = UserId;
+
+            // ##################################################################################################
+            console.log("COMMENTCREATION - CREATED - L77 - THIS.USER", this.user);
+            console.log("COMMENTCREATION - CREATED - L78 - THIS.FORMDATA.USERID", this.formData.UserId);
+            // ##################################################################################################
+        } 
     }
 </script>
 

@@ -107,6 +107,7 @@
             return {
                 user: undefined,
                 userId: null,
+                // Adding isAdmin property because the modification can be made by the admin
                 isAdmin: false,
                 postId: this.post.id,
                 isAuthorOfPost: false,
@@ -241,6 +242,7 @@
                 console.log("**********************************************************************")
                 console.log("createComment depuis PostCard : ", "formData = ", event);
                 console.log("createComment depuis PostCard : ", "formData.PostId = ", event.PostId);
+                console.log("createComment depuis PostCard : ", "formData.UserId = ", event.UserId);
                 console.log("**********************************************************************")
                 CommentService.createComment(event)
                 .then((response) => {
@@ -336,15 +338,22 @@
             // =====================================================================================================================================================
             console.log("PostCard component CREATED - Le composant", this.post.id, "est créé");
             // =====================================================================================================================================================
-            this.user = getLocalStorage() ;
-            this.userId = this.user.userId ;
-            this.isAdmin = this.user.isAdmin;
-            this.isAuthorOfPost = (this.post.UserId === this.userId) ? true : false;
+            const user = getLocalStorage();
+            const userId = user.userId;
+            const isAdmin = user.isAdmin;
+            const isAuthorOfPost = (this.post.UserId === userId) ? true : false;
 
+            this.user = user;
+            this.userId = userId;
+            this.isAdmin = isAdmin;
+            this.isAuthorOfPost = isAuthorOfPost;
+
+            // ##################################################################################################
             console.log("POSTCARD - CREATED - L344 - THIS.USER", this.user);
             console.log("POSTCARD - CREATED - L345 - THIS.USERID", this.userId);
             console.log("POSTCARD - CREATED - L346 - THIS.ISADMIN", this.isAdmin);
             console.log("POSTCARD - CREATED - L347 - THIS.ISAUTHOROFPOST", this.isAuthorOfPost);
+            // ##################################################################################################
             
             // LikeService.getUserLikes(this.postId, this.userId)
             // .then((response) => {

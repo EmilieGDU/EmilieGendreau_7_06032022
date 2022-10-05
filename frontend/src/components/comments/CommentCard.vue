@@ -37,6 +37,7 @@
     // ##################################################################################################
     //import UserService from "../../services/user.service"
     // ##################################################################################################
+    import { getLocalStorage } from "../../services/localStorage.service"
     import CommentEdit from "./CommentEdit.vue"
 
     export default {
@@ -47,12 +48,13 @@
         props: [ "comment" ],
         data() {
             return {
-                //userId: null, // Sera à récupérer du LocalStorage
+                user: undefined,
+                userId: null,
+                // Adding isAdmin property because the modification can be made by the admin
+                isAdmin: false,
                 commentId: this.comment.id,
                 postId: this.comment.PostId,
-                //authorOfCommentId: this.comment.UserId,
-                isAdmin: false,
-                isAuthorOfComment: true,
+                isAuthorOfComment: false,
                 showComment: true,
                 showCommentEdit: false,
             }
@@ -72,32 +74,26 @@
             },
             onDeleteComment() {
                 this.$emit("deleteComment", {postId: this.postId, commentId: this.commentId});
-            },
+            }
+        },        
+        created() {
+            const user = getLocalStorage();
+            const userId = user.userId;
+            const isAdmin = user.isAdmin;
+            const isAuthorOfComment = (this.comment.UserId === userId) ? true : false;
 
-        // ##################################################################################################
-            // checkStatus() {
-            //     // L'utilisateur connecté est-il l'auteur du commentaire ?
-            //     if (this.userId == this.authorOfcommentId) {
-            //         this.isAuthorOfComment = true;
-            //     }
-            //     // L'utilisateur connecté est-il administrateur ?
-            //     else if (???)
-            //     this.isAdmin = true;
-            // }
-        // ##################################################################################################
-        },
-        // ##################################################################################################
-        // created() {
-        //     UserService.getUserName(this.comment.UserId)
-        //     .then((response) => {
-        //         console.log("Pr recup userName Response.data.data.userName", response.data.data.userName)
-        //         this.userName = response.data.data.userName;
-        //     })
-        //     .catch((error) => {
-        //         console.log(error.response.data);
-        //     });
-        // } 
-        // ##################################################################################################      
+            this.user = user;
+            this.userId = userId;
+            this.isAdmin = isAdmin;
+            this.isAuthorOfComment = isAuthorOfComment;
+
+            // ##################################################################################################
+            console.log("COMMENTCARD - CREATED - L90 - THIS.USER", this.user);
+            console.log("COMMENTCARD - CREATED - L91 - THIS.USERID", this.userId);
+            console.log("COMMENTCARD - CREATED - L92 - THIS.ISADMIN", this.isAdmin);
+            console.log("COMMENTCARD - CREATED - L93 - THIS.ISAUTHOROFCOMMENT", this.isAuthorOfComment);
+            // ##################################################################################################
+        }     
     }
 </script>
 

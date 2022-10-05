@@ -28,6 +28,8 @@
 
 
 <script>
+    import { getLocalStorage } from "../../services/localStorage.service"
+
     export default {
         name: "PostEdit",
         props: [ "post" ],
@@ -38,10 +40,15 @@
             console.log("++++++++++++++++++++++++++++++++++++++++++++++")
             // =======================================================
             return {
+                user: undefined,
+                // Adding isAdmin property because the modification can be made by the admin
+                isAdmin: false,
                 postId: this.post.id,
                 updatedPost: {
                     title: this.post.title,
-                    body: this.post.body
+                    body: this.post.body,
+                    // Adding the UserId because the modification can be made by the author of the post or by the admin
+                    UserId: null
                 },
                 file: undefined,
             }
@@ -63,12 +70,14 @@
                 console.log("THIS.postId= ", this.postId);
                 console.log("THIS.updatedPost.title = ", this.updatedPost.title);
                 console.log("THIS.updatedPost.body = ", this.updatedPost.body);
+                console.log("THIS.updatedPost.UserId = ", this.updatedPost.UserId);
                 console.log("THIS.FILE = ", this.file);
                 console.log("**********************************************************************************")
                 // ==============================================================================================
                 const formData = new FormData();
                 formData.append("title", this.updatedPost.title);
                 formData.append("body", this.updatedPost.body);
+                formData.append("UserId", this.updatedPost.UserId);
                 formData.append("image", this.file); // "image" = name defined in the multer middleware (in the last line, we specify that we expect single file named "image")
                 // ==============================================================================================
                 console.log("#######################################");
@@ -82,7 +91,22 @@
                 });
                 this.onCancelPostEdit();
             }            
-        }
+        },
+        created() {
+            const user = getLocalStorage();
+            const UserId = user.userId;
+            const isAdmin = user.isAdmin;
+
+            this.user = user;            
+            this.isAdmin = isAdmin;
+            this.updatedPost.UserId = UserId;
+
+            // ##################################################################################################
+            console.log("POSTEDIT - CREATED - L104 - THIS.USER", this.user);
+            console.log("POSTEDIT - CREATED - L105 - THIS.ISADMIN", this.isAdmin);
+            console.log("POSTEDIT - CREATED - L106 - THIS.USERID", this.updatedPost.UserId);
+            // ##################################################################################################
+        } 
     }
 </script>
 

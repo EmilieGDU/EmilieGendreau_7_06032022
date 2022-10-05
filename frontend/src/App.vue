@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <header-block class="app-header"></header-block>
+        <header-block class="app-header" v-bind:user="user"></header-block>
 
         <router-view class="app-router-view"></router-view>
 
@@ -14,13 +14,33 @@
 <script>
     import HeaderBlock from "./components/HeaderBlock.vue"
     import FooterBlock from "./components/FooterBlock.vue"
+    import { getLocalStorage } from "./services/localStorage.service"
 
     export default {
         name: 'App',
         components: {
             "header-block": HeaderBlock,
             "footer-block": FooterBlock,
-        }
+        },
+        data() {
+            return {
+                user: undefined
+            }
+        },
+        created() {
+            const userCreated = getLocalStorage();
+            this.user = userCreated;
+            // ##################################################################################################
+            console.log("APP.VUE - CREATED - L34 - USERCREATED", userCreated);
+            // ##################################################################################################
+        }, 
+        beforeUpdate() {
+            const userUpdated = getLocalStorage();
+            this.user = userUpdated;
+            // ##################################################################################################
+            console.log("APP.VUE - UPDATED - L40 - USERUPDATED", userUpdated);
+            // ##################################################################################################
+        }, 
     }
 </script>
 

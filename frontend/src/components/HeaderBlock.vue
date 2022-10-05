@@ -48,12 +48,16 @@
 
 
 <script>
-    import AuthService from "../services/auth.service"
+    //import { getLocalStorage } from "../services/localStorage.service"
+    import { removeLocalStorage } from "../services/localStorage.service"
 
     export default {
         name: "HeaderBlock",
+        props: [ "user" ],
         data() {
             return {
+                //user: this.user,
+                //isLogged: this.user ? true : false,
                 isLogged: true,
                 isLoggedOut: false
             }
@@ -63,11 +67,19 @@
                 console.log("####################################################################################################");
                 console.log("HEADERBLOCK / V-IF LOGGED / Clic sur Logout");
                 console.log("####################################################################################################");
-                AuthService.logout();
+                removeLocalStorage();               
                 this.isLogged = false;
                 this.isLoggedOut = true;
             }
-        }
+        },
+        // created() {
+        //     const user = getLocalStorage();
+        //     this.user = user;
+
+        //     // ##################################################################################################
+        //     console.log("HEADERBLOCK - CREATED - L78 - THIS.USER", this.user);
+        //     // ##################################################################################################
+        // }
     }
 </script>
 

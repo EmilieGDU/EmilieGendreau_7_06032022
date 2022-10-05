@@ -31,17 +31,18 @@
 
 
 <script>
+    import { getLocalStorage } from "../../services/localStorage.service"
+
     export default {
         name: "PostCreation",
         data() {
             return {
-                //user: JSON.parse(localStorage.getItem("user")),
-                //userId: this.user.userId,
+                user: undefined,
                 showPostForm: false,
                 newPost: {
                     title: "",
                     body: "",
-                    UserId: 2, //this.userId
+                    UserId: null,
                 },
                 file: undefined,
             }
@@ -50,6 +51,11 @@
             togglePostForm() {
                 console.log("SHOW POST FORM ? : ", this.showPostForm);
                 this.showPostForm = !this.showPostForm;
+                // ##################################################################################################
+                console.log("POSTCREATION - TOOGLEPOSTFORM - L55 - THIS.USER", this.user);
+                console.log("POSTCREATION - TOOGLEPOSTFORM - L56 - THIS.NEWPOST.USERID", this.newPost.UserId);
+                // ##################################################################################################
+        
             },
 
             onChangeFile(event) {
@@ -60,8 +66,7 @@
             onCancelPost() {
                 this.newPost = {
                     title: "",
-                    body: "",
-                    UserId: 2 //this.userId
+                    body: ""
                 },
                 this.file = undefined,                
                 this.showPostForm = false;
@@ -86,20 +91,31 @@
                 formData.append("image", this.file); // "image" = name defined in the multer middleware (in the last line, we specify that we expect single file named "image")
                 // ==============================================================================================
                 console.log("#################################################");
-                console.log("FORMDATA depuis PostCreation - L87 = ", formData);
+                console.log("FORMDATA depuis PostCreation - L91 = ", formData);
                 console.log("#################################################");
                 // ==============================================================================================
                 
                 this.$emit("createPost", formData);
                 this.newPost = {
                     title: "",
-                    body: "",                  
-                    UserId: 2 //this.userId
+                    body: ""
                 }; 
                 this.file = undefined,               
                 this.showPostForm = false;
             }            
-        }
+        },
+        created() {
+            const user = getLocalStorage();
+            const UserId = user.userId;
+
+            this.user = user;
+            this.newPost.UserId = UserId;
+
+            // ##################################################################################################
+            console.log("POSTCREATION - CREATED - L115 - THIS.USER", this.user);
+            console.log("POSTCREATION - CREATED - L116 - THIS.USERID", this.newPost.UserId);
+            // ##################################################################################################
+        } 
     }
 </script>
 

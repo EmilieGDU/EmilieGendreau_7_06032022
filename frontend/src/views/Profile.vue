@@ -31,6 +31,7 @@
 
 
 <script>
+    import { getLocalStorage } from "../services/localStorage.service"
     import PostService from "../services/post.service"
     import UserService from "../services/user.service"
     import PostList from "../components/posts/PostList.vue"
@@ -45,10 +46,10 @@
         data() {
             return {
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
-                //userId: null,
+                user: undefined,
+                userId: null,
                 userPosts: [],
                 userCommentedPosts: [],
-                userId: 2, //localStorage.getItem("userId")
             }
         },
         methods: {
@@ -165,6 +166,9 @@
             }
         },
         created() {
+            this.user = getLocalStorage() ;
+            this.userId = this.user.userId ;
+            
             this.fetchUserPosts();
 
             this.fetchUserCommentedPosts();         

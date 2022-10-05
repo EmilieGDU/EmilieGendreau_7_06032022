@@ -3,6 +3,19 @@
 // #########################################################
 
 const users = [
+    // {
+    //     // ##################################################################
+    //     // !!! VOIR COMMENT TRANSMETTRE CES INFOS DE MANIERE SECURISEE !!! 
+    //     // ##################################################################
+    //     // id: provided automatically by the database
+    //     // firstName: "",
+    //     // lastName: "ADMIN",
+    //     email: "admin@groupomania.com",
+    //     password: "", // data to retrieve from the .env file
+    //     // about: "The Super Admin has all the rights within the Groupomania application, in particular the right to modify and delete users publications.",
+    //     // imageUrl: "http://localhost:3000/images/admin.png",
+    //     isAdmin: true
+    // },
     {
         // id: provided automatically by the database
         // firstName: "Bénédicte",

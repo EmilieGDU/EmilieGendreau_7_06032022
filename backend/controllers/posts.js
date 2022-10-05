@@ -82,6 +82,7 @@ exports.modifyPost = (req, res, next) => {
     console.log("REQ.BODY : ", req.body);
     console.log("REQ.BODY.TITLE : ", req.body.title);
     console.log("REQ.BODY.BODY : ", req.body.body);
+    console.log("REQ.BODY.USERID : ", req.body.UserId);
     console.log("REQ.PARAMS.ID : ", req.params.id);
     console.log("REQ.FILE : ", req.file);
     console.log("************************************************")
@@ -256,6 +257,7 @@ exports.modifyComment = (req, res, next) => {
     console.log("************************************************")
     console.log("REQ.BODY : ", req.body);
     console.log("REQ.BODY.COMMENT : ", req.body.comment);
+    console.log("REQ.BODY.USERID : ", req.body.UserId);
     console.log("REQ.PARAMS.POSTID : ", req.params.postId);
     console.log("REQ.BODY.COMMENTID : ", req.params.commentId);
     console.log("************************************************")
