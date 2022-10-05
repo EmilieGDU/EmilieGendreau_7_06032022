@@ -10,7 +10,7 @@
 
             <h2 class="mt-5">Le fil d'actualités</h2>
 
-            <p v-if="posts.length == 0 || posts.length == undefined" class="mt-3">
+            <p v-if="posts == undefined || posts.length == 0" class="mt-3">
                 Aucun article à afficher pour le moment... Soyez le premier à publier !
             </p>
 

@@ -17,7 +17,6 @@ Rename the *.env-deploy* file to *.env*.
 Then :
 - open the *.env* file,
 - enter your MySQL connection credentials,
-- set the informations about your MySQL Super Admin account,
 - set an encryption key for the token,
 - save and close the file.
 
@@ -25,4 +24,4 @@ Then :
 
 Run `nodemon server`. 
 
-This should run the server and automatically restart the node application when file changes in the directory are detected.
+This should run the server and automatically restart the Node application when file changes in the directory are detected.
