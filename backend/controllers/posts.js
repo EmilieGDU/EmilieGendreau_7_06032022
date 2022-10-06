@@ -17,19 +17,19 @@ const fs = require("fs");
 
 // C like CREATE 
 exports.createPost = (req, res, next) => {
-    console.log("=====================================================================");
-    console.log("CONTROLLER/POST/CREATEPOST Objet REQ.BODY = ", req.body);
-    console.log("CONTROLLER/POST/CREATEPOST Objet REQ.FILE = ", req.file);
-    console.log("=====================================================================");
+    // console.log("=====================================================================");
+    // console.log("CONTROLLER/POST/CREATEPOST Objet REQ.BODY = ", req.body);
+    // console.log("CONTROLLER/POST/CREATEPOST Objet REQ.FILE = ", req.file);
+    // console.log("=====================================================================");
     const postObject = req.file ?
         {
             //...JSON.parse(req.body.post),
             ...(req.body),
             attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
         } : { ...req.body };
-        console.log("=====================================================================");
-        console.log("Contenu du postObject :", postObject);
-        console.log("=====================================================================");
+        // console.log("=====================================================================");
+        // console.log("Contenu du postObject :", postObject);
+        // console.log("=====================================================================");
     
     Post.create(postObject)
     .then((post) => {
@@ -77,15 +77,15 @@ exports.getOnePost = (req, res, next) => {
 // U like UPDATE
 exports.modifyPost = (req, res, next) => {
     // console.log("************************************************")
-    console.log("REQ.HEADERS : ", req.headers);
-    console.log("REQ.AUTH : ", req.auth);
-    console.log("REQ.BODY : ", req.body);
-    console.log("REQ.BODY.TITLE : ", req.body.title);
-    console.log("REQ.BODY.BODY : ", req.body.body);
-    console.log("REQ.BODY.USERID : ", req.body.UserId);
-    console.log("REQ.PARAMS.ID : ", req.params.id);
-    console.log("REQ.FILE : ", req.file);
-    console.log("************************************************")
+    // console.log("REQ.HEADERS : ", req.headers);
+    // console.log("REQ.AUTH : ", req.auth);
+    // console.log("REQ.BODY : ", req.body);
+    // console.log("REQ.BODY.TITLE : ", req.body.title);
+    // console.log("REQ.BODY.BODY : ", req.body.body);
+    // console.log("REQ.BODY.USERID : ", req.body.UserId);
+    // console.log("REQ.PARAMS.ID : ", req.params.id);
+    // console.log("REQ.FILE : ", req.file);
+    // console.log("************************************************")
     const postId = req.params.id;
     Post.findByPk(postId)
     .then((post) => {
@@ -93,39 +93,74 @@ exports.modifyPost = (req, res, next) => {
             const message = "Post non trouvé.";
             return res.status(404).json({ message });
         } 
-        // if (post.UserId != req.auth.userId) {
-        //     const message = "Requête non autorisée.";
-        //     return res.status(401).json({ message });
-        // }
-        console.log("+++++++++++++++++++++++++++++++++++++++")
-        console.log("+++++++++++++++++++++++++++++++++++++++")
-        console.log("+++++++++++++++++++++++++++++++++++++++")
-        const postObject = req.file ?
-        {
-            //...JSON.parse(req.body.post),
-            ...(req.body),
-            attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-        } : { ...req.body };
-        console.log("=====================================================================")
-        console.log("Contenu du postObject :", postObject);
-        console.log("=====================================================================")
         
-        Post.update(postObject, { where: { id: postId } })
-        .then(() => {
-            Post.findByPk(postId)
-            .then((updatedPost) => {
-                const message = `Le post intitulé '${ updatedPost.title }' a été modifié.`;
-                return res.status(200).json({ message, data: updatedPost });
+        if (post.UserId != req.auth.userId) {
+            User.findByPk(req.auth.userId)
+            .then((user) => {
+                if (user.isAdmin == true) {
+                    const postObject = req.file ?
+                    {
+                        //...JSON.parse(req.body.post),
+                        ...(req.body),
+                        attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+                    } : { ...req.body };
+                    // console.log("=====================================================================")
+                    // console.log("Contenu du postObject :", postObject);
+                    // console.log("=====================================================================")
+                    
+                    Post.update(postObject, { where: { id: postId } })
+                    .then(() => {
+                        Post.findByPk(postId)
+                        .then((updatedPost) => {
+                            const message = `Administrateur : vous avez modifié le post avec l'identifiant '${ updatedPost.id }'.`;
+                            return res.status(200).json({ message, data: updatedPost });
+                        })
+                        .catch((error) => { return res.status(500).json({ error }); });
+                    })
+                    .catch((error) => {
+                        if (error instanceof ValidationError) {
+                            return res.status(400).json({ message: error.message, data: error })
+                        }
+                        const message = "Le post n'a pas pu être modifié. Réessayez dans quelques instants.";
+                        return res.status(500).json({ message, data: error });
+                    });
+                }
+                else {
+                    const message = "Requête non autorisée.";
+                    return res.status(401).json({ message });
+                }
             })
             .catch((error) => { return res.status(500).json({ error }); });
-        })
-        .catch((error) => {
-            if (error instanceof ValidationError) {
-                return res.status(400).json({ message: error.message, data: error })
-            }
-            const message = "Le post n'a pas pu être modifié. Réessayez dans quelques instants.";
-            return res.status(500).json({ message, data: error });
-        });
+        }
+
+        if (post.UserId == req.auth.userId) {
+            const postObject = req.file ?
+            {
+                //...JSON.parse(req.body.post),
+                ...(req.body),
+                attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+            } : { ...req.body };
+            // console.log("=====================================================================")
+            // console.log("Contenu du postObject :", postObject);
+            // console.log("=====================================================================")
+            
+            Post.update(postObject, { where: { id: postId } })
+            .then(() => {
+                Post.findByPk(postId)
+                .then((updatedPost) => {
+                    const message = `Le post avec l'identifiant '${ updatedPost.id }' a été modifié.`;
+                    return res.status(200).json({ message, data: updatedPost });
+                })
+                .catch((error) => { return res.status(500).json({ error }); });
+            })
+            .catch((error) => {
+                if (error instanceof ValidationError) {
+                    return res.status(400).json({ message: error.message, data: error })
+                }
+                const message = "Le post n'a pas pu être modifié. Réessayez dans quelques instants.";
+                return res.status(500).json({ message, data: error });
+            });
+        }
     })
     .catch((error) => { return res.status(500).json({ error }); });
 };
@@ -140,6 +175,7 @@ exports.deletePost = (req, res, next) => {
             const message = "Post non trouvé.";
             return res.status(404).json({ message });
         } 
+
         if (post.UserId != req.auth.userId) {
             User.findByPk(req.auth.userId)
             .then((user) => {
@@ -162,6 +198,7 @@ exports.deletePost = (req, res, next) => {
             })
             .catch((error) => { return res.status(500).json({ error }); });            
         }
+
         if (post.UserId == req.auth.userId) {
             const deletedPost = post;
             const filename = post.attachment.split("/images/")[1];
@@ -254,13 +291,13 @@ exports.getPostComments = (req, res, next) => {
 
 // U like UPDATE
 exports.modifyComment = (req, res, next) => {
-    console.log("************************************************")
-    console.log("REQ.BODY : ", req.body);
-    console.log("REQ.BODY.COMMENT : ", req.body.comment);
-    console.log("REQ.BODY.USERID : ", req.body.UserId);
-    console.log("REQ.PARAMS.POSTID : ", req.params.postId);
-    console.log("REQ.BODY.COMMENTID : ", req.params.commentId);
-    console.log("************************************************")
+    // console.log("************************************************")
+    // console.log("REQ.BODY : ", req.body);
+    // console.log("REQ.BODY.COMMENT : ", req.body.comment);
+    // console.log("REQ.BODY.USERID : ", req.body.UserId);
+    // console.log("REQ.PARAMS.POSTID : ", req.params.postId);
+    // console.log("REQ.BODY.COMMENTID : ", req.params.commentId);
+    // console.log("************************************************")
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     Post.findByPk(postId)
@@ -276,33 +313,63 @@ exports.modifyComment = (req, res, next) => {
                     const message = "Commentaire non trouvé.";
                     return res.status(404).json({ message });
                 }
+                
                 if (comment.PostId != postId) {
                     const message = "Vous ne pouvez pas modifier ce commentaire.";
                     return res.status(400).json({ message });
                 }
+
                 // console.log("#################################")
                 // console.log("COMMENT.UserId", comment.UserId);
                 // console.log("#################################")
-                // if (comment.UserId != req.auth.userId) {
-                //     const message = "Requête non autorisée.";
-                //     return res.status(401).json({ message });
-                // }
-                Comment.update(req.body, { where: { id: commentId } })
-                .then(() => {
-                    Comment.findByPk(commentId)
-                    .then((updatedComment) => {
-                        const message = "Le commentaire a été modifié.";
-                        return res.status(200).json({ message, data: updatedComment });
+                
+                if (comment.UserId != req.auth.userId) {
+                    User.findByPk(req.auth.userId)
+                    .then((user) => {
+                        if (user.isAdmin == true) {
+                            Comment.update(req.body, { where: { id: commentId } })
+                            .then(() => {
+                                Comment.findByPk(commentId)
+                                .then((updatedComment) => {
+                                    const message = `Administrateur : vous avez modifié le commentaire avec l'identifiant '${ updatedComment.id }'.`;
+                                    return res.status(200).json({ message, data: updatedComment });
+                                })
+                                .catch((error) => { return res.status(500).json({ error: error.message }); });
+                            })
+                            .catch((error) => {
+                                if (error instanceof ValidationError) {
+                                    return res.status(400).json({ message: error.message, data: error })
+                                }
+                                const message = "Le commentaire n'a pas pu être modifié. Réessayez dans quelques instants.";
+                                return res.status(500).json({ message, data: error.message });
+                            });   
+                        }
+                        else {
+                            const message = "Requête non autorisée.";
+                            return res.status(401).json({ message });
+                        }
                     })
-                    .catch((error) => { return res.status(500).json({ error: error.message }); });
-                })
-                .catch((error) => {
-                    if (error instanceof ValidationError) {
-                        return res.status(400).json({ message: error.message, data: error })
-                    }
-                    const message = "Le commentaire n'a pas pu être modifié. Réessayez dans quelques instants.";
-                    return res.status(500).json({ message, data: error.message });
-                });    
+                    .catch((error) => { return res.status(500).json({ error }); });
+                }
+
+                if (comment.UserId == req.auth.userId) {
+                    Comment.update(req.body, { where: { id: commentId } })
+                    .then(() => {
+                        Comment.findByPk(commentId)
+                        .then((updatedComment) => {
+                            const message = `Le commentaire avec l'identifiant '${ updatedComment.id }' a été modifié.`;
+                            return res.status(200).json({ message, data: updatedComment });
+                        })
+                        .catch((error) => { return res.status(500).json({ error: error.message }); });
+                    })
+                    .catch((error) => {
+                        if (error instanceof ValidationError) {
+                            return res.status(400).json({ message: error.message, data: error })
+                        }
+                        const message = "Le commentaire n'a pas pu être modifié. Réessayez dans quelques instants.";
+                        return res.status(500).json({ message, data: error.message });
+                    });
+                }    
             })
             .catch((error) => { return res.status(500).json({ error: error.message }); });
         };
@@ -327,6 +394,7 @@ exports.deleteComment = (req, res, next) => {
                 const message = "Commentaire non trouvé.";
                 return res.status(404).json({ message });
             }
+
             if (comment.UserId != req.auth.userId) {
                 User.findByPk(req.auth.userId)
                 .then((user) => {
@@ -346,6 +414,7 @@ exports.deleteComment = (req, res, next) => {
                 })
                 .catch((error) => { return res.status(500).json({ error }); });            
             }
+
             if (comment.UserId == req.auth.userId) {
                 const deletedComment = comment;
                 Comment.destroy({ where: {id: commentId} })
