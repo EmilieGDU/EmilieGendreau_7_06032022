@@ -48,7 +48,7 @@ class PostService {
     deletePost(postId) {
         return axios
             .delete(
-                `${API_URL}/${postId}`, 
+                `${API_URL}/${postId}`,
                 { 
                     headers: authHeader() 
                 }

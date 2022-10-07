@@ -2,28 +2,39 @@
     <div>
         
         <main class="container col-12 col-md-9 col-lg-6 my-5">
-            <h1 class="text-center">Votre activité</h1>
+            
+            <div v-if="!user" class="container col-12 col-md-9 w-100 text-center">
+                <img src="../assets/cadenas_resized_100px.png" class="rounded-2 mb-3" alt="Reserved access">
+                <h1>Accès réservé</h1>
+                <p>Vous devez être connecté pour pouvoir consulter les ressources de l'application.</p>
+                <button v-on:click="goLogin" class="btn btn-primary fw-bold my-3 w-100">S'identifier</button>
+            </div>
 
-            <div class="mt-3 mb-5 w-100"> 
-                <a href="#posts" class="btn btn-outline-primary col-6 fw-bold me-auto mb-3 w-100">Posts</a>
-                <a href="#comments" class="btn btn-outline-primary col-6 fw-bold w-100">Commentaires</a>
+            <div v-else>
+                <h1 class="text-center">Votre activité</h1>
+
+                <div class="mt-3 mb-5 w-100"> 
+                    <a href="#posts" class="btn btn-outline-primary col-6 fw-bold me-auto mb-3 w-100">Posts</a>
+                    <a href="#comments" class="btn btn-outline-primary col-6 fw-bold w-100">Commentaires</a>
+                </div>
+                
+                <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
+                <p v-if="userPosts == undefined || userPosts.length == 0">Vous n'avez publié aucun article jusqu'à présent.</p>
+                <post-list v-else 
+                    v-bind:posts="userPosts"
+                    v-on:modifyPost="modifyUserPost($event)"
+                    v-on:deletePost="deleteUserPost($event)">
+                </post-list>
+                
+                <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
+                <p v-if="userCommentedPosts == undefined || userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
+                <post-list v-else 
+                    v-bind:posts="userCommentedPosts">
+                </post-list>
+
+                <go-on-top></go-on-top>
             </div>
             
-            <h2 id="posts" class="mt-3">Les articles que vous avez publiés</h2>
-            <p v-if="userPosts == undefined || userPosts.length == 0">Vous n'avez publié aucun article jusqu'à présent.</p>
-            <post-list v-else 
-                v-bind:posts="userPosts"
-                v-on:modifyPost="modifyUserPost($event)"
-                v-on:deletePost="deleteUserPost($event)">
-            </post-list>
-            
-            <h2 id="comments" class="mt-5">Les articles que vous avez commentés</h2>
-            <p v-if="userCommentedPosts == undefined || userCommentedPosts.length == 0">Vous n'avez commenté aucun article jusqu'à présent.</p>
-            <post-list v-else 
-                v-bind:posts="userCommentedPosts">
-            </post-list>
-
-            <go-on-top></go-on-top>
         </main>
 
     </div>
@@ -53,6 +64,10 @@
             }
         },
         methods: {
+            goLogin() {
+                this.$router.push("/login");
+            },
+
             fetchUserPosts() {
                 UserService.getUserPosts(this.userId)
                 .then((response) => {
@@ -148,7 +163,8 @@
                 PostService.deletePost(postId)
                 .then((response) => {
                     console.log(response.data.message);
-                    this.fetchUserPosts();
+                    this.fetchUserPosts();                 
+                    this.fetchUserCommentedPosts(); 
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -170,7 +186,7 @@
         },
         created() {
             this.user = getLocalStorage();
-            this.userId = this.user.userId;
+            this.userId = this.user ? this.user.userId : null;
 
             console.log("+++++++++++++++++++++++++")
             console.log(this.user);

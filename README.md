@@ -20,19 +20,19 @@ Groupomania a déjà réfléchi aux **fonctionnalités minimales** à intégrer 
 - un utilisateur doit avoir la possibilité de **_se déconnecter_**.
 
 ### Mission ###
-Dans l'optique de s'assurer que nous répondons à leurs attentes, Groupomania souhaite faire tester un **MVP du produit** à quelques employés pour valider la partie fonctionnelle.  
+Dans l'optique de s'assurer que nous répondons à leurs attentes, Groupomania souhaite faire tester un **MVP** du produit à quelques employés pour valider la partie fonctionnelle.  
 
 ### Contraintes spécifiques ###
-**Aspect graphique**
+**Aspect graphique**   
 Se limiter au minimum en respectant la **charte** graphique fournie par Groupomania :
 - Police d'écriture
-  * Lato ;
+  * Lato
 - Couleurs
-  * Primaire : #FD2D01, 
-  * Secondaire : #FFD7D7,
-  * Tertiaire : #4E5166.  
-Le site doit être **responsive** sur mobile, tablette et desktop.   
-**Aspect technique** : 
+  * Primaire : #FD2D01 
+  * Secondaire : #FFD7D7
+  * Tertiaire : #4E5166     
+Le site doit être **responsive** sur mobile, tablette et desktop.     
+**Aspect technique**   
 - le projet doit être codé en **JavaScript** et respecter les standards **WCAG** ;
 - l'utilisation d'un **framework Front-End** est requise (--> sélection de **Vue.js**) ;
 - le choix de la **base de données** est libre (--> sélection de **MySQL**, couplée à l'utilisation de l'**ORM Sequelize**).
@@ -52,7 +52,7 @@ Pour que l'application fonctionne correctement, veillez à respecter les instruc
 #### Base de données ####
 1. Se connecter à votre système de gestion de base de données relationnelles (SGBD-R) ;
 2. Créer une base de données nommée `groupomania` ;
-3. Importer en son sein le fichier `*.sql` fourni avec les livrables du projet.
+3. Importer en son sein le fichier `.sql` fourni avec les livrables du projet.
 #### Backend ####
 1. Dans le dossier backend :
    - renommer le fichier `.env-deploy` en `.env` et l'ouvrir,

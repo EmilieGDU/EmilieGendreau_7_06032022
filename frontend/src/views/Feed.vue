@@ -2,31 +2,42 @@
     <div>
         
         <main class="container col-12 col-md-9 col-lg-6 my-5">
-            <h1 class="text-center mb-5">Votre espace communautaire</h1>            
+            
+            <div v-if="!user" class="container col-12 col-md-9 w-100 text-center">
+                <img src="../assets/cadenas_resized_100px.png" class="rounded-2 mb-3" alt="Reserved access">
+                <h1>Accès réservé</h1>
+                <p>Vous devez être connecté pour pouvoir consulter les ressources de l'application.</p>
+                <button v-on:click="goLogin" class="btn btn-primary fw-bold my-3 w-100">S'identifier</button>
+            </div>
 
-            <post-creation
-                v-on:createPost="createPost($event)">
-            </post-creation>
+            <div v-else>
+                <h1 class="text-center mb-5">Votre espace communautaire</h1>            
 
-            <h2 class="mt-5">Le fil d'actualités</h2>
+                <post-creation
+                    v-on:createPost="createPost($event)">
+                </post-creation>
 
-            <p v-if="posts == undefined || posts.length == 0" class="mt-3">
-                Aucun article à afficher pour le moment... Soyez le premier à publier !
-            </p>
+                <h2 class="mt-5">Le fil d'actualités</h2>
 
-            <post-list v-else 
-                v-bind:posts="posts"
-                v-bind:sync="sync"
-                v-on:modifyPost="modifyPost($event)"
-                v-on:deletePost="deletePost($event)">
-            </post-list>
-            <!-- <post-list v-else 
-                v-bind:posts="posts"
-                v-on:modifyPost="modifyPost($event)"
-                v-on:deletePost="deletePost($event)">
-            </post-list> -->
+                <p v-if="posts == undefined || posts.length == 0" class="mt-3">
+                    Aucun article à afficher pour le moment... Soyez le premier à publier !
+                </p>
 
-            <go-on-top></go-on-top>
+                <post-list v-else 
+                    v-bind:posts="posts"
+                    v-bind:sync="sync"
+                    v-on:modifyPost="modifyPost($event)"
+                    v-on:deletePost="deletePost($event)">
+                </post-list>
+                <!-- <post-list v-else 
+                    v-bind:posts="posts"
+                    v-on:modifyPost="modifyPost($event)"
+                    v-on:deletePost="deletePost($event)">
+                </post-list> -->
+
+                <go-on-top></go-on-top>
+            </div>
+            
         </main>
 
     </div>
@@ -34,6 +45,7 @@
 
 
 <script>
+    import { getLocalStorage } from "../services/localStorage.service"
     import PostService from "../services/post.service"
     import PostCreation from "../components/posts/PostCreation.vue"
     import PostList from "../components/posts/PostList.vue"    
@@ -49,17 +61,22 @@
         data() {
             return {
                 // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
+                user: undefined,
                 posts: [],
                 sync: false
             };
         },
         methods: {
+            goLogin() {
+                this.$router.push("/login");
+            },
+
             fetchAllPosts() {
                 PostService.getAllPosts()
                 .then((response) => {
                     // ==========================================================
                     console.log("################################");
-                    console.log("FEED - L62 - LancementFetchAllPosts");
+                    console.log("FEED - L79 - LancementFetchAllPosts");
                     console.log(response.data);
                     // response.data = {message, data}
                     console.log("################################");
@@ -86,7 +103,7 @@
             
             createPost(newPost) {
                 console.log("**********************************************************************")
-                console.log("createPost depuis FEED - L89 : ");
+                console.log("createPost depuis FEED - L106 : ");
                 console.log("formData (= newPost) ", newPost);
                 console.log("**********************************************************************")
                 PostService.createPost(newPost)
@@ -94,7 +111,7 @@
                         console.log(response.data.message);
                         this.fetchAllPosts();
                         this.sync = true;
-                        location.reload();
+                        //location.reload();
                     })
                     .catch((error) => {
                         if (error.response) { // Get response with a status code not in range 2xx
@@ -156,6 +173,8 @@
                     console.log(response.data.message);
                     // ==============================================================================================
                     this.fetchAllPosts();
+                    // location.reload();
+                    // this.$forceUpdate();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -175,11 +194,6 @@
                 });
             }
         },
-        mounted() {
-            // ====================================================
-            console.log("Feed - MOUNTED");
-            // ====================================================
-        } ,
         created() {
             // ====================================================
             console.log("Feed - CREATED");
@@ -188,6 +202,8 @@
             console.log("################################");
             // ====================================================
             
+            this.user = getLocalStorage();
+
             this.fetchAllPosts();
         }, 
         updated() {

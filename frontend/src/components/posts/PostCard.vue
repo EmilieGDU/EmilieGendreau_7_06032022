@@ -152,7 +152,7 @@
                     // console.log("Type of Response.data.data.COUNT = ", typeof response.data.data.count);
                     // response.data = {message, data}
                     // this.nbLikes = response.data.data.count;
-                    this.nbLikes = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+                    this.nbLikes = (response.data.data) ? response.data.data.count : 0;
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -175,18 +175,20 @@
             fetchPostComments() {
                 CommentService.getPostComments(this.postId)
                 .then((response) => {
-                    // console.log("*********************************************************************************************")
-                    // console.log(response.data);
-                    // console.log("Response.data.message : ", response.data.message);
-                    // console.log("Response.data.data : ", response.data.data);
-                    // console.log("Response.data.data.count : ", response.data.data.count);
-                    // console.log("Response.data.data.rows : ", response.data.data.rows);
-                    // response.data = {message, data}
-                    // console.log("*********************************************************************************************")
+                    console.log("*********************************************************************************************")
+                    console.log("Nb comments à la création d'un nouveau post", response.data);
+                    // //console.log("Response.data.message : ", response.data.message);
+                    // //console.log("Response.data.data : ", response.data.data);
+                    // // console.log("Response.data.data.count : ", response.data.data.count);
+                    // // console.log("Response.data.data.rows : ", response.data.data.rows);
+                    // //response.data = {message, data}
+                    console.log("*********************************************************************************************")
                     
-                    this.nbComments = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+                    this.nbComments = (response.data.data) ? response.data.data.count : 0;
+                    //this.nbComments = (response.data.data.count == undefined) ? 0 : response.data.data.count;
                     //this.nbComments = response.data.data.count ? response.data.data.count : 0;
-                    this.comments = response.data.data.rows;
+                    //this.comments = response.data.data.rows;
+                    this.comments = (response.data.data) ? response.data.data.rows : [];
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -279,6 +281,7 @@
                 .then((response) => {
                     console.log(response.data.message);
                     this.fetchPostComments();
+                    //location.reload();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -306,6 +309,7 @@
                 .then((response) => {
                     console.log(response.data.message);
                     this.fetchPostComments();
+                    location.reload();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -394,8 +398,41 @@
             // console.log("LOCALSTORAGE.USER = ", user);
             // console.log("LOCALSTORAGE.USERID = ", userId);
         },
-        beforeMount() {
-            console.log("PostCard component BEFOREMOUNT - Le composant", this.post.id, " va être monté dans le DOM");
+        // beforeMount() {
+        //     console.log("PostCard component BEFOREMOUNT - Le composant", this.post.id, " va être monté dans le DOM");
+            
+        //     LikeService.getUserLikes(this.postId, this.userId)
+        //     .then((response) => {
+        //         // =====================================================================================================================================================
+        //         console.log("POSTCARD / L384 / GETUSERLIKES", response.data);
+        //         // response.data = {message, data}
+        //         // this.userLike = response.data.data.count;
+        //         // =====================================================================================================================================================
+        //         this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+        //     })
+        //     .catch((error) => {
+        //         if (error.response) { // Get response with a status code not in range 2xx
+        //             console.log(error.response.data);
+        //             console.log(error.response.status);
+        //             console.log(error.response.headers);
+        //         }
+        //         else if (error.request) { // No response
+        //             console.log(error.request);
+        //             // Instance of XMLHttpRequest in the Browser
+        //             // Instance of http.ClientRequest in Node.js
+        //         }
+        //         else { // Something wrong in setting up the request
+        //             console.log("Error : ", error.message);
+        //         }
+        //         console.log(error.config);
+        //     });
+            
+        //     this.fetchPostLikes();
+        //     this.fetchPostComments();
+        // },
+        mounted() {
+            console.log("PostCard component MOUNTED - Le composant", this.post.id, " est intégré dans le DOM");
+            // =====================================================================================================================================================
             
             LikeService.getUserLikes(this.postId, this.userId)
             .then((response) => {
@@ -404,7 +441,7 @@
                 // response.data = {message, data}
                 // this.userLike = response.data.data.count;
                 // =====================================================================================================================================================
-                this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
+                this.userLike = (response.data.data) ? response.data.data.count : 0 ;
             })
             .catch((error) => {
                 if (error.response) { // Get response with a status code not in range 2xx
@@ -422,43 +459,9 @@
                 }
                 console.log(error.config);
             });
-            
+
             this.fetchPostLikes();
             this.fetchPostComments();
-        },
-        mounted() {
-            console.log("PostCard component MOUNTED - Le composant", this.post.id, " est intégré dans le DOM");
-            // =====================================================================================================================================================
-            
-            // LikeService.getUserLikes(this.postId, this.userId)
-            // .then((response) => {
-            //     // =====================================================================================================================================================
-            //     console.log("POSTCARD / L384 / GETUSERLIKES", response.data);
-            //     // response.data = {message, data}
-            //     // this.userLike = response.data.data.count;
-            //     // =====================================================================================================================================================
-            //     this.userLike = (response.data.data.count == undefined) ? 0 : response.data.data.count;
-            // })
-            // .catch((error) => {
-            //     if (error.response) { // Get response with a status code not in range 2xx
-            //         console.log(error.response.data);
-            //         console.log(error.response.status);
-            //         console.log(error.response.headers);
-            //     }
-            //     else if (error.request) { // No response
-            //         console.log(error.request);
-            //         // Instance of XMLHttpRequest in the Browser
-            //         // Instance of http.ClientRequest in Node.js
-            //     }
-            //     else { // Something wrong in setting up the request
-            //         console.log("Error : ", error.message);
-            //     }
-            //     console.log(error.config);
-            // });
-
-            // this.fetchPostLikes();
-
-            // this.fetchPostComments();
         },
         beforeUpdate() {
             console.log("PostCard component BEFOREUPDATE - Le composant", this.post.id, " va se mettre à jour");

@@ -28,10 +28,10 @@ router.post("/login", rateLimit, usersCtrl.login);
 // router.get("/:id", auth, usersCtrl.getUserName);
 // router.get("/:id", usersCtrl.getUserName);
 // ###########################################################################
-// router.get("/:id/posts", auth, usersCtrl.getUserPosts);
-router.get("/:id/posts", usersCtrl.getUserPosts);
-router.get("/:id/commentedPosts", usersCtrl.getUserCommentedPosts);
-// router.get("/:id/commentedPosts", auth, usersCtrl.getUserCommentedPosts);
+router.get("/:id/posts", auth, usersCtrl.getUserPosts);
+//router.get("/:id/posts", usersCtrl.getUserPosts);
+//router.get("/:id/commentedPosts", usersCtrl.getUserCommentedPosts);
+router.get("/:id/commentedPosts", auth, usersCtrl.getUserCommentedPosts);
 // router.put("/:id", auth, multer, usersCtrl.modifyUser);
 // router.delete("/:id", auth, usersCtrl.deleteUser);
 

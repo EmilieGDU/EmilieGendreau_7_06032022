@@ -175,21 +175,36 @@ exports.deletePost = (req, res, next) => {
             const message = "Post non trouvé.";
             return res.status(404).json({ message });
         } 
-
+        // if (post.UserId == req.auth.userId) || (user.isAdmin == true) = suppression
+        // else = suppression non autorisée
+        // fs.unlink(`images/${filename}`, (error) => {
+        //    return (error) ? console.log(err) : console.log("image supprimée !");
+        // })
+        // fs.unlink(`app/images/${filename}`, (err) => {
+        //     if (err) {
+        //       return console.log(err);
+        //     } else {
+        //       console.log("image supprimée !");
+        //     }
+        //   });
         if (post.UserId != req.auth.userId) {
             User.findByPk(req.auth.userId)
             .then((user) => {
                 if (user.isAdmin == true) {
                     const deletedPost = post;
                     const filename = post.attachment.split("/images/")[1];
-                    fs.unlink(`images/${filename}`, () => {
-                        Post.destroy({ where: { id: postId } })
-                        .then(() => {
-                            const message = `Administrateur : vous avez supprimé le post avec l'identifiant '${ deletedPost.id }'.`;
-                            return res.status(200).json({ message, deletedData: deletedPost });
-                        })
-                        .catch((error) => { return res.status(500).json({ error }); });
-                    });                    
+                    console.log("*******************************");
+                    console.log("Filename supprimé : ", filename);
+                    console.log("*******************************");
+                    fs.unlink(`images/${filename}`, (error) => {
+                        return (error) ? console.log(error) : console.log("Image supprimée.");
+                    })                    
+                    Post.destroy({ where: { id: postId } })
+                    .then(() => {
+                        const message = `Administrateur : vous avez supprimé le post avec l'identifiant '${ deletedPost.id }'.`;
+                        return res.status(200).json({ message, deletedData: deletedPost });
+                    })
+                    .catch((error) => { return res.status(500).json({ error: error.message }); });                   
                 }
                 else {
                     const message = "Requête non autorisée.";
@@ -202,14 +217,18 @@ exports.deletePost = (req, res, next) => {
         if (post.UserId == req.auth.userId) {
             const deletedPost = post;
             const filename = post.attachment.split("/images/")[1];
-            fs.unlink(`images/${filename}`, () => {
-                Post.destroy({ where: {id: postId} })
-                .then(() => {
-                    const message = `Le post avec l'identifiant '${ deletedPost.id }' a été supprimé.`;
-                    return res.status(200).json({ message, deletedData: deletedPost });
-                })
-                .catch((error) => { return res.status(500).json({ error }); }); 
-            });
+            console.log("*******************************");
+            console.log("Filename supprimé : ", filename);
+            console.log("*******************************");
+            fs.unlink(`images/${filename}`, (error) => {
+                return (error) ? console.log(error) : console.log("Image supprimée.");
+            })
+            Post.destroy({ where: {id: postId} })
+            .then(() => {
+                const message = `Le post avec l'identifiant '${ deletedPost.id }' a été supprimé.`;
+                return res.status(200).json({ message, deletedData: deletedPost });
+            })
+            .catch((error) => { return res.status(500).json({ error }); });
         }
     })
     .catch((error) => { return res.status(500).json({ error }); });
@@ -462,8 +481,7 @@ exports.likePost = (req, res, next) => {
             .catch((error) => {
                 return res.status(500).json({ error });
             });
-        }
-        
+        }        
         else {
             Like.create({
                 UserId: userId,

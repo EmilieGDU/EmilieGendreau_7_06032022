@@ -12,14 +12,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
-                    <!-- Header displayed when logged out -->
+                    <!-- Header displayed when logged out
                     <ul v-if="isLoggedOut" class="navbar-nav">
                         <li class="nav-item">
                             <router-link to="/login" class="nav-link text-light">S'identifier</router-link>
                         </li>
-                    </ul>
+                    </ul> -->
                     <!-- Header displayed when not logged -->
-                    <ul v-else-if="!isLogged" class="navbar-nav">
+                    <ul v-if="!user" class="navbar-nav">
                         <li class="nav-item mt-3 mt-sm-0 me-sm-3">
                             <!-- <router-link to="/signup" class="nav-link text-light">S'inscrire</router-link> is the same as the link below : -->
                             <router-link v-bind:to="{ name: 'Signup' }" class="nav-link text-light">S'inscrire</router-link>
@@ -29,7 +29,7 @@
                         </li>
                     </ul>
                     <!-- Header displayed when logged in -->
-                    <ul v-else-if="isLogged" class="navbar-nav">
+                    <ul v-else-if="user" class="navbar-nav">
                         <li class="nav-item mt-3 mt-sm-0 me-sm-3">
                             <router-link to="/feed" class="nav-link text-light">Fil d'actualité</router-link>
                         </li>
@@ -48,18 +48,14 @@
 
 
 <script>
-    //import { getLocalStorage } from "../services/localStorage.service"
+    import { getLocalStorage } from "../services/localStorage.service"
     import { removeLocalStorage } from "../services/localStorage.service"
 
     export default {
         name: "HeaderBlock",
-        props: [ "user" ],
         data() {
             return {
-                //user: this.user,
-                //isLogged: this.user ? true : false,
-                isLogged: true,
-                isLoggedOut: false
+                user: undefined,
             }
         },
         methods: {
@@ -67,19 +63,17 @@
                 console.log("####################################################################################################");
                 console.log("HEADERBLOCK / V-IF LOGGED / Clic sur Logout");
                 console.log("####################################################################################################");
-                removeLocalStorage();               
-                this.isLogged = false;
-                this.isLoggedOut = true;
+                removeLocalStorage();
             }
         },
-        // created() {
-        //     const user = getLocalStorage();
-        //     this.user = user;
-
-        //     // ##################################################################################################
-        //     console.log("HEADERBLOCK - CREATED - L78 - THIS.USER", this.user);
-        //     // ##################################################################################################
-        // }
+        created() {
+            // ====================================================
+            console.log("HeaderBlock - CREATED");
+            console.log("################################");
+            // ====================================================
+            
+            this.user = getLocalStorage();
+        }
     }
 </script>
 

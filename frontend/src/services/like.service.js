@@ -30,7 +30,8 @@ class LikeService {
     likePost(postId, userId) {
         return axios
             .post(
-                `${API_URL}/${postId}/likes/${userId}`,
+                `${API_URL}/${postId}/likes/${userId}`,                
+                null,
                 { 
                     headers: authHeader() 
                 }

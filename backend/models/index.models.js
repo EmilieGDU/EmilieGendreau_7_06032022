@@ -36,7 +36,7 @@ const db = {
 // ("hasMany" and "belongsTo") in order to make sure that the relationship is mandatory.
 
 // Various options can be passed as a second parameter of the association call, like "onDelete" and "onUpdate".
-// Their defaults values are "SET NULL" for "ON DELETE" and "CASCADE" for "ON UPDATE".
+// Their default values are "SET NULL" for "ON DELETE" and "CASCADE" for "ON UPDATE".
 
 db.user.hasMany(db.post);
 db.post.belongsTo(db.user); // Delete if a post can exists without an associated user
@@ -44,7 +44,9 @@ db.post.belongsTo(db.user); // Delete if a post can exists without an associated
 db.user.hasMany(db.comment);
 db.comment.belongsTo(db.user); // Delete if a comment can exists without an associated user
 
-db.post.hasMany(db.comment);
+db.post.hasMany(db.comment, {
+    onDelete: 'CASCADE',
+});
 db.comment.belongsTo(db.post); 
 
 // MANY-TO-MANY RELATIONSHIPS

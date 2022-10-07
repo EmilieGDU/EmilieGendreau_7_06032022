@@ -18,11 +18,13 @@ const postsRoutes = require("./routes/posts");
 const app = express();
 
 
-// #########################################################
-//                Initializing the database
-// #########################################################
+// ##########################################################
+// Automatic database initialization (Development phase only)
+// ##########################################################
 
-db.initDb();
+// Uncomment the line below during development
+// Allows automatic database population on each server restart
+// db.initDb();
 
 
 // #########################################################

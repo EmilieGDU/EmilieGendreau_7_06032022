@@ -12,10 +12,10 @@ Then, clone this repo, and run `npm install` from the console of the backend dir
 
 ## Environment variables ##
 
-Rename the *.env-deploy* file to *.env*.
+Rename the `.env-deploy` file to `.env`.
 
 Then :
-- open the *.env* file,
+- open the `.env` file,
 - enter your MySQL connection credentials,
 - set an encryption key for the token,
 - save and close the file.

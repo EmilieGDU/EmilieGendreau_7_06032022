@@ -8,8 +8,8 @@
             </p>
         
         <comment-card v-else
-            v-for="(comment, index) in comments" 
-            v-bind:key="index" 
+            v-for="(comment) in comments" 
+            v-bind:key="comment.id" 
             v-bind:comment="comment"
             v-on:modifyComment="modifyComment($event)"
             v-on:deleteComment="deleteComment($event)">
