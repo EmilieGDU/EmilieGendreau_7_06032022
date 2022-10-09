@@ -31,7 +31,7 @@ Se limiter au minimum en respectant la **charte** graphique fournie par Groupoma
   * Primaire : #FD2D01 
   * Secondaire : #FFD7D7
   * Tertiaire : #4E5166     
-Le site doit être **responsive** sur mobile, tablette et desktop.     
+Le site doit être **responsive** sur mobile, tablette et desktop.      
 **Aspect technique**   
 - le projet doit être codé en **JavaScript** et respecter les standards **WCAG** ;
 - l'utilisation d'un **framework Front-End** est requise (--> sélection de **Vue.js**) ;
