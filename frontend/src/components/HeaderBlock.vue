@@ -37,7 +37,7 @@
                             <router-link to="/profile" class="nav-link text-light">Mon profil</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/logout" class="nav-link text-light" v-on:click="onLogout">Se déconnecter</router-link>
+                            <router-link to="/logout" class="nav-link text-light" v-on:click="logoutUser">Se déconnecter</router-link>
                         </li>
                     </ul>
                 </div>
@@ -48,32 +48,34 @@
 
 
 <script>
-    import { getLocalStorage } from "../services/localStorage.service"
-    import { removeLocalStorage } from "../services/localStorage.service"
+    //import { getLocalStorage } from "../services/localStorage.service"
+    //import { removeLocalStorage } from "../services/localStorage.service"
 
     export default {
         name: "HeaderBlock",
-        data() {
-            return {
-                user: undefined,
-            }
-        },
+        // data() {
+        //     return {
+        //         //user: undefined,
+        //     }
+        // },
+        props: ["user"],
         methods: {
-            onLogout() {
+            logoutUser() {
                 console.log("####################################################################################################");
                 console.log("HEADERBLOCK / V-IF LOGGED / Clic sur Logout");
                 console.log("####################################################################################################");
-                removeLocalStorage();
+                this.$emit('logoutUser');
+                //removeLocalStorage();
+                //this.user = getLocalStorage();
             }
         },
-        created() {
-            // ====================================================
-            console.log("HeaderBlock - CREATED");
-            console.log("################################");
-            // ====================================================
-            
-            this.user = getLocalStorage();
-        }
+        // created() {
+        //     // ====================================================
+        //     console.log("HeaderBlock - CREATED");
+        //     console.log("################################");
+        //     // ====================================================            
+        //     //this.user = getLocalStorage();
+        // }
     }
 </script>
 

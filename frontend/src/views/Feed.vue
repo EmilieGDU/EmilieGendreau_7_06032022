@@ -71,6 +71,12 @@
                 this.$router.push("/login");
             },
 
+            login() {
+                this.user = getLocalStorage();                
+                this.$emit('loginUser', this.user);
+                //this.$emit('loginUser', getLocalStorage());
+            },
+
             fetchAllPosts() {
                 PostService.getAllPosts()
                 .then((response) => {
@@ -200,10 +206,9 @@
             console.log("################################");
             console.log("Feed - CREATED - AppelFetchAllPosts");
             console.log("################################");
-            // ====================================================
+            // ====================================================            
             
-            this.user = getLocalStorage();
-
+            this.login();
             this.fetchAllPosts();
         }, 
         updated() {

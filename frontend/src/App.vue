@@ -1,9 +1,9 @@
 <template>
     <div>
 
-        <header-block class="app-header" v-bind:user="user"></header-block>
+        <header-block class="app-header" v-bind:user="user" v-on:logoutUser="logoutUser"></header-block>
 
-        <router-view class="app-router-view"></router-view>
+        <router-view class="app-router-view" v-on:loginUser="loginUser"></router-view>
 
         <footer-block class="app-footer"></footer-block>
         
@@ -15,6 +15,7 @@
     import HeaderBlock from "./components/HeaderBlock.vue"
     import FooterBlock from "./components/FooterBlock.vue"
     import { getLocalStorage } from "./services/localStorage.service"
+    import { removeLocalStorage } from "./services/localStorage.service"
 
     export default {
         name: 'App',
@@ -25,6 +26,18 @@
         data() {
             return {
                 user: undefined
+            }
+        },
+        methods: {
+            loginUser(user) {
+                console.log("#################################")
+                this.user = user;
+                console.log("LOGINUSER - L34 - APP.VUE", this.user)
+                console.log("#################################")
+            },
+            logoutUser() {
+                removeLocalStorage();
+                this.user = getLocalStorage();
             }
         },
         created() {

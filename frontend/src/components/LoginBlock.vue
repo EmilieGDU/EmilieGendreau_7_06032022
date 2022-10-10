@@ -28,6 +28,7 @@
 
 <script>
     import AuthService from "../services/auth.service"
+    //import { getLocalStorage } from "../services/localStorage.service"
     import { setLocalStorage } from "../services/localStorage.service"
 
     export default {
