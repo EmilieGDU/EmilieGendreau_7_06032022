@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { ValidationError } = require("sequelize");
-const { Op } = require("sequelize");
+//const { Op } = require("sequelize");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");

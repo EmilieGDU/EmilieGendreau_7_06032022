@@ -28,7 +28,7 @@ exports.createPost = (req, res, next) => {
             attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
         } : { ...req.body };
         // console.log("=====================================================================");
-        // console.log("Contenu du postObject :", postObject);
+        // console.log("CONTROLLER POSTS - L31 - CreatePost - Contenu du postObject :", postObject);
         // console.log("=====================================================================");
     
     Post.create(postObject)

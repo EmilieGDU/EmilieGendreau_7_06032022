@@ -17,23 +17,20 @@ const usersCtrl = require("../controllers/users");
 // Applying middlewares and assigning controller functions
 // ========================================================================
 // Routes related to authentication management (main segment = "/api/auth")
+// ========================================================================
 router.post("/signup", passwordValidator, usersCtrl.signup);
 router.post("/login", rateLimit, usersCtrl.login);
 // ========================================================================
 // Routes related to users management (main segment = "/api/users")
-// router.post("/", auth, multer, usersCtrl.createUser);
-// router.get("/", auth, usersCtrl.getAllUsers);
-// router.get("/:id", auth, usersCtrl.getOneUser);
-// ###########################################################################
-// router.get("/:id", auth, usersCtrl.getUserName);
-// router.get("/:id", usersCtrl.getUserName);
-// ###########################################################################
+// ========================================================================
 router.get("/:id/posts", auth, usersCtrl.getUserPosts);
-//router.get("/:id/posts", usersCtrl.getUserPosts);
-//router.get("/:id/commentedPosts", usersCtrl.getUserCommentedPosts);
 router.get("/:id/commentedPosts", auth, usersCtrl.getUserCommentedPosts);
-// router.put("/:id", auth, multer, usersCtrl.modifyUser);
-// router.delete("/:id", auth, usersCtrl.deleteUser);
+// [POSSIBLE FUNCTIONALITY] router.post("/", auth, multer, usersCtrl.createUser);
+// [POSSIBLE FUNCTIONALITY] router.get("/", auth, usersCtrl.getAllUsers);
+// [POSSIBLE FUNCTIONALITY] router.get("/:id", auth, usersCtrl.getOneUser);
+// [POSSIBLE FUNCTIONALITY] router.get("/:id", auth, usersCtrl.getUserName);
+// [POSSIBLE FUNCTIONALITY] router.put("/:id", auth, multer, usersCtrl.modifyUser);
+// [POSSIBLE FUNCTIONALITY] router.delete("/:id", auth, usersCtrl.deleteUser);
 
 
 module.exports = router;
