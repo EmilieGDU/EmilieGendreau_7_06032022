@@ -1,5 +1,6 @@
 <template>
     <div class="w-100">
+
         <h2>Créez votre publication</h2>
 
         <form method="post" v-on:submit.prevent="onCreatePost" enctype="multipart/form-data">
@@ -26,6 +27,7 @@
                 </div>
             </div>
         </form>
+
     </div>      
 </template>
 
@@ -49,18 +51,11 @@
         },
         methods: {
             togglePostForm() {
-                console.log("SHOW POST FORM ? : ", this.showPostForm);
-                this.showPostForm = !this.showPostForm;
-                // ##################################################################################################
-                console.log("POSTCREATION - TOOGLEPOSTFORM - L55 - THIS.USER", this.user);
-                console.log("POSTCREATION - TOOGLEPOSTFORM - L56 - THIS.NEWPOST.USERID", this.newPost.UserId);
-                // ##################################################################################################
-        
+                this.showPostForm = !this.showPostForm;        
             },
 
             onChangeFile(event) {
                 this.file = event.target.files[0];
-                //this.$emit("update:modelValue", event.target.files[0]);
             },
 
             onCancelPost() {
@@ -73,34 +68,20 @@
             },
 
             onCreatePost() {
-                // =================================================================================================
-                console.log("**********************************************************************************")
-                console.log("Clic sur publier Post depuis PostCreation : ");
-                console.log("THIS.newPost (event envoyé au serveur) = ", this.newPost);
-                console.log("THIS.newPost.TITLE = ", this.newPost.title);
-                console.log("THIS.newPost.BODY = ", this.newPost.body);
-                console.log("THIS.newPost.USERID = ", this.newPost.UserId);
-                console.log("THIS.FILE = ", this.file);
-                console.log("**********************************************************************************")                
-                // =================================================================================================
-
                 const formData = new FormData();
                 formData.append("title", this.newPost.title);
                 formData.append("body", this.newPost.body);
                 formData.append("UserId", this.newPost.UserId);
                 formData.append("image", this.file); // "image" = name defined in the multer middleware (in the last line, we specify that we expect single file named "image")
-                // ==============================================================================================
-                console.log("#################################################");
-                console.log("FORMDATA depuis PostCreation - L91 = ", formData);
-                console.log("#################################################");
-                // ==============================================================================================
                 
                 this.$emit("createPost", formData);
+
                 this.newPost = {
                     title: "",
                     body: ""
                 }; 
-                this.file = undefined,               
+                this.file = undefined, 
+
                 this.showPostForm = false;
             }            
         },
@@ -110,23 +91,19 @@
 
             this.user = user;
             this.newPost.UserId = UserId;
-
-            // ##################################################################################################
-            console.log("POSTCREATION - CREATED - L115 - THIS.USER", this.user);
-            console.log("POSTCREATION - CREATED - L116 - THIS.USERID", this.newPost.UserId);
-            // ##################################################################################################
         } 
     }
 </script>
 
 
 <style scoped>
+    
     h2 {
-        /* color:  #4E5166; */
         color: #FD2D01;
     }
 
     .btn-cancel {
         background-color: #E9ECEF;
     }
+    
 </style>

@@ -14,16 +14,8 @@
 
     export default {
         name: "LoginView",
-        data() {
-            return {
-
-            }
-        },
         components: {
             "login-block": LoginBlock,
-        },
-        methods: {
-
         }
     }
 </script>

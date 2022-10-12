@@ -17,10 +17,6 @@ class AuthService {
             );
     }
     
-    // logout() {
-    //     localStorage.removeItem("user");
-    // }
-    
     signup(user) {
         return axios
             .post(

@@ -1,10 +1,12 @@
 <template>
+    
     <footer class="container-fluid bg-dark py-2">
         <div class="row">
             <p class="col-12 text-light text-center mt-2">
                 <img src="../assets/icon-left-font-monochrome-white-resized-150x32.png" alt="Logo de l'entreprise Groupomania" />
                 &copy; 2022
             </p>
+            
             <ul class="col-12 text-center list-unstyled list-inline"> 
                 <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light" data-bs-toggle="modal" data-bs-target="#termsOfService">Conditions générales d'utilisation</a></li>
                 <li class="list-inline-item my-2 mx-2 mx-md-3 mx-lg-5"><a href="#" class="text-light" data-bs-toggle="modal" data-bs-target="#legalNotice">Mentions légales</a></li>
@@ -56,6 +58,7 @@
             </div>
         </div>
     </footer>
+
 </template>
 
 

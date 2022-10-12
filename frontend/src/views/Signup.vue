@@ -14,16 +14,8 @@
 
     export default {
         name: "SignupView",
-        data() {
-            return {
-
-            }
-        },
         components: {
             "signup-block": SignupBlock,
-        },
-        methods: {
-
         }
     }
 </script>

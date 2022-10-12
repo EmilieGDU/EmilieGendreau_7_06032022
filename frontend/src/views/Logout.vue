@@ -22,15 +22,5 @@
 
 
 <style scoped>
-    /* @media screen and (min-width: 375px) {        
-        body {
-            height: 100vh;
-            position: relative;
-        }
-        
-        footer {
-            position: absolute;
-            bottom: 0;
-        }
-    } */
+    
 </style>

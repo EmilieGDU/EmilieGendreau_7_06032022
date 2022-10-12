@@ -1,10 +1,9 @@
 <template>
     <div class="my-3 w-100">
+        
         <div class="card">
             <div class="card-header">
-                <!-- <p> <strong> {{ comment.UserId }} </strong> a écrit : </p> -->
                 <p> <strong> {{ comment.User.email }} </strong> a écrit : </p>
-                <!-- <p> <strong>{{ userName }}</strong> a écrit : </p> -->
             </div>
 
             <div v-if="showComment" class="card-body">
@@ -28,15 +27,13 @@
                 v-on:cancelCommentEdit="cancelCommentEdit"
                 v-on:modifyComment="modifyComment($event)">
             </comment-edit>
-        </div>        
+        </div> 
+               
     </div>  
 </template>
 
 
 <script>
-    // ##################################################################################################
-    //import UserService from "../../services/user.service"
-    // ##################################################################################################
     import { getLocalStorage } from "../../services/localStorage.service"
     import CommentEdit from "./CommentEdit.vue"
 
@@ -61,7 +58,6 @@
         },
         methods: {
             toggleCommentEdit() {
-                console.log("SHOW COMMENT EDIT ? : ",this.showCommentEdit);
                 this.showComment = false;
                 this.showCommentEdit = true;
             },
@@ -86,13 +82,6 @@
             this.userId = userId;
             this.isAdmin = isAdmin;
             this.isAuthorOfComment = isAuthorOfComment;
-
-            // ##################################################################################################
-            console.log("COMMENTCARD - CREATED - L90 - THIS.USER", this.user);
-            console.log("COMMENTCARD - CREATED - L91 - THIS.USERID", this.userId);
-            console.log("COMMENTCARD - CREATED - L92 - THIS.ISADMIN", this.isAdmin);
-            console.log("COMMENTCARD - CREATED - L93 - THIS.ISAUTHOROFCOMMENT", this.isAuthorOfComment);
-            // ##################################################################################################
         }     
     }
 </script>

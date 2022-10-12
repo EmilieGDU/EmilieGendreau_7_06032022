@@ -10,17 +10,6 @@ const User = sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        // firstName: {
-        //     type: DataTypes.STRING(100)
-        // },
-        // lastName: {
-        //     type: DataTypes.STRING(100),
-        //     allowNull: true,
-        //     validate: {
-        //         notEmpty: { msg: "Le nom doit être renseigné." }, // Don't allow empty strings
-        //         notNull: { msg: "Le nom est une propriété requise." } // Don't allow null (= no value)
-        //     }
-        // },
         email: {
             type: DataTypes.STRING(255),
             allowNull: false,
@@ -40,6 +29,22 @@ const User = sequelize.define(
                 notNull: { msg: "Le mot de passe est une propriété requise." } // Don't allow null (= no value)
             }
         },
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        // firstName: {
+        //     type: DataTypes.STRING(100)
+        // },
+        // lastName: {
+        //     type: DataTypes.STRING(100),
+        //     allowNull: true,
+        //     validate: {
+        //         notEmpty: { msg: "Le nom doit être renseigné." }, // Don't allow empty strings
+        //         notNull: { msg: "Le nom est une propriété requise." } // Don't allow null (= no value)
+        //     }
+        // },
         // about: {
         //     type: DataTypes.STRING(255)
         // },
@@ -49,12 +54,7 @@ const User = sequelize.define(
         //     validate: {
         //         isUrl: { msg: "Renseignez une URL valide pour l'image." } // Checks for URL format (https://foo.com)
         //     }
-        // },
-        isAdmin: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
-        }
+        // }
     }
 );
 

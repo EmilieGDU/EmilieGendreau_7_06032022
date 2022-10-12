@@ -1,17 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Routes from './Routes';
 
-// ###################
+// ######################################################################################################
 // Creating the router
-// ###################
+// ######################################################################################################
+
 const router = createRouter({
     history: createWebHistory(),
     routes: Routes
 });
 
+
 // ######################################################################################################
 // Adding a custom Navigation Guard (will result in updating the page title and metadata on route change)
 // ######################################################################################################
+
 // This callback runs before every route change, including on page load.
 router.beforeEach((to, from, next) => {
     // This goes through the matched routes from last to first, finding the closest route with a title.

@@ -24,6 +24,7 @@ Dans l'optique de s'assurer que nous répondons à leurs attentes, Groupomania s
 
 ### Contraintes spécifiques ###
 **Aspect graphique**   
+
 Se limiter au minimum en respectant la **charte** graphique fournie par Groupomania :
 - Police d'écriture
   * Lato

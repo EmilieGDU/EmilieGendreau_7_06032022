@@ -5,33 +5,33 @@
 const users = [
     {
         // id: provided automatically by the database
-        // firstName: "Bénédicte",
-        // lastName: "DURAND",
         email: "benedicte.durand.drh@groupomania.com",
         password: "P455W0rd",
+        isAdmin: false,
+        // firstName: "Bénédicte",
+        // lastName: "DURAND",
         // about: "DRH de l'entreprise, j'ai à coeur de vous accompagner dans votre épanouissement au travail.",
         // imageUrl: "http://localhost:3000/images/default_img.png",
-        isAdmin: false
     },
     {
         // id: provided automatically by the database
-        // firstName: "Pierre",
-        // lastName: "DUPONT",
         email: "pierre.dupont.marketing@groupomania.com",
         password: "P455W0rd2",
+        isAdmin: false,
+        // firstName: "Pierre",
+        // lastName: "DUPONT",
         // about: "Responsable de l'équipe marketing.",
         // imageUrl: "http://localhost:3000/images/default_img.png",
-        isAdmin: false
     },
     {
         // id: provided automatically by the database
-        // firstName: "Isabelle",
-        // lastName: "MARTIN",
         email: "isabelle.martin.marketing@groupomania.com",
         password: "P455W0rd3",
+        isAdmin: false,
+        // firstName: "Isabelle",
+        // lastName: "MARTIN",
         // about: "Parlant couramment l'anglais et le chinois, je suis chargée des négociations tarifaires à l'international.",
         // imageUrl: "http://localhost:3000/images/default_img.png",
-        isAdmin: false
     },
 ];
 

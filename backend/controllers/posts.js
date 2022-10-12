@@ -1,5 +1,4 @@
 const { ValidationError } = require("sequelize");
-//const { Op } = require("sequelize");
 
 // Importing Sequelize model (to facilitate interactions with the database)
 const User = require("../models/User.model");
@@ -17,19 +16,11 @@ const fs = require("fs");
 
 // C like CREATE 
 exports.createPost = (req, res, next) => {
-    // console.log("=====================================================================");
-    // console.log("CONTROLLER/POST/CREATEPOST Objet REQ.BODY = ", req.body);
-    // console.log("CONTROLLER/POST/CREATEPOST Objet REQ.FILE = ", req.file);
-    // console.log("=====================================================================");
     const postObject = req.file ?
         {
-            //...JSON.parse(req.body.post),
             ...(req.body),
             attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
         } : { ...req.body };
-        // console.log("=====================================================================");
-        // console.log("CONTROLLER POSTS - L31 - CreatePost - Contenu du postObject :", postObject);
-        // console.log("=====================================================================");
     
     Post.create(postObject)
     .then((post) => {
@@ -76,16 +67,6 @@ exports.getOnePost = (req, res, next) => {
 
 // U like UPDATE
 exports.modifyPost = (req, res, next) => {
-    // console.log("************************************************")
-    // console.log("REQ.HEADERS : ", req.headers);
-    // console.log("REQ.AUTH : ", req.auth);
-    // console.log("REQ.BODY : ", req.body);
-    // console.log("REQ.BODY.TITLE : ", req.body.title);
-    // console.log("REQ.BODY.BODY : ", req.body.body);
-    // console.log("REQ.BODY.USERID : ", req.body.UserId);
-    // console.log("REQ.PARAMS.ID : ", req.params.id);
-    // console.log("REQ.FILE : ", req.file);
-    // console.log("************************************************")
     const postId = req.params.id;
     Post.findByPk(postId)
     .then((post) => {
@@ -100,13 +81,9 @@ exports.modifyPost = (req, res, next) => {
                 if (user.isAdmin == true) {
                     const postObject = req.file ?
                     {
-                        //...JSON.parse(req.body.post),
                         ...(req.body),
                         attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
                     } : { ...req.body };
-                    // console.log("=====================================================================")
-                    // console.log("Contenu du postObject :", postObject);
-                    // console.log("=====================================================================")
                     
                     Post.update(postObject, { where: { id: postId } })
                     .then(() => {
@@ -136,13 +113,9 @@ exports.modifyPost = (req, res, next) => {
         if (post.UserId == req.auth.userId) {
             const postObject = req.file ?
             {
-                //...JSON.parse(req.body.post),
                 ...(req.body),
                 attachment: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
             } : { ...req.body };
-            // console.log("=====================================================================")
-            // console.log("Contenu du postObject :", postObject);
-            // console.log("=====================================================================")
             
             Post.update(postObject, { where: { id: postId } })
             .then(() => {
@@ -183,9 +156,6 @@ exports.deletePost = (req, res, next) => {
                     const deletedPost = post;
                     if (post.attachment) {
                         const filename = post.attachment.split("/images/")[1];
-                        // console.log("*******************************");
-                        // console.log("Filename supprimé : ", filename);
-                        // console.log("*******************************");
                         fs.unlink(`images/${filename}`, () => {
                             Post.destroy({ where: { id: postId } })
                             .then(() => {
@@ -246,11 +216,6 @@ exports.deletePost = (req, res, next) => {
 
 // C like CREATE
 exports.createComment = (req, res, next) => {
-    // console.log("**********************************************************************************************")
-    // console.log(`ReqParamspostId : ${typeof(req.params.postId)} || ReqBodypostId : ${typeof(req.body.PostId)}`);
-    // console.log(req.params.postId);
-    // console.log(req.body.PostId);
-    // console.log("**********************************************************************************************")
     Post.findByPk(req.params.postId)
         .then((post) => {
         if (post === null) {
@@ -314,13 +279,6 @@ exports.getPostComments = (req, res, next) => {
 
 // U like UPDATE
 exports.modifyComment = (req, res, next) => {
-    // console.log("************************************************")
-    // console.log("REQ.BODY : ", req.body);
-    // console.log("REQ.BODY.COMMENT : ", req.body.comment);
-    // console.log("REQ.BODY.USERID : ", req.body.UserId);
-    // console.log("REQ.PARAMS.POSTID : ", req.params.postId);
-    // console.log("REQ.BODY.COMMENTID : ", req.params.commentId);
-    // console.log("************************************************")
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     Post.findByPk(postId)
@@ -341,10 +299,6 @@ exports.modifyComment = (req, res, next) => {
                     const message = "Vous ne pouvez pas modifier ce commentaire.";
                     return res.status(400).json({ message });
                 }
-
-                // console.log("#################################")
-                // console.log("COMMENT.UserId", comment.UserId);
-                // console.log("#################################")
                 
                 if (comment.UserId != req.auth.userId) {
                     User.findByPk(req.auth.userId)

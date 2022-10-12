@@ -28,16 +28,7 @@ class CommentService {
             );
     }
 
-    // getOneComment(postId, commentId) {
-    //     return axios
-    //         .get(`${API_URL}/posts/${postId}/comments/${commentId}`,
-    //         { headers: authHeader() });
-    // }
-
     modifyComment(postId, commentId, event) {
-        // axios.interceptors.request.use(function(event) {
-        //     console.log("DONNEES ENVOYEES AU SERVEUR : ", event);
-        // })
         return axios
             .put(
                 `${API_URL}/${postId}/comments/${commentId}`, 

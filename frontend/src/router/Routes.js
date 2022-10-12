@@ -6,6 +6,7 @@ import ProfileView from "../views/Profile";
 import NotFoundView from "../views/NotFound";
 import LogoutView from "../views/Logout";
 
+
 const routes = [
     {
         name: "Home",

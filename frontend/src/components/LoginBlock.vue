@@ -1,8 +1,11 @@
 <template>
     <div class="container col-12 col-md-9 w-100">
+
         <div>
             <h1>S'identifier</h1>
+
             <p class="lead">{{ citation }}</p>
+
             <form method="post" v-on:submit.prevent="onLogin">
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
@@ -22,13 +25,13 @@
             Vous débutez sur Groupomania ? 
             <router-link to="/signup">S'inscrire</router-link>
         </p>
+
     </div>    
 </template>
 
 
 <script>
     import AuthService from "../services/auth.service"
-    //import { getLocalStorage } from "../services/localStorage.service"
     import { setLocalStorage } from "../services/localStorage.service"
 
     export default {
@@ -44,37 +47,16 @@
         },
         methods: {
             goFeed: function() {
-                console.log("****************")
-                console.log("LOGINBLOCK / ONLOGIN / IF RESPONSE.DATA.TOKEN ==> GO FEED")
-                console.log("****************")
                 this.$router.push("/feed");
             },
             
             onLogin() {
-                console.log("####################################################################################################");
-                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK - L53 / THIS.FORMDATA : ", this.formData);
-                console.log("LOGIN(THIS.FORMDATA) DEPUIS LOGINBLOCK - L54 / THIS.FORMDATA.EMAIL : ", this.formData.email);
-                console.log("####################################################################################################");
                 AuthService.login(this.formData)
-                .then((response) => {
-                    console.log("####################################################################################################");
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L59 / RESPONSE.DATA : ", response.data);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L60 / JSON.STRINGIFY(RESPONSE.DATA) : ", JSON.stringify(response.data));
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L61 / RESPONSE.DATA.MESSAGE : ", response.data.message);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L62 / RESPONSE.DATA.USERID : ", response.data.userId);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L62 / RESPONSE.DATA.ISADMIN : ", response.data.isAdmin);
-                    console.log("ONLOGIN/RESPONSE DEPUIS LOGINBLOCK - L63 / RESPONSE.DATA.TOKEN : ", response.data.token);
-                    console.log("####################################################################################################");
-                    
+                .then((response) => {                    
                     if (response.data.token) {
                         const userId = response.data.userId;
                         const isAdmin = response.data.isAdmin;
                         const token = response.data.token;
-                        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                        console.log("ONLOGIN DEPUIS LOGINBLOCK  - L69 / USER pour LOCALSTORAGE = USERID : ", userId);
-                        console.log("ONLOGIN DEPUIS LOGINBLOCK  - L69 / USER pour LOCALSTORAGE = ISADMIN : ", isAdmin);
-                        console.log("ONLOGIN DEPUIS LOGINBLOCK  - L69 / USER pour LOCALSTORAGE = TOKEN : ", token);
-                        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                         
                         setLocalStorage(userId, isAdmin, token);
 
@@ -82,20 +64,9 @@
                             email: "",
                             password:"",
                         }
-                        console.log("###############################################################");
-                        console.log("THIS.FORMDATA APRES CLEAR LOGINBLOCK/ONLOGIN : ", this.formData);
-                        console.log("###############################################################");
 
                         this.goFeed();
                     }
-
-                    // this.formData = {
-                    //     email: "",
-                    //     password:"",
-                    // }
-                    // console.log("###############################################################");
-                    // console.log("THIS.FORMDATA APRES CLEAR LOGINBLOCK/ONLOGIN : ", this.formData);
-                    // console.log("###############################################################");
 
                     return response.data;
                 })
@@ -122,8 +93,10 @@
 
 
 <style scoped>
+    
     a:hover {
         color: #FD2D01 !important;
         text-decoration: underline;
     }
+    
 </style>

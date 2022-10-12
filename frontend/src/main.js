@@ -5,7 +5,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index.router'
-// import store from './store/index.store'
 
 
 // ###############################################################################
@@ -29,7 +28,6 @@ import { FontAwesomeIcon } from "./plugins/font-awesome"
 // ###############################################################################
 createApp(App)
     .use(router)
-    //.use(store)
     .component('font-awesome-icon', FontAwesomeIcon)
     .mount('#app')
 

@@ -1,4 +1,4 @@
-// Création
+// Setting
 export const setLocalStorage = (userId, isAdmin, token) => {
     const user = {
         userId: userId,
@@ -9,13 +9,13 @@ export const setLocalStorage = (userId, isAdmin, token) => {
 }
 
 
-// Affichage
+// Getting
 export const getLocalStorage = () => {
     return JSON.parse(localStorage.getItem("user"));
 }
 
 
-// Suppression
+// Deleting
 export const removeLocalStorage = () => {
     localStorage.removeItem("user");
 }

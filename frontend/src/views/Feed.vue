@@ -3,13 +3,19 @@
         
         <main class="container col-12 col-md-9 col-lg-6 my-5">
             
+            <!-- If user is not logged-->
             <div v-if="!user" class="container col-12 col-md-9 w-100 text-center">
                 <img src="../assets/cadenas_resized_100px.png" class="rounded-2 mb-3" alt="Reserved access">
+
                 <h1>Accès réservé</h1>
+
                 <p>Vous devez être connecté pour pouvoir consulter les ressources de l'application.</p>
+
                 <button v-on:click="goLogin" class="btn btn-primary fw-bold my-3 w-100">S'identifier</button>
             </div>
+            <!-- If user is not logged-->
 
+            <!-- If user is logged-->
             <div v-else>
                 <h1 class="text-center mb-5">Votre espace communautaire</h1>            
 
@@ -25,15 +31,9 @@
 
                 <post-list v-else 
                     v-bind:posts="posts"
-                    v-bind:sync="sync"
                     v-on:modifyPost="modifyPost($event)"
                     v-on:deletePost="deletePost($event)">
                 </post-list>
-                <!-- <post-list v-else 
-                    v-bind:posts="posts"
-                    v-on:modifyPost="modifyPost($event)"
-                    v-on:deletePost="deletePost($event)">
-                </post-list> -->
 
                 <go-on-top></go-on-top>
             </div>
@@ -60,10 +60,8 @@
         },
         data() {
             return {
-                // Reverse chronological display of posts : ["Post 3", "Post 2", "Post 1"]
                 user: undefined,
-                posts: [],
-                sync: false
+                posts: []
             };
         },
         methods: {
@@ -74,19 +72,11 @@
             login() {
                 this.user = getLocalStorage();                
                 this.$emit('loginUser', this.user);
-                //this.$emit('loginUser', getLocalStorage());
             },
 
             fetchAllPosts() {
                 PostService.getAllPosts()
                 .then((response) => {
-                    // ==========================================================
-                    console.log("################################");
-                    console.log("FEED - L79 - LancementFetchAllPosts");
-                    console.log(response.data);
-                    // response.data = {message, data}
-                    console.log("################################");
-                    // ==========================================================
                     this.posts = response.data.data;
                 })
                 .catch((error) => {
@@ -108,48 +98,35 @@
             },
             
             createPost(newPost) {
-                console.log("**********************************************************************")
-                console.log("createPost depuis FEED - L106 : ");
-                console.log("formData (= newPost) ", newPost);
-                console.log("**********************************************************************")
                 PostService.createPost(newPost)
-                    .then((response) => {
-                        console.log(response.data.message);
-                        this.fetchAllPosts();
-                        this.sync = true;
-                        //location.reload();
-                    })
-                    .catch((error) => {
-                        if (error.response) { // Get response with a status code not in range 2xx
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
-                        }
-                        else if (error.request) { // No response
-                            console.log(error.request);
-                            // Instance of XMLHttpRequest in the Browser
-                            // Instance of http.ClientRequest in Node.js
-                        }
-                        else { // Something wrong in setting up the request
-                            console.log("Error : ", error.message);
-                        }
-                        console.log(error.config);
-                    });
+                .then((response) => {
+                    console.log(response.data.message);
+                    this.fetchAllPosts();
+                })
+                .catch((error) => {
+                    if (error.response) { // Get response with a status code not in range 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                    else if (error.request) { // No response
+                        console.log(error.request);
+                        // Instance of XMLHttpRequest in the Browser
+                        // Instance of http.ClientRequest in Node.js
+                    }
+                    else { // Something wrong in setting up the request
+                        console.log("Error : ", error.message);
+                    }
+                    console.log(error.config);
+                });
             },
 
             modifyPost(updatedPost) {
-                // ==============================================================================================
-                console.log("##################################");
-                console.log("modifyPost depuis Feed : ");
-                console.log("UPDATEDPOST : ", updatedPost);
-                console.log("##################################");
-                // ==============================================================================================
                 let postId = updatedPost.postId;
                 PostService.modifyPost(postId, updatedPost.updatedPost)
                 .then((response) => {
                     console.log(response.data.message);
-                    this.fetchAllPosts();                    
-                    //location.reload();
+                    this.fetchAllPosts();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -170,17 +147,10 @@
             },
             
             deletePost(postId) {
-                // ==============================================================================================
-                console.log("deletePost depuis FEED - L160 : ", postId);
-                // ==============================================================================================
                 PostService.deletePost(postId)
                 .then((response) => {
-                    // ==============================================================================================
                     console.log(response.data.message);
-                    // ==============================================================================================
                     this.fetchAllPosts();
-                    // location.reload();
-                    // this.$forceUpdate();
                 })
                 .catch((error) => {
                     if (error.response) { // Get response with a status code not in range 2xx
@@ -201,32 +171,21 @@
             }
         },
         created() {
-            // ====================================================
-            console.log("Feed - CREATED");
-            console.log("################################");
-            console.log("Feed - CREATED - AppelFetchAllPosts");
-            console.log("################################");
-            // ====================================================            
-            
             this.login();
             this.fetchAllPosts();
-        }, 
-        updated() {
-            // ====================================================
-            console.log("Feed - UPDATED");
-            // ====================================================
-        } 
+        }
     }
 </script>
 
 
 <style scoped>
+    
     h2 {
-        /* color:  #4E5166; */
         color: #FD2D01;
     }
 
     p {
         color:  #4E5166;
     }
+    
 </style>
