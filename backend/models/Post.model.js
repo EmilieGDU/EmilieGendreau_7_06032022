@@ -57,7 +57,7 @@ const Post = sequelize.define(
         // Model validator method
         validate: {
             isPostValid() {
-                if ((this.body == "") && (this.attachment == "")) {
+                if ((this.body == "") && ( this.attachment == undefined)) {
                     throw new Error("Le Post à publier doit contenir au minimum un texte ou une pièce-jointe.");
                 };
             }
