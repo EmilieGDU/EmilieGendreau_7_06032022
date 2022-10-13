@@ -24,6 +24,10 @@ const routes = [
                     name: "og:description",
                     content: "Bienvenue sur la page d'accueil du réseau social d'entreprise de Groupomania. Cet espace convivial est réservé au personnel de Groupomania uniquement."
                 },
+                {
+                    name: "og:image",
+                    content: "http://localhost:3000/images/groupomania_logo.png"
+                },
             ]
         }
     },
