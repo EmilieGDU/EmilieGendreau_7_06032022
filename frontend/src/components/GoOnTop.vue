@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <a href="#" class="far">
+        <a href="#" class="far" aria-label="Go on top of the page">
             <font-awesome-icon icon="fa-regular fa-circle-up" class="text-tertiary" size="3x"></font-awesome-icon>
         </a>
 

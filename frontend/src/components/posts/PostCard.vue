@@ -38,11 +38,11 @@
                 <div class="col-6 d-flex text-start">
                     <div class="fa-stack">
                         <!-- Bottom icon -->
-                        <button class="faStack" v-on:click="likePost">
+                        <button class="faStack" v-on:click="likePost" aria-label="Like Post">
                             <font-awesome-icon icon="fa-regular fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>
                         <!-- Top icon -->
-                        <button v-if="userLike" class="faStack" v-on:click="likePost">
+                        <button v-if="userLike" class="faStack" v-on:click="likePost" aria-label="Remove like of Post">
                             <font-awesome-icon icon="fa-solid fa-thumbs-up" class="fa-stack-1x ms-0 mt-1 text-tertiary"></font-awesome-icon> 
                         </button>                        
                     </div>
