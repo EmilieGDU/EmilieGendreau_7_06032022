@@ -31,7 +31,8 @@ Se limiter au minimum en respectant la **charte** graphique fournie par Groupoma
 - Couleurs
   * Primaire : #FD2D01 
   * Secondaire : #FFD7D7
-  * Tertiaire : #4E5166     
+  * Tertiaire : #4E5166   
+  
 Le site doit être **responsive** sur mobile, tablette et desktop.   
 
 **Aspect technique**   
