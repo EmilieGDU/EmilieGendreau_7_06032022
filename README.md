@@ -67,4 +67,4 @@ Pour que l'application fonctionne correctement, veillez à respecter les instruc
 5. Exécuter la commande `nodemon server` pour faire tourner l'API, en prenant soin d'exécuter le back-end sur <http://localhost:3000> uniquement.
 
 ### Documentation de L'API ###
-Vous pouvez consulter la documentation de l'API, rédigée avec **Postman**, en cliquant sur le lien suivant : [Lien](https://documenter.getpostman.com/view/17687355/2s83zpHfNA "Documentation de l'API Groupomania").
+Vous pouvez consulter la documentation de l'API, rédigée avec **Postman**, en cliquant sur le lien suivant : [documentation de l'API Groupomania](https://documenter.getpostman.com/view/17687355/2s83zpHfNA "Documentation de l'API Groupomania").
