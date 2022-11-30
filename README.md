@@ -65,3 +65,6 @@ Pour que l'application fonctionne correctement, veillez à respecter les instruc
 3. Se positionner dans le dossier backend avec la commande `cd backend` ;
 4. Exécuter la commande `npm install` pour installer les dépendances ;
 5. Exécuter la commande `nodemon server` pour faire tourner l'API, en prenant soin d'exécuter le back-end sur <http://localhost:3000> uniquement.
+
+### Documentation de L'API ###
+Vous pouvez consulter la documentation de l'API, rédigée avec **Postman**, en cliquant sur le lien suivant : (https://documenter.getpostman.com/view/17687355/2s83zpHfNA "Documentation de l'API Groupomania").  
